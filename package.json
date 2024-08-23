@@ -1,6 +1,6 @@
 {
     "name": "vectara",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "private": false,
     "repository": "https://github.com/vectara/typescript-sdk",
     "main": "./index.js",
