@@ -11,12 +11,14 @@ export const CustomerSpecificReranker: core.serialization.ObjectSchema<
     Vectara.CustomerSpecificReranker
 > = core.serialization.object({
     type: core.serialization.stringLiteral("customer_reranker"),
-    rerankerId: core.serialization.property("reranker_id", core.serialization.string()),
+    rerankerId: core.serialization.property("reranker_id", core.serialization.string().optional()),
+    rerankerName: core.serialization.property("reranker_name", core.serialization.string().optional()),
 });
 
 export declare namespace CustomerSpecificReranker {
     interface Raw {
         type: "customer_reranker";
-        reranker_id: string;
+        reranker_id?: string | null;
+        reranker_name?: string | null;
     }
 }

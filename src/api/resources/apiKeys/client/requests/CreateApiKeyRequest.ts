@@ -12,6 +12,14 @@ import * as Vectara from "../../../../index";
  *     }
  */
 export interface CreateApiKeyRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** The human-readable name of the API key. */
     name: string;
     apiKeyRole: Vectara.ApiKeyRole;

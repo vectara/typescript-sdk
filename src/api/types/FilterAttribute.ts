@@ -11,7 +11,7 @@ export interface FilterAttribute {
     level: Vectara.FilterAttributeLevel;
     /** Description of the filter. May be omitted. */
     description?: string;
-    /** Whether an index is created for the filter. Creating an index will improve query latency when using the filter. */
+    /** Indicates whether an index should be created for the filter. Creating an index will improve query latency when using the filter. */
     indexed?: boolean;
     /** The value type of the filter. */
     type: Vectara.FilterAttributeType;

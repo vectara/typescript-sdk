@@ -5,24 +5,29 @@
 import * as environments from "./environments";
 import * as core from "./core";
 import { Auth } from "./api/resources/auth/client/Client";
+import * as Vectara from "./api/index";
+import * as serializers from "./serialization/index";
+import urlJoin from "url-join";
+import * as stream from "stream";
+import * as errors from "./errors/index";
+import { Corpora } from "./api/resources/corpora/client/Client";
+import { Upload } from "./api/resources/upload/client/Client";
+import { Documents } from "./api/resources/documents/client/Client";
+import { Chats } from "./api/resources/chats/client/Client";
+import { Llms } from "./api/resources/llms/client/Client";
+import { GenerationPresets } from "./api/resources/generationPresets/client/Client";
+import { Encoders } from "./api/resources/encoders/client/Client";
+import { Rerankers } from "./api/resources/rerankers/client/Client";
+import { Jobs } from "./api/resources/jobs/client/Client";
+import { Users } from "./api/resources/users/client/Client";
 import { ApiKeys } from "./api/resources/apiKeys/client/Client";
 import { AppClients } from "./api/resources/appClients/client/Client";
-import { Chats } from "./api/resources/chats/client/Client";
-import { Corpora } from "./api/resources/corpora/client/Client";
-import { Documents } from "./api/resources/documents/client/Client";
-import { Encoders } from "./api/resources/encoders/client/Client";
-import { Jobs } from "./api/resources/jobs/client/Client";
-import { LargeLanguageModels } from "./api/resources/largeLanguageModels/client/Client";
-import { Queries } from "./api/resources/queries/client/Client";
-import { Rerankers } from "./api/resources/rerankers/client/Client";
-import { Upload } from "./api/resources/upload/client/Client";
-import { Users } from "./api/resources/users/client/Client";
 
 export declare namespace VectaraClient {
     interface Options {
         environment?: core.Supplier<environments.VectaraEnvironment | environments.VectaraEnvironmentUrls>;
-        clientId?: core.Supplier<string | undefined>;
-        clientSecret?: core.Supplier<string | undefined>;
+        clientId?: core.Supplier<string>;
+        clientSecret?: core.Supplier<string>;
         /** Override the x-api-key header */
         apiKey?: core.Supplier<string | undefined>;
         fetcher?: core.FetchFunction;
@@ -67,6 +72,582 @@ export class VectaraClient {
         });
     }
 
+    /**
+     * Perform a multi-purpose query to retrieve relevant information from one or more corpora and generate a response using Retrieval Augmented Generation (RAG).
+     *
+     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * - Leverage advanced search capabilities like reranking (`reranker`) and opt-in Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization)
+     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-customization-options)
+     * - Customize citation formats in summaries using the `citations` object to include numeric, HTML, or Markdown links. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#citation-format-in-summary)
+     *
+     * For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
+     */
+    public async queryStream(
+        request: Vectara.QueryStreamRequest,
+        requestOptions?: VectaraClient.RequestOptions
+    ): Promise<core.Stream<Vectara.QueryStreamedResponse>> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
+        const _response = await (this._options.fetcher ?? core.fetcher)<stream.Readable>({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                "v2/query"
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: {
+                ...serializers.QueryStreamRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+                stream_response: true,
+            },
+            responseType: "sse",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return new core.Stream({
+                stream: _response.body,
+                parse: async (data) => {
+                    return serializers.QueryStreamedResponse.parseOrThrow(data, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                        skipValidation: true,
+                        breadcrumbsPrefix: ["response"],
+                    });
+                },
+                signal: requestOptions?.abortSignal,
+                eventShape: {
+                    type: "json",
+                    messageTerminator: "\n",
+                },
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Perform a multi-purpose query to retrieve relevant information from one or more corpora and generate a response using Retrieval Augmented Generation (RAG).
+     *
+     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * - Leverage advanced search capabilities like reranking (`reranker`) and opt-in Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization)
+     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-customization-options)
+     * - Customize citation formats in summaries using the `citations` object to include numeric, HTML, or Markdown links. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#citation-format-in-summary)
+     *
+     * For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
+     *
+     * @param {Vectara.QueryRequest} request
+     * @param {VectaraClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Vectara.BadRequestError}
+     * @throws {@link Vectara.ForbiddenError}
+     * @throws {@link Vectara.NotFoundError}
+     *
+     * @example
+     *     await client.query({
+     *         query: "Am I allowed to bring pets to work?",
+     *         search: {}
+     *     })
+     */
+    public async query(
+        request: Vectara.QueryRequest,
+        requestOptions?: VectaraClient.RequestOptions
+    ): Promise<Vectara.QueryFullResponse> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                "v2/query"
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: {
+                ...serializers.QueryRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+                stream_response: false,
+            },
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return serializers.QueryFullResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                skipValidation: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Create a chat while specifying the default retrieval parameters used by the prompt.
+     */
+    public async chatStream(
+        request: Vectara.ChatStreamRequest,
+        requestOptions?: VectaraClient.RequestOptions
+    ): Promise<core.Stream<Vectara.ChatStreamedResponse>> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
+        const _response = await (this._options.fetcher ?? core.fetcher)<stream.Readable>({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                "v2/chats"
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: {
+                ...serializers.ChatStreamRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+                stream_response: true,
+            },
+            responseType: "sse",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return new core.Stream({
+                stream: _response.body,
+                parse: async (data) => {
+                    return serializers.ChatStreamedResponse.parseOrThrow(data, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                        skipValidation: true,
+                        breadcrumbsPrefix: ["response"],
+                    });
+                },
+                signal: requestOptions?.abortSignal,
+                eventShape: {
+                    type: "json",
+                    messageTerminator: "\n",
+                },
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Create a chat while specifying the default retrieval parameters used by the prompt.
+     *
+     * @param {Vectara.ChatRequest} request
+     * @param {VectaraClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Vectara.BadRequestError}
+     * @throws {@link Vectara.ForbiddenError}
+     * @throws {@link Vectara.NotFoundError}
+     *
+     * @example
+     *     await client.chat({
+     *         query: "How can I use the Vectara platform?",
+     *         search: {}
+     *     })
+     */
+    public async chat(
+        request: Vectara.ChatRequest,
+        requestOptions?: VectaraClient.RequestOptions
+    ): Promise<Vectara.ChatFullResponse> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                "v2/chats"
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: {
+                ...serializers.ChatRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+                stream_response: false,
+            },
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return serializers.ChatFullResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                skipValidation: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    protected _corpora: Corpora | undefined;
+
+    public get corpora(): Corpora {
+        return (this._corpora ??= new Corpora({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _upload: Upload | undefined;
+
+    public get upload(): Upload {
+        return (this._upload ??= new Upload({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _documents: Documents | undefined;
+
+    public get documents(): Documents {
+        return (this._documents ??= new Documents({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _chats: Chats | undefined;
+
+    public get chats(): Chats {
+        return (this._chats ??= new Chats({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _llms: Llms | undefined;
+
+    public get llms(): Llms {
+        return (this._llms ??= new Llms({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _generationPresets: GenerationPresets | undefined;
+
+    public get generationPresets(): GenerationPresets {
+        return (this._generationPresets ??= new GenerationPresets({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _encoders: Encoders | undefined;
+
+    public get encoders(): Encoders {
+        return (this._encoders ??= new Encoders({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _rerankers: Rerankers | undefined;
+
+    public get rerankers(): Rerankers {
+        return (this._rerankers ??= new Rerankers({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _jobs: Jobs | undefined;
+
+    public get jobs(): Jobs {
+        return (this._jobs ??= new Jobs({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    protected _users: Users | undefined;
+
+    public get users(): Users {
+        return (this._users ??= new Users({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
     protected _apiKeys: ApiKeys | undefined;
 
     public get apiKeys(): ApiKeys {
@@ -94,93 +675,12 @@ export class VectaraClient {
         }));
     }
 
-    protected _chats: Chats | undefined;
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
 
-    public get chats(): Chats {
-        return (this._chats ??= new Chats({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _corpora: Corpora | undefined;
-
-    public get corpora(): Corpora {
-        return (this._corpora ??= new Corpora({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _documents: Documents | undefined;
-
-    public get documents(): Documents {
-        return (this._documents ??= new Documents({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _encoders: Encoders | undefined;
-
-    public get encoders(): Encoders {
-        return (this._encoders ??= new Encoders({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _jobs: Jobs | undefined;
-
-    public get jobs(): Jobs {
-        return (this._jobs ??= new Jobs({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _largeLanguageModels: LargeLanguageModels | undefined;
-
-    public get largeLanguageModels(): LargeLanguageModels {
-        return (this._largeLanguageModels ??= new LargeLanguageModels({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _queries: Queries | undefined;
-
-    public get queries(): Queries {
-        return (this._queries ??= new Queries({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _rerankers: Rerankers | undefined;
-
-    public get rerankers(): Rerankers {
-        return (this._rerankers ??= new Rerankers({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _upload: Upload | undefined;
-
-    public get upload(): Upload {
-        return (this._upload ??= new Upload({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
-    }
-
-    protected _users: Users | undefined;
-
-    public get users(): Users {
-        return (this._users ??= new Users({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
-        }));
+        return undefined;
     }
 }

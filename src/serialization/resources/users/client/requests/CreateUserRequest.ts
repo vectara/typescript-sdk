@@ -9,7 +9,7 @@ import { ApiRole } from "../../../../types/ApiRole";
 
 export const CreateUserRequest: core.serialization.Schema<
     serializers.CreateUserRequest.Raw,
-    Vectara.CreateUserRequest
+    Omit<Vectara.CreateUserRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     email: core.serialization.string(),
     username: core.serialization.string().optional(),

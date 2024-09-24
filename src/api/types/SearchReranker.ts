@@ -9,4 +9,9 @@ import * as Vectara from "../index";
  * By default the search will use the most powerful reranker available to the customer's plan.
  * To disable reranking set the reranker `type` to `"none"`.
  */
-export type SearchReranker = Vectara.CustomerSpecificReranker | Vectara.MmrReranker | Vectara.NoneReranker;
+export type SearchReranker =
+    | Vectara.CustomerSpecificReranker
+    | Vectara.UserFunctionReranker
+    | Vectara.MmrReranker
+    | Vectara.ChainReranker
+    | Vectara.NoneReranker;

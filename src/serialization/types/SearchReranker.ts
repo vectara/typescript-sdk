@@ -6,12 +6,24 @@ import * as serializers from "../index";
 import * as Vectara from "../../api/index";
 import * as core from "../../core";
 import { CustomerSpecificReranker } from "./CustomerSpecificReranker";
+import { UserFunctionReranker } from "./UserFunctionReranker";
 import { MmrReranker } from "./MmrReranker";
 import { NoneReranker } from "./NoneReranker";
 
 export const SearchReranker: core.serialization.Schema<serializers.SearchReranker.Raw, Vectara.SearchReranker> =
-    core.serialization.undiscriminatedUnion([CustomerSpecificReranker, MmrReranker, NoneReranker]);
+    core.serialization.undiscriminatedUnion([
+        CustomerSpecificReranker,
+        UserFunctionReranker,
+        MmrReranker,
+        core.serialization.lazyObject(() => serializers.ChainReranker),
+        NoneReranker,
+    ]);
 
 export declare namespace SearchReranker {
-    type Raw = CustomerSpecificReranker.Raw | MmrReranker.Raw | NoneReranker.Raw;
+    type Raw =
+        | CustomerSpecificReranker.Raw
+        | UserFunctionReranker.Raw
+        | MmrReranker.Raw
+        | serializers.ChainReranker.Raw
+        | NoneReranker.Raw;
 }

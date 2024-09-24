@@ -1,4 +1,10 @@
 export { type CorporaListRequest } from "./CorporaListRequest";
 export { type CreateCorpusRequest } from "./CreateCorpusRequest";
+export { type CorporaGetRequest } from "./CorporaGetRequest";
+export { type CorporaDeleteRequest } from "./CorporaDeleteRequest";
 export { type UpdateCorpusRequest } from "./UpdateCorpusRequest";
+export { type CorporaResetRequest } from "./CorporaResetRequest";
 export { type ReplaceFilterAttributesRequest } from "./ReplaceFilterAttributesRequest";
+export { type CorporaSearchRequest } from "./CorporaSearchRequest";
+export { type CorporaQueryStreamRequest } from "./CorporaQueryStreamRequest";
+export { type CorporaQueryRequest } from "./CorporaQueryRequest";

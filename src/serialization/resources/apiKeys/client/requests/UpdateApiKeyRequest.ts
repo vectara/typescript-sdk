@@ -8,7 +8,7 @@ import * as core from "../../../../../core";
 
 export const UpdateApiKeyRequest: core.serialization.Schema<
     serializers.UpdateApiKeyRequest.Raw,
-    Vectara.UpdateApiKeyRequest
+    Omit<Vectara.UpdateApiKeyRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     enabled: core.serialization.boolean().optional(),
 });

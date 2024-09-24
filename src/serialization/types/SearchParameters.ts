@@ -6,7 +6,6 @@ import * as serializers from "../index";
 import * as Vectara from "../../api/index";
 import * as core from "../../core";
 import { ContextConfiguration } from "./ContextConfiguration";
-import { SearchReranker } from "./SearchReranker";
 
 export const SearchParameters: core.serialization.ObjectSchema<
     serializers.SearchParameters.Raw,
@@ -15,7 +14,7 @@ export const SearchParameters: core.serialization.ObjectSchema<
     offset: core.serialization.number().optional(),
     limit: core.serialization.number().optional(),
     contextConfiguration: core.serialization.property("context_configuration", ContextConfiguration.optional()),
-    reranker: SearchReranker.optional(),
+    reranker: core.serialization.lazy(() => serializers.SearchReranker).optional(),
 });
 
 export declare namespace SearchParameters {
@@ -23,6 +22,6 @@ export declare namespace SearchParameters {
         offset?: number | null;
         limit?: number | null;
         context_configuration?: ContextConfiguration.Raw | null;
-        reranker?: SearchReranker.Raw | null;
+        reranker?: serializers.SearchReranker.Raw | null;
     }
 }

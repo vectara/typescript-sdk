@@ -10,18 +10,13 @@ export const AuthGetTokenRequest: core.serialization.Schema<
     serializers.AuthGetTokenRequest.Raw,
     Vectara.AuthGetTokenRequest
 > = core.serialization.object({
-    clientId: core.serialization.property("client_id", core.serialization.string().optional()),
-    clientSecret: core.serialization.property("client_secret", core.serialization.string().optional()),
-    grantType: core.serialization.property(
-        "grant_type",
-        core.serialization.stringLiteral("client_credentials").optional()
-    ),
+    clientId: core.serialization.property("client_id", core.serialization.string()),
+    clientSecret: core.serialization.property("client_secret", core.serialization.string()),
 });
 
 export declare namespace AuthGetTokenRequest {
     interface Raw {
-        client_id?: string | null;
-        client_secret?: string | null;
-        grant_type?: "client_credentials" | null;
+        client_id: string;
+        client_secret: string;
     }
 }

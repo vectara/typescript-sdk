@@ -7,6 +7,14 @@
  *     {}
  */
 export interface UpdateApiKeyRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** Indicates whether to disable or enable an API key. */
     enabled?: boolean;
 }

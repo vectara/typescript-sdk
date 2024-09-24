@@ -11,6 +11,14 @@ import * as Vectara from "../../../../index";
  *     }
  */
 export interface CreateUserRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** The email address for the user. */
     email: string;
     /** The username for the user. The value defaults to the email. */

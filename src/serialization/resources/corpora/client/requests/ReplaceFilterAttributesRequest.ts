@@ -9,7 +9,7 @@ import { FilterAttribute } from "../../../../types/FilterAttribute";
 
 export const ReplaceFilterAttributesRequest: core.serialization.Schema<
     serializers.ReplaceFilterAttributesRequest.Raw,
-    Vectara.ReplaceFilterAttributesRequest
+    Omit<Vectara.ReplaceFilterAttributesRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     filterAttributes: core.serialization.property("filter_attributes", core.serialization.list(FilterAttribute)),
 });

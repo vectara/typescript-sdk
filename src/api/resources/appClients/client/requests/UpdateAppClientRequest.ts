@@ -9,6 +9,14 @@ import * as Vectara from "../../../../index";
  *     {}
  */
 export interface UpdateAppClientRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** The new App Client description. */
     description?: string;
     /** The new roles attached to the App Client. These roles will replace the current roles. */

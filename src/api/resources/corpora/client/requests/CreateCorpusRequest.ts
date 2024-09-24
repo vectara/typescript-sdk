@@ -11,6 +11,14 @@ import * as Vectara from "../../../../index";
  *     }
  */
 export interface CreateCorpusRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     key: Vectara.CorpusKey;
     /** The name for the corpus. This value defaults to the key. */
     name?: string;
@@ -20,8 +28,13 @@ export interface CreateCorpusRequest {
     queriesAreAnswers?: boolean;
     /** Documents inside this corpus are considered questions, and not answers. */
     documentsAreQuestions?: boolean;
-    /** The encoder used by the corpus. This value defaults to the most recent Vectara encoder. */
+    /**
+     * *Deprecated*: Use `encoder_name` instead.
+     *
+     */
     encoderId?: string;
+    /** The encoder used by the corpus. */
+    encoderName?: string;
     /**
      * The new filter attributes of the corpus.
      * If unset then the corpus will not have filter attributes.

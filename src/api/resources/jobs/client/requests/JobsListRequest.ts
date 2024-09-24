@@ -29,4 +29,12 @@ export interface JobsListRequest {
      * Used to the retrieve the next page of documents after the limit has been reached.
      */
     pageKey?: string;
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
 }

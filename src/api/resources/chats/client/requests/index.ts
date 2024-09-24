@@ -1,6 +1,9 @@
 export { type ChatsListRequest } from "./ChatsListRequest";
-export { type ChatsCreateStreamRequest } from "./ChatsCreateStreamRequest";
-export { type ChatsCreateRequest } from "./ChatsCreateRequest";
-export { type ChatsCreateTurnStreamRequest } from "./ChatsCreateTurnStreamRequest";
-export { type ChatsCreateTurnRequest } from "./ChatsCreateTurnRequest";
+export { type ChatsGetRequest } from "./ChatsGetRequest";
+export { type ChatsDeleteRequest } from "./ChatsDeleteRequest";
+export { type ChatsListTurnsRequest } from "./ChatsListTurnsRequest";
+export { type ChatsCreateTurnsStreamRequest } from "./ChatsCreateTurnsStreamRequest";
+export { type ChatsCreateTurnsRequest } from "./ChatsCreateTurnsRequest";
+export { type ChatsGetTurnRequest } from "./ChatsGetTurnRequest";
+export { type ChatsDeleteTurnRequest } from "./ChatsDeleteTurnRequest";
 export { type UpdateTurnRequest } from "./UpdateTurnRequest";

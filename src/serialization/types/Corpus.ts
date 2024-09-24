@@ -24,6 +24,7 @@ export const Corpus: core.serialization.ObjectSchema<serializers.Corpus.Raw, Vec
             core.serialization.boolean().optional()
         ),
         encoderId: core.serialization.property("encoder_id", core.serialization.string().optional()),
+        encoderName: core.serialization.property("encoder_name", core.serialization.string().optional()),
         filterAttributes: core.serialization.property(
             "filter_attributes",
             core.serialization.list(FilterAttribute).optional()
@@ -47,6 +48,7 @@ export declare namespace Corpus {
         queries_are_answers?: boolean | null;
         documents_are_questions?: boolean | null;
         encoder_id?: string | null;
+        encoder_name?: string | null;
         filter_attributes?: FilterAttribute.Raw[] | null;
         custom_dimensions?: CorpusCustomDimension.Raw[] | null;
         limits?: CorpusLimits.Raw | null;

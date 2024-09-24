@@ -13,11 +13,13 @@ export const GenerationParameters: core.serialization.ObjectSchema<
     serializers.GenerationParameters.Raw,
     Vectara.GenerationParameters
 > = core.serialization.object({
+    generationPresetName: core.serialization.property("generation_preset_name", core.serialization.string().optional()),
     promptName: core.serialization.property("prompt_name", core.serialization.string().optional()),
     maxUsedSearchResults: core.serialization.property(
         "max_used_search_results",
         core.serialization.number().optional()
     ),
+    promptTemplate: core.serialization.property("prompt_template", core.serialization.string().optional()),
     promptText: core.serialization.property("prompt_text", core.serialization.string().optional()),
     maxResponseCharacters: core.serialization.property(
         "max_response_characters",
@@ -34,8 +36,10 @@ export const GenerationParameters: core.serialization.ObjectSchema<
 
 export declare namespace GenerationParameters {
     interface Raw {
+        generation_preset_name?: string | null;
         prompt_name?: string | null;
         max_used_search_results?: number | null;
+        prompt_template?: string | null;
         prompt_text?: string | null;
         max_response_characters?: number | null;
         response_language?: Language.Raw | null;

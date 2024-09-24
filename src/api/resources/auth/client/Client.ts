@@ -34,21 +34,26 @@ export class Auth {
     constructor(protected readonly _options: Auth.Options = {}) {}
 
     /**
+     * Obtain an OAuth2 access token using client credentials
+     *
      * @param {Vectara.AuthGetTokenRequest} request
      * @param {Auth.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
-     *     await client.auth.getToken()
+     *     await client.auth.getToken({
+     *         clientId: "client_id",
+     *         clientSecret: "client_secret"
+     *     })
      */
     public async getToken(
-        request: Vectara.AuthGetTokenRequest = {},
+        request: Vectara.AuthGetTokenRequest,
         requestOptions?: Auth.RequestOptions
-    ): Promise<Vectara.AuthResponse> {
+    ): Promise<Vectara.GetTokenResponse> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
                     .auth,
-                "oauth2/token"
+                "oauth/token"
             ),
             method: "POST",
             headers: {
@@ -59,20 +64,23 @@ export class Auth {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.AuthGetTokenRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: {
+                ...serializers.AuthGetTokenRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+                grant_type: "client_credentials",
+            },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return serializers.AuthResponse.parseOrThrow(_response.body, {
+            return serializers.GetTokenResponse.parseOrThrow(_response.body, {
                 unrecognizedObjectKeys: "passthrough",
                 allowUnrecognizedUnionMembers: true,
                 allowUnrecognizedEnumValues: true,

@@ -54,7 +54,7 @@ export class Chats {
         requestOptions?: Chats.RequestOptions
     ): Promise<core.Page<Vectara.Chat>> {
         const list = async (request: Vectara.ChatsListRequest): Promise<Vectara.ListChatsResponse> => {
-            const { limit, pageKey } = request;
+            const { limit, pageKey, requestTimeout, requestTimeoutMillis } = request;
             const _queryParams: Record<string, string | string[] | object | object[]> = {};
             if (limit != null) {
                 _queryParams["limit"] = limit.toString();
@@ -77,10 +77,13 @@ export class Chats {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.1",
-                    "User-Agent": "vectara/0.1.1",
+                    "X-Fern-SDK-Version": "0.1.2",
+                    "User-Agent": "vectara/0.1.2",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
+                    "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                    "Request-Timeout-Millis":
+                        requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
                 },
                 contentType: "application/json",
                 queryParameters: _queryParams,
@@ -152,237 +155,10 @@ export class Chats {
     }
 
     /**
-     * Create a chat while specifying the default retrieval parameters used by the prompt.
-     */
-    public async createStream(
-        request: Vectara.ChatsCreateStreamRequest,
-        requestOptions?: Chats.RequestOptions
-    ): Promise<core.Stream<Vectara.ChatStreamedResponse>> {
-        const _response = await (this._options.fetcher ?? core.fetcher)<stream.Readable>({
-            url: urlJoin(
-                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
-                    .default,
-                "v2/chats"
-            ),
-            method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-api-key":
-                    (await core.Supplier.get(this._options.apiKey)) != null
-                        ? await core.Supplier.get(this._options.apiKey)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-            },
-            contentType: "application/json",
-            requestType: "json",
-            body: {
-                ...serializers.ChatsCreateStreamRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
-                stream_response: true,
-            },
-            responseType: "sse",
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return new core.Stream({
-                stream: _response.body,
-                parse: async (data) => {
-                    return serializers.ChatStreamedResponse.parseOrThrow(data, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                        skipValidation: true,
-                        breadcrumbsPrefix: ["response"],
-                    });
-                },
-                signal: requestOptions?.abortSignal,
-                eventShape: {
-                    type: "sse",
-                    streamTerminator: "[DONE]",
-                },
-            });
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Vectara.BadRequestError(
-                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new Vectara.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 404:
-                    throw new Vectara.NotFoundError(
-                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                default:
-                    throw new errors.VectaraError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.VectaraError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.VectaraTimeoutError();
-            case "unknown":
-                throw new errors.VectaraError({
-                    message: _response.error.errorMessage,
-                });
-        }
-    }
-
-    /**
-     * Create a chat while specifying the default retrieval parameters used by the prompt.
-     *
-     * @param {Vectara.ChatsCreateRequest} request
-     * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Vectara.BadRequestError}
-     * @throws {@link Vectara.ForbiddenError}
-     * @throws {@link Vectara.NotFoundError}
-     *
-     * @example
-     *     await client.chats.create({
-     *         query: "How can I use the Vectara platform?",
-     *         search: {}
-     *     })
-     */
-    public async create(
-        request: Vectara.ChatsCreateRequest,
-        requestOptions?: Chats.RequestOptions
-    ): Promise<Vectara.ChatFullResponse> {
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
-                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
-                    .default,
-                "v2/chats"
-            ),
-            method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-api-key":
-                    (await core.Supplier.get(this._options.apiKey)) != null
-                        ? await core.Supplier.get(this._options.apiKey)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-            },
-            contentType: "application/json",
-            requestType: "json",
-            body: {
-                ...serializers.ChatsCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
-                stream_response: false,
-            },
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return serializers.ChatFullResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                skipValidation: true,
-                breadcrumbsPrefix: ["response"],
-            });
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Vectara.BadRequestError(
-                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new Vectara.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 404:
-                    throw new Vectara.NotFoundError(
-                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                default:
-                    throw new errors.VectaraError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.VectaraError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.VectaraTimeoutError();
-            case "unknown":
-                throw new errors.VectaraError({
-                    message: _response.error.errorMessage,
-                });
-        }
-    }
-
-    /**
      * Get a chat summary to view what started the chat, but not subsequent turns.
      *
      * @param {string} chatId - The ID of the chat.
+     * @param {Vectara.ChatsGetRequest} request
      * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -391,7 +167,12 @@ export class Chats {
      * @example
      *     await client.chats.get("chat_id")
      */
-    public async get(chatId: string, requestOptions?: Chats.RequestOptions): Promise<Vectara.Chat> {
+    public async get(
+        chatId: string,
+        request: Vectara.ChatsGetRequest = {},
+        requestOptions?: Chats.RequestOptions
+    ): Promise<Vectara.Chat> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -407,10 +188,12 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -477,6 +260,7 @@ export class Chats {
      * Delete a chat and any turns it contains permanently.
      *
      * @param {string} chatId - The ID of the chat.
+     * @param {Vectara.ChatsDeleteRequest} request
      * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -485,7 +269,12 @@ export class Chats {
      * @example
      *     await client.chats.delete("chat_id")
      */
-    public async delete(chatId: string, requestOptions?: Chats.RequestOptions): Promise<void> {
+    public async delete(
+        chatId: string,
+        request: Vectara.ChatsDeleteRequest = {},
+        requestOptions?: Chats.RequestOptions
+    ): Promise<void> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -501,10 +290,12 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -565,6 +356,7 @@ export class Chats {
      * List all turns in a chat to see all message and response pairs that make up the dialog.
      *
      * @param {string} chatId - The ID of the chat.
+     * @param {Vectara.ChatsListTurnsRequest} request
      * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -575,8 +367,10 @@ export class Chats {
      */
     public async listTurns(
         chatId: string,
+        request: Vectara.ChatsListTurnsRequest = {},
         requestOptions?: Chats.RequestOptions
     ): Promise<Vectara.ListChatTurnsResponse> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -592,10 +386,12 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -661,11 +457,12 @@ export class Chats {
     /**
      * Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
      */
-    public async createTurnStream(
+    public async createTurnsStream(
         chatId: string,
-        request: Vectara.ChatsCreateTurnStreamRequest,
+        request: Vectara.ChatsCreateTurnsStreamRequest,
         requestOptions?: Chats.RequestOptions
     ): Promise<core.Stream<Vectara.ChatStreamedResponse>> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)<stream.Readable>({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -681,15 +478,17 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
             body: {
-                ...serializers.ChatsCreateTurnStreamRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+                ...serializers.ChatsCreateTurnsStreamRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
                 stream_response: true,
             },
             responseType: "sse",
@@ -711,8 +510,8 @@ export class Chats {
                 },
                 signal: requestOptions?.abortSignal,
                 eventShape: {
-                    type: "sse",
-                    streamTerminator: "[DONE]",
+                    type: "json",
+                    messageTerminator: "\n",
                 },
             });
         }
@@ -776,7 +575,7 @@ export class Chats {
      * Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
      *
      * @param {string} chatId - The ID of the chat.
-     * @param {Vectara.ChatsCreateTurnRequest} request
+     * @param {Vectara.ChatsCreateTurnsRequest} request
      * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.BadRequestError}
@@ -784,16 +583,17 @@ export class Chats {
      * @throws {@link Vectara.NotFoundError}
      *
      * @example
-     *     await client.chats.createTurn("chat_id", {
+     *     await client.chats.createTurns("chat_id", {
      *         query: "How can I use the Vectara platform?",
      *         search: {}
      *     })
      */
-    public async createTurn(
+    public async createTurns(
         chatId: string,
-        request: Vectara.ChatsCreateTurnRequest,
+        request: Vectara.ChatsCreateTurnsRequest,
         requestOptions?: Chats.RequestOptions
     ): Promise<Vectara.ChatFullResponse> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -809,15 +609,17 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
             body: {
-                ...serializers.ChatsCreateTurnRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+                ...serializers.ChatsCreateTurnsRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
                 stream_response: false,
             },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
@@ -894,6 +696,7 @@ export class Chats {
      *
      * @param {string} chatId - The ID of the chat.
      * @param {string} turnId - The ID of the turn.
+     * @param {Vectara.ChatsGetTurnRequest} request
      * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -902,7 +705,13 @@ export class Chats {
      * @example
      *     await client.chats.getTurn("chat_id", "turn_id")
      */
-    public async getTurn(chatId: string, turnId: string, requestOptions?: Chats.RequestOptions): Promise<Vectara.Turn> {
+    public async getTurn(
+        chatId: string,
+        turnId: string,
+        request: Vectara.ChatsGetTurnRequest = {},
+        requestOptions?: Chats.RequestOptions
+    ): Promise<Vectara.Turn> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -918,10 +727,12 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -989,6 +800,7 @@ export class Chats {
      *
      * @param {string} chatId - The ID of the chat.
      * @param {string} turnId - The ID of the turn.
+     * @param {Vectara.ChatsDeleteTurnRequest} request
      * @param {Chats.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -997,7 +809,13 @@ export class Chats {
      * @example
      *     await client.chats.deleteTurn("chat_id", "turn_id")
      */
-    public async deleteTurn(chatId: string, turnId: string, requestOptions?: Chats.RequestOptions): Promise<void> {
+    public async deleteTurn(
+        chatId: string,
+        turnId: string,
+        request: Vectara.ChatsDeleteTurnRequest = {},
+        requestOptions?: Chats.RequestOptions
+    ): Promise<void> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -1013,10 +831,12 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -1093,6 +913,7 @@ export class Chats {
         request: Vectara.UpdateTurnRequest = {},
         requestOptions?: Chats.RequestOptions
     ): Promise<Vectara.Turn> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -1108,14 +929,16 @@ export class Chats {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.UpdateTurnRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.UpdateTurnRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

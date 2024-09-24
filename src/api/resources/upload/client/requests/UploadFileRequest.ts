@@ -7,6 +7,14 @@
  *     {}
  */
 export interface UploadFileRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** Arbitrary object that will be attached as document metadata to the extracted document. */
     metadata?: Record<string, unknown>;
 }

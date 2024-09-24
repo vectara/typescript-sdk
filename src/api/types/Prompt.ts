@@ -3,12 +3,14 @@
  */
 
 /**
- * A prompt that can be used with an LLM.
+ * A prompt that can be used with a LLM. A prompt is the template that is used to render
+ * the text sent to the LLM. It also contains various default model settings such as
+ * temperature.
  */
 export interface Prompt {
     /** The ID of the prompt. */
     id?: string;
-    /** Name of the prompt. This is used as the prompt name in a query. */
+    /** Name of the prompt. This is used as the `prompt_name` in a query. */
     name?: string;
     /** The description of the prompt. */
     description?: string;

@@ -26,8 +26,13 @@ export interface Corpus {
      * This swaps the semantics of the encoder used at indexing.
      */
     documentsAreQuestions?: boolean;
-    /** The encoder used by the corpus. */
+    /**
+     * The encoder used by the corpus.
+     * _Deprecated_: use `encoder_name` instead
+     */
     encoderId?: string;
+    /** The encoder used by the corpus. */
+    encoderName?: string;
     /** The new filter attributes of the corpus. */
     filterAttributes?: Vectara.FilterAttribute[];
     /** The custom dimensions of all document parts inside the corpus. */

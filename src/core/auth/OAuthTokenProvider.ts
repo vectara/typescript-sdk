@@ -11,8 +11,8 @@ import { Auth } from "../../api/resources/auth/client/Client";
  */
 export class OAuthTokenProvider {
     private readonly BUFFER_IN_MINUTES = 2;
-    private readonly _clientId: core.Supplier<string | undefined>;
-    private readonly _clientSecret: core.Supplier<string | undefined>;
+    private readonly _clientId: core.Supplier<string>;
+    private readonly _clientSecret: core.Supplier<string>;
     private readonly _authClient: Auth;
     private _accessToken: string | undefined;
     private _expiresAt: Date;
@@ -22,8 +22,8 @@ export class OAuthTokenProvider {
         clientSecret,
         authClient,
     }: {
-        clientId: core.Supplier<string | undefined>;
-        clientSecret: core.Supplier<string | undefined>;
+        clientId: core.Supplier<string>;
+        clientSecret: core.Supplier<string>;
         authClient: Auth;
     }) {
         this._clientId = clientId;

@@ -8,6 +8,7 @@ import * as Vectara from "../../../index";
 import urlJoin from "url-join";
 import * as serializers from "../../../../serialization/index";
 import * as errors from "../../../../errors/index";
+import * as stream from "stream";
 
 export declare namespace Corpora {
     interface Options {
@@ -53,7 +54,7 @@ export class Corpora {
         requestOptions?: Corpora.RequestOptions
     ): Promise<core.Page<Vectara.Corpus>> {
         const list = async (request: Vectara.CorporaListRequest): Promise<Vectara.ListCorporaResponse> => {
-            const { limit, filter, pageKey } = request;
+            const { limit, filter, pageKey, requestTimeout, requestTimeoutMillis } = request;
             const _queryParams: Record<string, string | string[] | object | object[]> = {};
             if (limit != null) {
                 _queryParams["limit"] = limit.toString();
@@ -79,10 +80,13 @@ export class Corpora {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.1",
-                    "User-Agent": "vectara/0.1.1",
+                    "X-Fern-SDK-Version": "0.1.2",
+                    "User-Agent": "vectara/0.1.2",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
+                    "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                    "Request-Timeout-Millis":
+                        requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
                 },
                 contentType: "application/json",
                 queryParameters: _queryParams,
@@ -161,6 +165,7 @@ export class Corpora {
         request: Vectara.CreateCorpusRequest,
         requestOptions?: Corpora.RequestOptions
     ): Promise<Vectara.Corpus> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -176,14 +181,16 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.CreateCorpusRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.CreateCorpusRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -247,6 +254,7 @@ export class Corpora {
      * Get metadata about a corpus. This operation is not a method of searching a corpus.
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to retrieve.
+     * @param {Vectara.CorporaGetRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -255,7 +263,12 @@ export class Corpora {
      * @example
      *     await client.corpora.get("my-corpus")
      */
-    public async get(corpusKey: Vectara.CorpusKey, requestOptions?: Corpora.RequestOptions): Promise<Vectara.Corpus> {
+    public async get(
+        corpusKey: Vectara.CorpusKey,
+        request: Vectara.CorporaGetRequest = {},
+        requestOptions?: Corpora.RequestOptions
+    ): Promise<Vectara.Corpus> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -271,10 +284,12 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -341,6 +356,7 @@ export class Corpora {
      * Delete a corpus and all the data that it contains.
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to delete
+     * @param {Vectara.CorporaDeleteRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -349,7 +365,12 @@ export class Corpora {
      * @example
      *     await client.corpora.delete("my-corpus")
      */
-    public async delete(corpusKey: Vectara.CorpusKey, requestOptions?: Corpora.RequestOptions): Promise<void> {
+    public async delete(
+        corpusKey: Vectara.CorpusKey,
+        request: Vectara.CorporaDeleteRequest = {},
+        requestOptions?: Corpora.RequestOptions
+    ): Promise<void> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -365,10 +386,12 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -426,7 +449,10 @@ export class Corpora {
     }
 
     /**
-     * Enable or disable a corpus.
+     * Enable, disable, or update the name and description of a corpus. This lets you
+     * manage data availability without deleting the corpus, which is useful for
+     * maintenance and security purposes. Update the name and description of a corpus
+     * dynamically to help keep your data aligned with changing business needs.
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to update.
      * @param {Vectara.UpdateCorpusRequest} request
@@ -443,6 +469,7 @@ export class Corpora {
         request: Vectara.UpdateCorpusRequest = {},
         requestOptions?: Corpora.RequestOptions
     ): Promise<Vectara.Corpus> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -458,14 +485,16 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.UpdateCorpusRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.UpdateCorpusRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -529,6 +558,7 @@ export class Corpora {
      * Resets a corpus, which removes all documents and data from the specified corpus, while keeping the corpus itself.
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to reset.
+     * @param {Vectara.CorporaResetRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -537,7 +567,12 @@ export class Corpora {
      * @example
      *     await client.corpora.reset("my-corpus")
      */
-    public async reset(corpusKey: Vectara.CorpusKey, requestOptions?: Corpora.RequestOptions): Promise<void> {
+    public async reset(
+        corpusKey: Vectara.CorpusKey,
+        request: Vectara.CorporaResetRequest = {},
+        requestOptions?: Corpora.RequestOptions
+    ): Promise<void> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -553,10 +588,12 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -628,7 +665,7 @@ export class Corpora {
      * @throws {@link Vectara.NotFoundError}
      *
      * @example
-     *     await client.corpora.replaceFilters("my-corpus", {
+     *     await client.corpora.replaceFilterAttributes("my-corpus", {
      *         filterAttributes: [{
      *                 name: "Title",
      *                 level: Vectara.FilterAttributeLevel.Document,
@@ -636,11 +673,12 @@ export class Corpora {
      *             }]
      *     })
      */
-    public async replaceFilters(
+    public async replaceFilterAttributes(
         corpusKey: Vectara.CorpusKey,
         request: Vectara.ReplaceFilterAttributesRequest,
         requestOptions?: Corpora.RequestOptions
     ): Promise<Vectara.ReplaceFilterAttributesResponse> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -658,14 +696,16 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.ReplaceFilterAttributesRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.ReplaceFilterAttributesRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -682,6 +722,393 @@ export class Corpora {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Search a single corpus with a straightforward query request, specifying the corpus key and query parameters.
+     *
+     * - Specify the unique `corpus_key` identifying the corpus to query.
+     * - Enter the search `query` string for the corpus, which is the question you want to ask.
+     * - Set the maximum number of results (`limit`) to return. **Default**: 10, **minimum**: 1
+     * - Define the `offset` position from which to start in the result set.
+     *
+     * For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
+     *
+     * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to query.
+     * @param {Vectara.CorporaSearchRequest} request
+     * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Vectara.BadRequestError}
+     * @throws {@link Vectara.ForbiddenError}
+     * @throws {@link Vectara.NotFoundError}
+     *
+     * @example
+     *     await client.corpora.search("my-corpus", {
+     *         query: "query"
+     *     })
+     */
+    public async search(
+        corpusKey: Vectara.CorpusKey,
+        request: Vectara.CorporaSearchRequest,
+        requestOptions?: Corpora.RequestOptions
+    ): Promise<Vectara.QueryFullResponse> {
+        const { query, limit, offset, requestTimeout, requestTimeoutMillis } = request;
+        const _queryParams: Record<string, string | string[] | object | object[]> = {};
+        _queryParams["query"] = query;
+        if (limit != null) {
+            _queryParams["limit"] = limit.toString();
+        }
+
+        if (offset != null) {
+            _queryParams["offset"] = offset.toString();
+        }
+
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                `v2/corpora/${encodeURIComponent(serializers.CorpusKey.jsonOrThrow(corpusKey))}/query`
+            ),
+            method: "GET",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            queryParameters: _queryParams,
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return serializers.QueryFullResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                skipValidation: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+     *
+     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * - Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
+     * - Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
+     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
+     *
+     * For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
+     */
+    public async queryStream(
+        corpusKey: Vectara.CorpusKey,
+        request: Vectara.CorporaQueryStreamRequest,
+        requestOptions?: Corpora.RequestOptions
+    ): Promise<core.Stream<Vectara.QueryStreamedResponse>> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
+        const _response = await (this._options.fetcher ?? core.fetcher)<stream.Readable>({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                `v2/corpora/${encodeURIComponent(serializers.CorpusKey.jsonOrThrow(corpusKey))}/query`
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: {
+                ...serializers.CorporaQueryStreamRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+                stream_response: true,
+            },
+            responseType: "sse",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return new core.Stream({
+                stream: _response.body,
+                parse: async (data) => {
+                    return serializers.QueryStreamedResponse.parseOrThrow(data, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                        skipValidation: true,
+                        breadcrumbsPrefix: ["response"],
+                    });
+                },
+                signal: requestOptions?.abortSignal,
+                eventShape: {
+                    type: "json",
+                    messageTerminator: "\n",
+                },
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 403:
+                    throw new Vectara.ForbiddenError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 404:
+                    throw new Vectara.NotFoundError(
+                        serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                default:
+                    throw new errors.VectaraError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.VectaraError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.VectaraTimeoutError();
+            case "unknown":
+                throw new errors.VectaraError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+
+    /**
+     * Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+     *
+     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * - Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
+     * - Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
+     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
+     *
+     * For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
+     *
+     * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to query.
+     * @param {Vectara.CorporaQueryRequest} request
+     * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Vectara.BadRequestError}
+     * @throws {@link Vectara.ForbiddenError}
+     * @throws {@link Vectara.NotFoundError}
+     *
+     * @example
+     *     await client.corpora.query("my-corpus", {
+     *         query: "query"
+     *     })
+     */
+    public async query(
+        corpusKey: Vectara.CorpusKey,
+        request: Vectara.CorporaQueryRequest,
+        requestOptions?: Corpora.RequestOptions
+    ): Promise<Vectara.QueryFullResponse> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                    .default,
+                `v2/corpora/${encodeURIComponent(serializers.CorpusKey.jsonOrThrow(corpusKey))}/query`
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-api-key":
+                    (await core.Supplier.get(this._options.apiKey)) != null
+                        ? await core.Supplier.get(this._options.apiKey)
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "vectara",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: {
+                ...serializers.CorporaQueryRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
+                stream_response: false,
+            },
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return serializers.QueryFullResponse.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+                skipValidation: true,
+                breadcrumbsPrefix: ["response"],
+            });
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Vectara.BadRequestError(
+                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
                 case 403:
                     throw new Vectara.ForbiddenError(
                         serializers.Error_.parseOrThrow(_response.error.body, {

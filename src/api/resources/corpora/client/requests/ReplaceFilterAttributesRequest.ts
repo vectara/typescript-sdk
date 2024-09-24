@@ -15,6 +15,14 @@ import * as Vectara from "../../../../index";
  *     }
  */
 export interface ReplaceFilterAttributesRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** The new filter attributes. */
     filterAttributes: Vectara.FilterAttribute[];
 }

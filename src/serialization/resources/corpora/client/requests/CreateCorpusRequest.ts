@@ -11,7 +11,7 @@ import { CorpusCustomDimension } from "../../../../types/CorpusCustomDimension";
 
 export const CreateCorpusRequest: core.serialization.Schema<
     serializers.CreateCorpusRequest.Raw,
-    Vectara.CreateCorpusRequest
+    Omit<Vectara.CreateCorpusRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     key: CorpusKey,
     name: core.serialization.string().optional(),
@@ -22,6 +22,7 @@ export const CreateCorpusRequest: core.serialization.Schema<
         core.serialization.boolean().optional()
     ),
     encoderId: core.serialization.property("encoder_id", core.serialization.string().optional()),
+    encoderName: core.serialization.property("encoder_name", core.serialization.string().optional()),
     filterAttributes: core.serialization.property(
         "filter_attributes",
         core.serialization.list(FilterAttribute).optional()
@@ -40,6 +41,7 @@ export declare namespace CreateCorpusRequest {
         queries_are_answers?: boolean | null;
         documents_are_questions?: boolean | null;
         encoder_id?: string | null;
+        encoder_name?: string | null;
         filter_attributes?: FilterAttribute.Raw[] | null;
         custom_dimensions?: CorpusCustomDimension.Raw[] | null;
     }

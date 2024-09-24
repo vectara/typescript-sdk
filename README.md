@@ -23,9 +23,61 @@ const client = new VectaraClient({
     clientSecret: "YOUR_CLIENT_SECRET",
     apiKey: "YOUR_API_KEY",
 });
-await client.apiKeys.create({
-    name: "name",
-    apiKeyRole: Vectara.ApiKeyRole.Serving,
+await client.queryStream({
+    requestTimeout: 1,
+    requestTimeoutMillis: 1,
+    query: "string",
+    search: {
+        corpora: [
+            {
+                corpusKey: {
+                    key: "value",
+                },
+                customDimensions: {
+                    string: 1.1,
+                },
+                metadataFilter: "string",
+                lexicalInterpolation: 1.1,
+                semantics: Vectara.SearchSemantics.Default,
+            },
+        ],
+        offset: 1,
+        limit: 1,
+        contextConfiguration: {
+            charactersBefore: 1,
+            charactersAfter: 1,
+            sentencesBefore: 1,
+            sentencesAfter: 1,
+            startTag: "string",
+            endTag: "string",
+        },
+        reranker: {
+            type: "customer_reranker",
+            rerankerId: "string",
+            rerankerName: "string",
+        },
+    },
+    generation: {
+        generationPresetName: "string",
+        promptName: "string",
+        maxUsedSearchResults: 1,
+        promptTemplate: "string",
+        promptText: "string",
+        maxResponseCharacters: 1,
+        responseLanguage: Vectara.Language.Auto,
+        modelParameters: {
+            maxTokens: 1,
+            temperature: 1.1,
+            frequencyPenalty: 1.1,
+            presencePenalty: 1.1,
+        },
+        citations: {
+            style: Vectara.CitationParametersStyle.None,
+            urlPattern: "string",
+            textPattern: "string",
+        },
+        enableFactualConsistencyScore: true,
+    },
 });
 ```
 
@@ -37,7 +89,7 @@ following namespace:
 ```typescript
 import { Vectara } from "vectara";
 
-const request: Vectara.ApiKeysListRequest = {
+const request: Vectara.CorporaListRequest = {
     ...
 };
 ```
@@ -51,7 +103,7 @@ will be thrown.
 import { VectaraError } from "vectara";
 
 try {
-    await client.apiKeys.create(...);
+    await client.queryStream(...);
 } catch (err) {
     if (err instanceof VectaraError) {
         console.log(err.statusCode);
@@ -78,7 +130,7 @@ A request is deemed retriable when any of the following HTTP status codes is ret
 Use the `maxRetries` request option to configure this behavior.
 
 ```typescript
-const response = await client.apiKeys.create(..., {
+const response = await client.queryStream(..., {
     maxRetries: 0 // override maxRetries at the request level
 });
 ```
@@ -88,7 +140,7 @@ const response = await client.apiKeys.create(..., {
 The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
 ```typescript
-const response = await client.apiKeys.create(..., {
+const response = await client.queryStream(..., {
     timeoutInSeconds: 30 // override timeout to 30s
 });
 ```
@@ -99,7 +151,7 @@ The SDK allows users to abort requests at any point by passing in an abort signa
 
 ```typescript
 const controller = new AbortController();
-const response = await client.apiKeys.create(..., {
+const response = await client.queryStream(..., {
     abortSignal: controller.signal
 });
 controller.abort(); // aborts the request

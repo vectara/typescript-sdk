@@ -10,7 +10,7 @@ import { CorpusKey } from "../../../../types/CorpusKey";
 
 export const CreateApiKeyRequest: core.serialization.Schema<
     serializers.CreateApiKeyRequest.Raw,
-    Vectara.CreateApiKeyRequest
+    Omit<Vectara.CreateApiKeyRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     name: core.serialization.string(),
     apiKeyRole: core.serialization.property("api_key_role", ApiKeyRole),

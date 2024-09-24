@@ -9,6 +9,14 @@ import * as Vectara from "../../../../index";
  *     {}
  */
 export interface UpdateUserRequest {
+    /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
     /** Indicates whether to disable or disable the user. */
     enabled?: boolean;
     /** The new role names of the user. */

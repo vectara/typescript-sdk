@@ -3,8 +3,16 @@
  */
 
 export interface CorpusLimits {
-    /** The number of bytes contained in the corpus. */
+    /**
+     * The number of bytes contained in the corpus. This includes the document metadata,
+     * document part metadata, and document contents.
+     */
     usedBytes?: number;
+    /**
+     * The number of characters contained in the corpus. This includes the document metadata,
+     * document part metadata, and document contents.
+     */
+    usedCharacters?: number;
     /** The maximum number of bytes the corpus can be. */
     maxBytes?: number;
     /** The maximum size that metadata can be on documents. */

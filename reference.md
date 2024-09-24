@@ -1,686 +1,6 @@
 # Reference
 
-## API Keys
-
-<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">list</a>({ ...params }) -> Vectara.ListApiKeysResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.apiKeys.list();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.ApiKeysListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ApiKeys.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> Vectara.ApiKey</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-An API key is to authenticate when calling Vectara APIs.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.apiKeys.create({
-    name: "name",
-    apiKeyRole: Vectara.ApiKeyRole.Serving,
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.CreateApiKeyRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ApiKeys.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">get</a>(apiKeyId) -> Vectara.ApiKey</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.apiKeys.get("api_key_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKeyId:** `string` — The name of the API key.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ApiKeys.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">delete</a>(apiKeyId) -> void</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Delete API keys to help you manage the security and lifecycle of API keys in your application.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.apiKeys.delete("api_key_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKeyId:** `string` — The name of the API key.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ApiKeys.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">update</a>(apiKeyId, { ...params }) -> Vectara.ApiKey</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Update an API key such as the roles attached to the key.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.apiKeys.update("api_key_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKeyId:** `string` — The name of the API key.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.UpdateApiKeyRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ApiKeys.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## AppClients
-
-<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">list</a>({ ...params }) -> Vectara.ListAppClientsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.appClients.list();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.AppClientsListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `AppClients.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">create</a>({ ...params }) -> Vectara.AppClient</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-An App Client is used for OAuth 2.0 authentication when calling Vectara APIs.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.appClients.create({
-    name: "name",
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.ComponentsSchemasCreateClientCredentialsRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `AppClients.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">get</a>(appClientId) -> Vectara.AppClient</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.appClients.get("app_client_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**appClientId:** `string` — The name of the App Client.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `AppClients.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">delete</a>(appClientId) -> void</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.appClients.delete("app_client_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**appClientId:** `string` — The name of App Client.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `AppClients.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">update</a>(appClientId, { ...params }) -> Vectara.AppClient</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.appClients.update("app_client_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**appClientId:** `string` — The name of App Client.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.UpdateAppClientRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `AppClients.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Auth
-
-<details><summary><code>client.auth.<a href="/src/api/resources/auth/client/Client.ts">getToken</a>({ ...params }) -> Vectara.AuthResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.auth.getToken();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.AuthGetTokenRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Auth.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Chats
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.Chat></code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieve a list of previous chats in the Vectara account.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.list();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.ChatsListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">createStream</a>({ ...params }) -> core.Stream<Vectara.ChatStreamedResponse></code></summary>
+<details><summary><code>client.<a href="/src/Client.ts">chat</a>({ ...params }) -> Vectara.ChatFullResponse</code></summary>
 <dl>
 <dd>
 
@@ -708,97 +28,7 @@ Create a chat while specifying the default retrieval parameters used by the prom
 <dd>
 
 ```typescript
-await client.chats.createStream({
-    query: "string",
-    search: {
-        corpora: [{}],
-        offset: 1,
-        limit: 1,
-        contextConfiguration: {},
-        reranker: {},
-    },
-    generation: {
-        promptName: "string",
-        maxUsedSearchResults: 1,
-        promptText: "string",
-        maxResponseCharacters: 1,
-        responseLanguage: Vectara.Language.Auto,
-        modelParameters: {
-            maxTokens: 1,
-            temperature: 1.1,
-            frequencyPenalty: 1.1,
-            presencePenalty: 1.1,
-        },
-        citations: {},
-        enableFactualConsistencyScore: true,
-    },
-    chat: {
-        store: true,
-    },
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.ChatsCreateStreamRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">create</a>({ ...params }) -> Vectara.ChatFullResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Create a chat while specifying the default retrieval parameters used by the prompt.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.create({
+await client.chat({
     query: "How can I use the Vectara platform?",
     search: {},
 });
@@ -817,7 +47,7 @@ await client.chats.create({
 <dl>
 <dd>
 
-**request:** `Vectara.ChatsCreateRequest`
+**request:** `Vectara.ChatRequest`
 
 </dd>
 </dl>
@@ -825,70 +55,7 @@ await client.chats.create({
 <dl>
 <dd>
 
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">get</a>(chatId) -> Vectara.Chat</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get a chat summary to view what started the chat, but not subsequent turns.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.get("chat_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
+**requestOptions:** `VectaraClient.RequestOptions`
 
 </dd>
 </dl>
@@ -899,524 +66,7 @@ await client.chats.get("chat_id");
 </dl>
 </details>
 
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">delete</a>(chatId) -> void</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Delete a chat and any turns it contains permanently.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.delete("chat_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">listTurns</a>(chatId) -> Vectara.ListChatTurnsResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-List all turns in a chat to see all message and response pairs that make up the dialog.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.listTurns("chat_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">createTurnStream</a>(chatId, { ...params }) -> core.Stream<Vectara.ChatStreamedResponse></code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.createTurnStream("string", {
-    query: "string",
-    search: {
-        corpora: [{}],
-        offset: 1,
-        limit: 1,
-        contextConfiguration: {},
-        reranker: {},
-    },
-    generation: {
-        promptName: "string",
-        maxUsedSearchResults: 1,
-        promptText: "string",
-        maxResponseCharacters: 1,
-        responseLanguage: Vectara.Language.Auto,
-        modelParameters: {
-            maxTokens: 1,
-            temperature: 1.1,
-            frequencyPenalty: 1.1,
-            presencePenalty: 1.1,
-        },
-        citations: {},
-        enableFactualConsistencyScore: true,
-    },
-    chat: {
-        store: true,
-    },
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.ChatsCreateTurnStreamRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">createTurn</a>(chatId, { ...params }) -> Vectara.ChatFullResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.createTurn("chat_id", {
-    query: "How can I use the Vectara platform?",
-    search: {},
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.ChatsCreateTurnRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">getTurn</a>(chatId, turnId) -> Vectara.Turn</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get a specific turn from a chat, which is a message and response pair from the conversation.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.getTurn("chat_id", "turn_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**turnId:** `string` — The ID of the turn.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">deleteTurn</a>(chatId, turnId) -> void</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Delete a turn from a chat. This will delete all subsequent turns in the chat.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.deleteTurn("chat_id", "turn_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**turnId:** `string` — The ID of the turn.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">updateTurn</a>(chatId, turnId, { ...params }) -> Vectara.Turn</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Update a turn; used to disable or enable a chat.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.chats.updateTurn("chat_id", "turn_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chatId:** `string` — The ID of the chat.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**turnId:** `string` — The ID of the turn.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.UpdateTurnRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Chats.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
+##
 
 ## Corpora
 
@@ -1549,7 +199,7 @@ await client.corpora.create({
 </dl>
 </details>
 
-<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">get</a>(corpusKey) -> Vectara.Corpus</code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">get</a>(corpusKey, { ...params }) -> Vectara.Corpus</code></summary>
 <dl>
 <dd>
 
@@ -1601,6 +251,14 @@ await client.corpora.get("my-corpus");
 <dl>
 <dd>
 
+**request:** `Vectara.CorporaGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `Corpora.RequestOptions`
 
 </dd>
@@ -1612,7 +270,7 @@ await client.corpora.get("my-corpus");
 </dl>
 </details>
 
-<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">delete</a>(corpusKey) -> void</code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">delete</a>(corpusKey, { ...params }) -> void</code></summary>
 <dl>
 <dd>
 
@@ -1664,6 +322,14 @@ await client.corpora.delete("my-corpus");
 <dl>
 <dd>
 
+**request:** `Vectara.CorporaDeleteRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `Corpora.RequestOptions`
 
 </dd>
@@ -1687,7 +353,10 @@ await client.corpora.delete("my-corpus");
 <dl>
 <dd>
 
-Enable or disable a corpus.
+Enable, disable, or update the name and description of a corpus. This lets you
+manage data availability without deleting the corpus, which is useful for
+maintenance and security purposes. Update the name and description of a corpus
+dynamically to help keep your data aligned with changing business needs.
 
 </dd>
 </dl>
@@ -1746,7 +415,7 @@ await client.corpora.update("my-corpus");
 </dl>
 </details>
 
-<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">reset</a>(corpusKey) -> void</code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">reset</a>(corpusKey, { ...params }) -> void</code></summary>
 <dl>
 <dd>
 
@@ -1798,6 +467,14 @@ await client.corpora.reset("my-corpus");
 <dl>
 <dd>
 
+**request:** `Vectara.CorporaResetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `Corpora.RequestOptions`
 
 </dd>
@@ -1809,7 +486,7 @@ await client.corpora.reset("my-corpus");
 </dl>
 </details>
 
-<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">replaceFilters</a>(corpusKey, { ...params }) -> Vectara.ReplaceFilterAttributesResponse</code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">replaceFilterAttributes</a>(corpusKey, { ...params }) -> Vectara.ReplaceFilterAttributesResponse</code></summary>
 <dl>
 <dd>
 
@@ -1841,7 +518,7 @@ You can monitor the status of the filter change using the returned job id.
 <dd>
 
 ```typescript
-await client.corpora.replaceFilters("my-corpus", {
+await client.corpora.replaceFilterAttributes("my-corpus", {
     filterAttributes: [
         {
             name: "Title",
@@ -1892,65 +569,7 @@ await client.corpora.replaceFilters("my-corpus", {
 </dl>
 </details>
 
-## Documents
-
-<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">listCorpus</a>(corpusKey, { ...params }) -> Vectara.ListDocumentsResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.documents.listCorpus("my-corpus");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the queried corpus.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.DocumentsListCorpusRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Documents.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">create</a>(corpusKey, { ...params }) -> Vectara.Document</code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">search</a>(corpusKey, { ...params }) -> Vectara.QueryFullResponse</code></summary>
 <dl>
 <dd>
 
@@ -1962,8 +581,14 @@ await client.documents.listCorpus("my-corpus");
 <dl>
 <dd>
 
-Add a document to a corpus. You can add documents that are either in a typical structured format,
-or in a format that explicitly specifies each document part that becomes a search result.
+Search a single corpus with a straightforward query request, specifying the corpus key and query parameters.
+
+-   Specify the unique `corpus_key` identifying the corpus to query.
+-   Enter the search `query` string for the corpus, which is the question you want to ask.
+-   Set the maximum number of results (`limit`) to return. **Default**: 10, **minimum**: 1
+-   Define the `offset` position from which to start in the result set.
+
+For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
 
 </dd>
 </dl>
@@ -1979,569 +604,7 @@ or in a format that explicitly specifies each document part that becomes a searc
 <dd>
 
 ```typescript
-await client.documents.create("my-corpus", {
-    id: "my-doc-id",
-    documentParts: [
-        {
-            text: "I'm a nice document part.",
-        },
-    ],
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the queried corpus.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Vectara.CreateDocumentRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Documents.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">deleteCorpus</a>(corpusKey, documentId) -> void</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.documents.deleteCorpus("my-corpus", "document_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus with the document to delete.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**documentId:** `string`
-
-The Document ID of the document to delete.
-The `document_id` must be percent encoded.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Documents.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Encoders
-
-<details><summary><code>client.encoders.<a href="/src/api/resources/encoders/client/Client.ts">list</a>({ ...params }) -> Vectara.ListEncodersResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Encoders are used to store and retrieve from a corpus.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.encoders.list({
-    filter: "vectara.*",
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.EncodersListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Encoders.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Jobs
-
-<details><summary><code>client.jobs.<a href="/src/api/resources/jobs/client/Client.ts">list</a>({ ...params }) -> Vectara.ListJobsResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-List jobs for the account. Jobs are background processes like replacing the filterable metadata attributes.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.jobs.list();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.JobsListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Jobs.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.jobs.<a href="/src/api/resources/jobs/client/Client.ts">get</a>(jobId) -> Vectara.Job</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get a job by a specific ID. Jobs are background processes like replacing the filterable metadata attributes.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.jobs.get("job_id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**jobId:** `string` — The ID of job to get.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Jobs.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Large Language Models
-
-<details><summary><code>client.largeLanguageModels.<a href="/src/api/resources/largeLanguageModels/client/Client.ts">list</a>({ ...params }) -> Vectara.ListLlMsResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-List LLMs that can be used with query and chat endpoints.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.largeLanguageModels.list();
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.LargeLanguageModelsListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `LargeLanguageModels.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Queries
-
-<details><summary><code>client.queries.<a href="/src/api/resources/queries/client/Client.ts">queryStream</a>({ ...params }) -> core.Stream<Vectara.QueryStreamedResponse></code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Perform a multi-purpose query that can retrieve relevant information from one or more corpora and generate a response using RAG.
-
-Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
-will not include generation.
-
-For more detailed information please see this [api guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.queries.queryStream({
-    query: "string",
-    search: {
-        corpora: [{}],
-        offset: 1,
-        limit: 1,
-        contextConfiguration: {},
-        reranker: {},
-    },
-    generation: {
-        promptName: "string",
-        maxUsedSearchResults: 1,
-        promptText: "string",
-        maxResponseCharacters: 1,
-        responseLanguage: Vectara.Language.Auto,
-        modelParameters: {
-            maxTokens: 1,
-            temperature: 1.1,
-            frequencyPenalty: 1.1,
-            presencePenalty: 1.1,
-        },
-        citations: {},
-        enableFactualConsistencyScore: true,
-    },
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.QueriesQueryStreamRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Queries.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.queries.<a href="/src/api/resources/queries/client/Client.ts">query</a>({ ...params }) -> Vectara.QueryFullResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Perform a multi-purpose query that can retrieve relevant information from one or more corpora and generate a response using RAG.
-
-Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
-will not include generation.
-
-For more detailed information please see this [api guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.queries.query({
-    query: "Am I allowed to bring pets to work?",
-    search: {},
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.QueriesQueryRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Queries.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.queries.<a href="/src/api/resources/queries/client/Client.ts">search</a>(corpusKey, { ...params }) -> Vectara.QueryFullResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Search a single corpus with a simple query request.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.queries.search("my-corpus", {
+await client.corpora.search("my-corpus", {
     query: "query",
 });
 ```
@@ -2567,7 +630,7 @@ await client.queries.search("my-corpus", {
 <dl>
 <dd>
 
-**request:** `Vectara.QueriesSearchRequest`
+**request:** `Vectara.CorporaSearchRequest`
 
 </dd>
 </dl>
@@ -2575,7 +638,7 @@ await client.queries.search("my-corpus", {
 <dl>
 <dd>
 
-**requestOptions:** `Queries.RequestOptions`
+**requestOptions:** `Corpora.RequestOptions`
 
 </dd>
 </dl>
@@ -2586,7 +649,7 @@ await client.queries.search("my-corpus", {
 </dl>
 </details>
 
-<details><summary><code>client.queries.<a href="/src/api/resources/queries/client/Client.ts">queryCorpusStream</a>(corpusKey, { ...params }) -> core.Stream<Vectara.QueryStreamedResponse></code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">queryStream</a>(corpusKey, { ...params }) -> core.Stream<Vectara.QueryStreamedResponse></code></summary>
 <dl>
 <dd>
 
@@ -2598,7 +661,16 @@ await client.queries.search("my-corpus", {
 <dl>
 <dd>
 
-Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation.
+Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+
+-   Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+-   Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+    will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
+-   Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
+-   Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+-   Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
+
+For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
 
 </dd>
 </dl>
@@ -2614,7 +686,9 @@ Query a specific corpus and find relevant results, highlight relevant snippets, 
 <dd>
 
 ```typescript
-await client.queries.queryCorpusStream("string", {
+await client.corpora.queryStream("string", {
+    requestTimeout: 1,
+    requestTimeoutMillis: 1,
     query: "string",
     search: {
         customDimensions: {
@@ -2625,12 +699,25 @@ await client.queries.queryCorpusStream("string", {
         semantics: Vectara.SearchSemantics.Default,
         offset: 1,
         limit: 1,
-        contextConfiguration: {},
-        reranker: {},
+        contextConfiguration: {
+            charactersBefore: 1,
+            charactersAfter: 1,
+            sentencesBefore: 1,
+            sentencesAfter: 1,
+            startTag: "string",
+            endTag: "string",
+        },
+        reranker: {
+            type: "customer_reranker",
+            rerankerId: "string",
+            rerankerName: "string",
+        },
     },
     generation: {
+        generationPresetName: "string",
         promptName: "string",
         maxUsedSearchResults: 1,
+        promptTemplate: "string",
         promptText: "string",
         maxResponseCharacters: 1,
         responseLanguage: Vectara.Language.Auto,
@@ -2640,7 +727,11 @@ await client.queries.queryCorpusStream("string", {
             frequencyPenalty: 1.1,
             presencePenalty: 1.1,
         },
-        citations: {},
+        citations: {
+            style: Vectara.CitationParametersStyle.None,
+            urlPattern: "string",
+            textPattern: "string",
+        },
         enableFactualConsistencyScore: true,
     },
 });
@@ -2667,7 +758,7 @@ await client.queries.queryCorpusStream("string", {
 <dl>
 <dd>
 
-**request:** `Vectara.QueriesQueryCorpusStreamRequest`
+**request:** `Vectara.CorporaQueryStreamRequest`
 
 </dd>
 </dl>
@@ -2675,7 +766,7 @@ await client.queries.queryCorpusStream("string", {
 <dl>
 <dd>
 
-**requestOptions:** `Queries.RequestOptions`
+**requestOptions:** `Corpora.RequestOptions`
 
 </dd>
 </dl>
@@ -2686,7 +777,7 @@ await client.queries.queryCorpusStream("string", {
 </dl>
 </details>
 
-<details><summary><code>client.queries.<a href="/src/api/resources/queries/client/Client.ts">queryCorpus</a>(corpusKey, { ...params }) -> Vectara.QueryFullResponse</code></summary>
+<details><summary><code>client.corpora.<a href="/src/api/resources/corpora/client/Client.ts">query</a>(corpusKey, { ...params }) -> Vectara.QueryFullResponse</code></summary>
 <dl>
 <dd>
 
@@ -2698,7 +789,16 @@ await client.queries.queryCorpusStream("string", {
 <dl>
 <dd>
 
-Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation.
+Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+
+-   Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+-   Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+    will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
+-   Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
+-   Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+-   Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
+
+For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
 
 </dd>
 </dl>
@@ -2714,7 +814,7 @@ Query a specific corpus and find relevant results, highlight relevant snippets, 
 <dd>
 
 ```typescript
-await client.queries.queryCorpus("my-corpus", {
+await client.corpora.query("my-corpus", {
     query: "query",
 });
 ```
@@ -2740,7 +840,7 @@ await client.queries.queryCorpus("my-corpus", {
 <dl>
 <dd>
 
-**request:** `Vectara.QueriesQueryCorpusRequest`
+**request:** `Vectara.CorporaQueryRequest`
 
 </dd>
 </dl>
@@ -2748,74 +848,7 @@ await client.queries.queryCorpus("my-corpus", {
 <dl>
 <dd>
 
-**requestOptions:** `Queries.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## Rerankers
-
-<details><summary><code>client.rerankers.<a href="/src/api/resources/rerankers/client/Client.ts">list</a>({ ...params }) -> Vectara.ListRerankersResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Rerankers are used to improve the ranking (ordering) of search results.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.rerankers.list({
-    filter: "vectara.*",
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Vectara.RerankersListRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Rerankers.RequestOptions`
+**requestOptions:** `Corpora.RequestOptions`
 
 </dd>
 </dl>
@@ -2841,6 +874,13 @@ await client.rerankers.list({
 <dd>
 
 Upload files such as PDFs and Word Documents. Vectara will attempt to automatically extract text and any metadata.
+The File Upload endpoint request expects a `multipart/form-data` request containing the following parts:
+
+-   `metadata` - (Optional) Specifies a JSON object representing any additional metadata to be associated with the extracted document. For example, `'metadata={"key": "value"};type=application/json'`
+-   `file` - Specifies the file that you want to upload.
+-   `filename` - Specified as part of the file field with the file name that you want to associate with the uploaded file. For a curl example, use the following syntax: `'file=@/path/to/file/file.pdf;filename=desired_filename.pdf'`
+
+For more detailed information see this [File Upload API guide.](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload)
 
 </dd>
 </dl>
@@ -2907,9 +947,1406 @@ await client.upload.file(fs.createReadStream("/path/to/your/file"), "my-corpus",
 </dl>
 </details>
 
+## Documents
+
+<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">list</a>(corpusKey, { ...params }) -> core.Page<Vectara.Document></code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.documents.list("my-corpus");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the queried corpus.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.DocumentsListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Documents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">create</a>(corpusKey, { ...params }) -> Vectara.Document</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Add a document to a corpus. You can add documents that are either in a typical structured format,
+or in a format that explicitly specifies each document part that becomes a search result.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.documents.create("my-corpus", {
+    body: {
+        id: "my-doc-id",
+        type: "core",
+        documentParts: [
+            {
+                text: "I'm a nice document part.",
+            },
+        ],
+    },
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the queried corpus.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.DocumentsCreateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Documents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">getCorpusDocument</a>(corpusKey, documentId, { ...params }) -> Vectara.Document</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.documents.getCorpusDocument("my-corpus", "document_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus containing the document to retrieve.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**documentId:** `string`
+
+The Document ID of the document to retrieve.
+The `document_id` must be percent encoded.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.GetCorpusDocumentRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Documents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">delete</a>(corpusKey, documentId, { ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.documents.delete("my-corpus", "document_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus with the document to delete.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**documentId:** `string`
+
+The Document ID of the document to delete.
+The `document_id` must be percent encoded.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.DocumentsDeleteRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Documents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Chats
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.Chat></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a list of previous chats in the Vectara account.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.list();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">get</a>(chatId, { ...params }) -> Vectara.Chat</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get a chat summary to view what started the chat, but not subsequent turns.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.get("chat_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">delete</a>(chatId, { ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a chat and any turns it contains permanently.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.delete("chat_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsDeleteRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">listTurns</a>(chatId, { ...params }) -> Vectara.ListChatTurnsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all turns in a chat to see all message and response pairs that make up the dialog.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.listTurns("chat_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsListTurnsRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">createTurnsStream</a>(chatId, { ...params }) -> core.Stream<Vectara.ChatStreamedResponse></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.createTurnsStream("string", {
+    requestTimeout: 1,
+    requestTimeoutMillis: 1,
+    query: "string",
+    search: {
+        corpora: [
+            {
+                corpusKey: {
+                    key: "value",
+                },
+                customDimensions: {
+                    string: 1.1,
+                },
+                metadataFilter: "string",
+                lexicalInterpolation: 1.1,
+                semantics: Vectara.SearchSemantics.Default,
+            },
+        ],
+        offset: 1,
+        limit: 1,
+        contextConfiguration: {
+            charactersBefore: 1,
+            charactersAfter: 1,
+            sentencesBefore: 1,
+            sentencesAfter: 1,
+            startTag: "string",
+            endTag: "string",
+        },
+        reranker: {
+            type: "customer_reranker",
+            rerankerId: "string",
+            rerankerName: "string",
+        },
+    },
+    generation: {
+        generationPresetName: "string",
+        promptName: "string",
+        maxUsedSearchResults: 1,
+        promptTemplate: "string",
+        promptText: "string",
+        maxResponseCharacters: 1,
+        responseLanguage: Vectara.Language.Auto,
+        modelParameters: {
+            maxTokens: 1,
+            temperature: 1.1,
+            frequencyPenalty: 1.1,
+            presencePenalty: 1.1,
+        },
+        citations: {
+            style: Vectara.CitationParametersStyle.None,
+            urlPattern: "string",
+            textPattern: "string",
+        },
+        enableFactualConsistencyScore: true,
+    },
+    chat: {
+        store: true,
+    },
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsCreateTurnsStreamRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">createTurns</a>(chatId, { ...params }) -> Vectara.ChatFullResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.createTurns("chat_id", {
+    query: "How can I use the Vectara platform?",
+    search: {},
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsCreateTurnsRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">getTurn</a>(chatId, turnId, { ...params }) -> Vectara.Turn</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get a specific turn from a chat, which is a message and response pair from the conversation.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.getTurn("chat_id", "turn_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**turnId:** `string` — The ID of the turn.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsGetTurnRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">deleteTurn</a>(chatId, turnId, { ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a turn from a chat. This will delete all subsequent turns in the chat.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.deleteTurn("chat_id", "turn_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**turnId:** `string` — The ID of the turn.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ChatsDeleteTurnRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.chats.<a href="/src/api/resources/chats/client/Client.ts">updateTurn</a>(chatId, turnId, { ...params }) -> Vectara.Turn</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update a turn; used to disable or enable a chat.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.chats.updateTurn("chat_id", "turn_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chatId:** `string` — The ID of the chat.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**turnId:** `string` — The ID of the turn.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.UpdateTurnRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Chats.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Llms
+
+<details><summary><code>client.llms.<a href="/src/api/resources/llms/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.Llm></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List LLMs that can be used with query and chat endpoints. The LLM is not directly specified in a query,
+but instead a `generation_preset_name` is used. The `generation_preset_name` property in generation parameters
+can be found as the `name` property on the Generations Presets retrieved from `/v2/generation_presets`.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.llms.list();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.LlmsListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Llms.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## GenerationPresets
+
+<details><summary><code>client.generationPresets.<a href="/src/api/resources/generationPresets/client/Client.ts">listGenerationPresets</a>({ ...params }) -> Vectara.ListGenerationPresetsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List generation presets used for query or chat requests. Generation presets are
+the build of properties used to configure generation for a request. This includes
+the template that renders the prompt, and various generation settings like
+`temperature`.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.generationPresets.listGenerationPresets();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ListGenerationPresetsRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `GenerationPresets.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Encoders
+
+<details><summary><code>client.encoders.<a href="/src/api/resources/encoders/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.Encoder></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Encoders are used to store and retrieve from a corpus.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.encoders.list({
+    filter: "vectara.*",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.EncodersListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Encoders.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Rerankers
+
+<details><summary><code>client.rerankers.<a href="/src/api/resources/rerankers/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.Reranker></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Rerankers are used to improve the ranking (ordering) of search results.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.rerankers.list({
+    filter: "vectara.*",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.RerankersListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Rerankers.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Jobs
+
+<details><summary><code>client.jobs.<a href="/src/api/resources/jobs/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.Job></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List jobs for the account. Jobs are background processes like replacing the filterable metadata attributes.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.jobs.list();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.JobsListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Jobs.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.jobs.<a href="/src/api/resources/jobs/client/Client.ts">get</a>(jobId, { ...params }) -> Vectara.Job</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get a job by a specific ID. Jobs are background processes like replacing the filterable metadata attributes.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.jobs.get("job_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**jobId:** `string` — The ID of job to get.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.JobsGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Jobs.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## Users
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">list</a>({ ...params }) -> Vectara.ListUsersResponse</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.User></code></summary>
 <dl>
 <dd>
 
@@ -3037,7 +2474,7 @@ await client.users.create({
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">get</a>(username) -> Vectara.User</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">get</a>(username, { ...params }) -> Vectara.User</code></summary>
 <dl>
 <dd>
 
@@ -3092,6 +2529,14 @@ Note the username must be percent encoded.
 <dl>
 <dd>
 
+**request:** `Vectara.UsersGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `Users.RequestOptions`
 
 </dd>
@@ -3103,7 +2548,7 @@ Note the username must be percent encoded.
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">delete</a>(username) -> void</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">delete</a>(username, { ...params }) -> void</code></summary>
 <dl>
 <dd>
 
@@ -3151,6 +2596,14 @@ await client.users.delete("username");
 
 Specifies the username to delete.
 Note the username must be percent encoded.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.UsersDeleteRequest`
 
 </dd>
 </dl>
@@ -3243,7 +2696,7 @@ Note the username must be percent encoded.
 </dl>
 </details>
 
-<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">resetPassword</a>(username) -> void</code></summary>
+<details><summary><code>client.users.<a href="/src/api/resources/users/client/Client.ts">resetPassword</a>(username, { ...params }) -> void</code></summary>
 <dl>
 <dd>
 
@@ -3298,7 +2751,683 @@ Note the username must be percent encoded and URI safe.
 <dl>
 <dd>
 
+**request:** `Vectara.UsersResetPasswordRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `Users.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## API Keys
+
+<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.ApiKey></code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.apiKeys.list();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ApiKeysListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeys.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> Vectara.ApiKey</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+An API key is to authenticate when calling Vectara APIs.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.apiKeys.create({
+    name: "name",
+    apiKeyRole: Vectara.ApiKeyRole.Serving,
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.CreateApiKeyRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeys.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">get</a>(apiKeyId, { ...params }) -> Vectara.ApiKey</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.apiKeys.get("api_key_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKeyId:** `string` — The name of the API key.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ApiKeysGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeys.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">delete</a>(apiKeyId, { ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete API keys to help you manage the security and lifecycle of API keys in your application.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.apiKeys.delete("api_key_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKeyId:** `string` — The name of the API key.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ApiKeysDeleteRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeys.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">update</a>(apiKeyId, { ...params }) -> Vectara.ApiKey</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an API key such as the roles attached to the key.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.apiKeys.update("api_key_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKeyId:** `string` — The name of the API key.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.UpdateApiKeyRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApiKeys.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## AppClients
+
+<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">list</a>({ ...params }) -> core.Page<Vectara.AppClient></code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.appClients.list();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.AppClientsListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AppClients.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">create</a>({ ...params }) -> Vectara.AppClient</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+An App Client is used for OAuth 2.0 authentication when calling Vectara APIs.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.appClients.create({
+    body: {
+        name: "name",
+        type: "client_credentials",
+    },
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.AppClientsCreateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AppClients.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">get</a>(appClientId, { ...params }) -> Vectara.AppClient</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.appClients.get("app_client_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**appClientId:** `string` — The name of the App Client.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.AppClientsGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AppClients.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">delete</a>(appClientId, { ...params }) -> void</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.appClients.delete("app_client_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**appClientId:** `string` — The name of App Client.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.AppClientsDeleteRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AppClients.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.appClients.<a href="/src/api/resources/appClients/client/Client.ts">update</a>(appClientId, { ...params }) -> Vectara.AppClient</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.appClients.update("app_client_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**appClientId:** `string` — The name of App Client.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.UpdateAppClientRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AppClients.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Auth
+
+<details><summary><code>client.auth.<a href="/src/api/resources/auth/client/Client.ts">getToken</a>({ ...params }) -> Vectara.GetTokenResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Obtain an OAuth2 access token using client credentials
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.auth.getToken({
+    clientId: "client_id",
+    clientSecret: "client_secret",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.AuthGetTokenRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Auth.RequestOptions`
 
 </dd>
 </dl>

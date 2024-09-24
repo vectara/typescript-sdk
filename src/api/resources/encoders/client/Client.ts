@@ -31,7 +31,7 @@ export declare namespace Encoders {
 }
 
 /**
- * List available encoders for embedding such as Boomerang
+ * List encoders that turn text into vectors such as Boomerang
  */
 export class Encoders {
     constructor(protected readonly _options: Encoders.Options = {}) {}
@@ -52,91 +52,99 @@ export class Encoders {
     public async list(
         request: Vectara.EncodersListRequest = {},
         requestOptions?: Encoders.RequestOptions
-    ): Promise<Vectara.ListEncodersResponse> {
-        const { filter, limit, pageKey } = request;
-        const _queryParams: Record<string, string | string[] | object | object[]> = {};
-        if (filter != null) {
-            _queryParams["filter"] = filter;
-        }
-
-        if (limit != null) {
-            _queryParams["limit"] = limit.toString();
-        }
-
-        if (pageKey != null) {
-            _queryParams["page_key"] = pageKey;
-        }
-
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
-                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
-                    .default,
-                "v2/encoders"
-            ),
-            method: "GET",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-api-key":
-                    (await core.Supplier.get(this._options.apiKey)) != null
-                        ? await core.Supplier.get(this._options.apiKey)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-            },
-            contentType: "application/json",
-            queryParameters: _queryParams,
-            requestType: "json",
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return serializers.ListEncodersResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                skipValidation: true,
-                breadcrumbsPrefix: ["response"],
+    ): Promise<core.Page<Vectara.Encoder>> {
+        const list = async (request: Vectara.EncodersListRequest): Promise<Vectara.ListEncodersResponse> => {
+            const { filter, limit, pageKey, requestTimeout, requestTimeoutMillis } = request;
+            const _queryParams: Record<string, string | string[] | object | object[]> = {};
+            if (filter != null) {
+                _queryParams["filter"] = filter;
+            }
+            if (limit != null) {
+                _queryParams["limit"] = limit.toString();
+            }
+            if (pageKey != null) {
+                _queryParams["page_key"] = pageKey;
+            }
+            const _response = await (this._options.fetcher ?? core.fetcher)({
+                url: urlJoin(
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                        .default,
+                    "v2/encoders"
+                ),
+                method: "GET",
+                headers: {
+                    Authorization: await this._getAuthorizationHeader(),
+                    "x-api-key":
+                        (await core.Supplier.get(this._options.apiKey)) != null
+                            ? await core.Supplier.get(this._options.apiKey)
+                            : undefined,
+                    "X-Fern-Language": "JavaScript",
+                    "X-Fern-SDK-Name": "vectara",
+                    "X-Fern-SDK-Version": "0.1.2",
+                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-Runtime": core.RUNTIME.type,
+                    "X-Fern-Runtime-Version": core.RUNTIME.version,
+                    "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                    "Request-Timeout-Millis":
+                        requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                },
+                contentType: "application/json",
+                queryParameters: _queryParams,
+                requestType: "json",
+                timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+                maxRetries: requestOptions?.maxRetries,
+                abortSignal: requestOptions?.abortSignal,
             });
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 403:
-                    throw new Vectara.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                default:
+            if (_response.ok) {
+                return serializers.ListEncodersResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                });
+            }
+            if (_response.error.reason === "status-code") {
+                switch (_response.error.statusCode) {
+                    case 403:
+                        throw new Vectara.ForbiddenError(
+                            serializers.Error_.parseOrThrow(_response.error.body, {
+                                unrecognizedObjectKeys: "passthrough",
+                                allowUnrecognizedUnionMembers: true,
+                                allowUnrecognizedEnumValues: true,
+                                skipValidation: true,
+                                breadcrumbsPrefix: ["response"],
+                            })
+                        );
+                    default:
+                        throw new errors.VectaraError({
+                            statusCode: _response.error.statusCode,
+                            body: _response.error.body,
+                        });
+                }
+            }
+            switch (_response.error.reason) {
+                case "non-json":
                     throw new errors.VectaraError({
                         statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                        body: _response.error.rawBody,
+                    });
+                case "timeout":
+                    throw new errors.VectaraTimeoutError();
+                case "unknown":
+                    throw new errors.VectaraError({
+                        message: _response.error.errorMessage,
                     });
             }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.VectaraError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.VectaraTimeoutError();
-            case "unknown":
-                throw new errors.VectaraError({
-                    message: _response.error.errorMessage,
-                });
-        }
+        };
+        return new core.Pageable<Vectara.ListEncodersResponse, Vectara.Encoder>({
+            response: await list(request),
+            hasNextPage: (response) => response?.metadata?.pageKey != null,
+            getItems: (response) => response?.encoders ?? [],
+            loadPage: (response) => {
+                return list(core.setObjectProperty(request, "pageKey", response?.metadata?.pageKey));
+            },
+        });
     }
 
     protected async _getAuthorizationHeader(): Promise<string | undefined> {

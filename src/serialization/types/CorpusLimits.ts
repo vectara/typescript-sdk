@@ -9,6 +9,7 @@ import * as core from "../../core";
 export const CorpusLimits: core.serialization.ObjectSchema<serializers.CorpusLimits.Raw, Vectara.CorpusLimits> =
     core.serialization.object({
         usedBytes: core.serialization.property("used_bytes", core.serialization.number().optional()),
+        usedCharacters: core.serialization.property("used_characters", core.serialization.number().optional()),
         maxBytes: core.serialization.property("max_bytes", core.serialization.number().optional()),
         maxMetadataBytes: core.serialization.property("max_metadata_bytes", core.serialization.number().optional()),
         indexRate: core.serialization.property("index_rate", core.serialization.number().optional()),
@@ -17,6 +18,7 @@ export const CorpusLimits: core.serialization.ObjectSchema<serializers.CorpusLim
 export declare namespace CorpusLimits {
     interface Raw {
         used_bytes?: number | null;
+        used_characters?: number | null;
         max_bytes?: number | null;
         max_metadata_bytes?: number | null;
         index_rate?: number | null;

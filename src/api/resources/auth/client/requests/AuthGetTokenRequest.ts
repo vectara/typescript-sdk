@@ -4,10 +4,14 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         clientId: "client_id",
+ *         clientSecret: "client_secret"
+ *     }
  */
 export interface AuthGetTokenRequest {
-    clientId?: string;
-    clientSecret?: string;
-    grantType?: "client_credentials";
+    /** The client ID of the application */
+    clientId: string;
+    /** The client secret of the application */
+    clientSecret: string;
 }

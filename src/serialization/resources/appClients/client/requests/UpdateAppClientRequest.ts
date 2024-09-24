@@ -9,7 +9,7 @@ import { ApiRole } from "../../../../types/ApiRole";
 
 export const UpdateAppClientRequest: core.serialization.Schema<
     serializers.UpdateAppClientRequest.Raw,
-    Vectara.UpdateAppClientRequest
+    Omit<Vectara.UpdateAppClientRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     description: core.serialization.string().optional(),
     apiRoles: core.serialization.property("api_roles", core.serialization.list(ApiRole).optional()),

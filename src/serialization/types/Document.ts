@@ -5,12 +5,14 @@
 import * as serializers from "../index";
 import * as Vectara from "../../api/index";
 import * as core from "../../core";
+import { DocumentPart } from "./DocumentPart";
 import { DocumentStorageUsage } from "./DocumentStorageUsage";
 
 export const Document: core.serialization.ObjectSchema<serializers.Document.Raw, Vectara.Document> =
     core.serialization.object({
         id: core.serialization.string().optional(),
         metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
+        parts: core.serialization.list(DocumentPart).optional(),
         storageUsage: core.serialization.property("storage_usage", DocumentStorageUsage.optional()),
     });
 
@@ -18,6 +20,7 @@ export declare namespace Document {
     interface Raw {
         id?: string | null;
         metadata?: Record<string, unknown> | null;
+        parts?: DocumentPart.Raw[] | null;
         storage_usage?: DocumentStorageUsage.Raw | null;
     }
 }

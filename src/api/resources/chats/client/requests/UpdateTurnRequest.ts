@@ -8,6 +8,14 @@
  */
 export interface UpdateTurnRequest {
     /**
+     * The API will make a best effort to complete the request in the specified seconds or time out.
+     */
+    requestTimeout?: number;
+    /**
+     * The API will make a best effort to complete the request in the specified milliseconds or time out.
+     */
+    requestTimeoutMillis?: number;
+    /**
      * Indicates whether to disable a turn. It will disable this turn and all subsequent turns.
      * Enabling a turn is not implemented.
      *

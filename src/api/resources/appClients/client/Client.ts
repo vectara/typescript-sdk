@@ -46,107 +46,115 @@ export class AppClients {
     public async list(
         request: Vectara.AppClientsListRequest = {},
         requestOptions?: AppClients.RequestOptions
-    ): Promise<Vectara.ListAppClientsResponse> {
-        const { limit, filter, pageKey } = request;
-        const _queryParams: Record<string, string | string[] | object | object[]> = {};
-        if (limit != null) {
-            _queryParams["limit"] = limit.toString();
-        }
-
-        if (filter != null) {
-            _queryParams["filter"] = filter;
-        }
-
-        if (pageKey != null) {
-            _queryParams["page_key"] = pageKey;
-        }
-
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
-                ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
-                    .default,
-                "v2/app_clients"
-            ),
-            method: "GET",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-api-key":
-                    (await core.Supplier.get(this._options.apiKey)) != null
-                        ? await core.Supplier.get(this._options.apiKey)
-                        : undefined,
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-            },
-            contentType: "application/json",
-            queryParameters: _queryParams,
-            requestType: "json",
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return serializers.ListAppClientsResponse.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-                skipValidation: true,
-                breadcrumbsPrefix: ["response"],
+    ): Promise<core.Page<Vectara.AppClient>> {
+        const list = async (request: Vectara.AppClientsListRequest): Promise<Vectara.ListAppClientsResponse> => {
+            const { limit, filter, pageKey, requestTimeout, requestTimeoutMillis } = request;
+            const _queryParams: Record<string, string | string[] | object | object[]> = {};
+            if (limit != null) {
+                _queryParams["limit"] = limit.toString();
+            }
+            if (filter != null) {
+                _queryParams["filter"] = filter;
+            }
+            if (pageKey != null) {
+                _queryParams["page_key"] = pageKey;
+            }
+            const _response = await (this._options.fetcher ?? core.fetcher)({
+                url: urlJoin(
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
+                        .default,
+                    "v2/app_clients"
+                ),
+                method: "GET",
+                headers: {
+                    Authorization: await this._getAuthorizationHeader(),
+                    "x-api-key":
+                        (await core.Supplier.get(this._options.apiKey)) != null
+                            ? await core.Supplier.get(this._options.apiKey)
+                            : undefined,
+                    "X-Fern-Language": "JavaScript",
+                    "X-Fern-SDK-Name": "vectara",
+                    "X-Fern-SDK-Version": "0.1.2",
+                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-Runtime": core.RUNTIME.type,
+                    "X-Fern-Runtime-Version": core.RUNTIME.version,
+                    "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                    "Request-Timeout-Millis":
+                        requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                },
+                contentType: "application/json",
+                queryParameters: _queryParams,
+                requestType: "json",
+                timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+                maxRetries: requestOptions?.maxRetries,
+                abortSignal: requestOptions?.abortSignal,
             });
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Vectara.BadRequestError(
-                        serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                case 403:
-                    throw new Vectara.ForbiddenError(
-                        serializers.Error_.parseOrThrow(_response.error.body, {
-                            unrecognizedObjectKeys: "passthrough",
-                            allowUnrecognizedUnionMembers: true,
-                            allowUnrecognizedEnumValues: true,
-                            skipValidation: true,
-                            breadcrumbsPrefix: ["response"],
-                        })
-                    );
-                default:
+            if (_response.ok) {
+                return serializers.ListAppClientsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    skipValidation: true,
+                    breadcrumbsPrefix: ["response"],
+                });
+            }
+            if (_response.error.reason === "status-code") {
+                switch (_response.error.statusCode) {
+                    case 400:
+                        throw new Vectara.BadRequestError(
+                            serializers.BadRequestErrorBody.parseOrThrow(_response.error.body, {
+                                unrecognizedObjectKeys: "passthrough",
+                                allowUnrecognizedUnionMembers: true,
+                                allowUnrecognizedEnumValues: true,
+                                skipValidation: true,
+                                breadcrumbsPrefix: ["response"],
+                            })
+                        );
+                    case 403:
+                        throw new Vectara.ForbiddenError(
+                            serializers.Error_.parseOrThrow(_response.error.body, {
+                                unrecognizedObjectKeys: "passthrough",
+                                allowUnrecognizedUnionMembers: true,
+                                allowUnrecognizedEnumValues: true,
+                                skipValidation: true,
+                                breadcrumbsPrefix: ["response"],
+                            })
+                        );
+                    default:
+                        throw new errors.VectaraError({
+                            statusCode: _response.error.statusCode,
+                            body: _response.error.body,
+                        });
+                }
+            }
+            switch (_response.error.reason) {
+                case "non-json":
                     throw new errors.VectaraError({
                         statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                        body: _response.error.rawBody,
+                    });
+                case "timeout":
+                    throw new errors.VectaraTimeoutError();
+                case "unknown":
+                    throw new errors.VectaraError({
+                        message: _response.error.errorMessage,
                     });
             }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.VectaraError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.VectaraTimeoutError();
-            case "unknown":
-                throw new errors.VectaraError({
-                    message: _response.error.errorMessage,
-                });
-        }
+        };
+        return new core.Pageable<Vectara.ListAppClientsResponse, Vectara.AppClient>({
+            response: await list(request),
+            hasNextPage: (response) => response?.metadata?.pageKey != null,
+            getItems: (response) => response?.appClients ?? [],
+            loadPage: (response) => {
+                return list(core.setObjectProperty(request, "pageKey", response?.metadata?.pageKey));
+            },
+        });
     }
 
     /**
      * An App Client is used for OAuth 2.0 authentication when calling Vectara APIs.
      *
-     * @param {Vectara.ComponentsSchemasCreateClientCredentialsRequest} request
+     * @param {Vectara.AppClientsCreateRequest} request
      * @param {AppClients.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.BadRequestError}
@@ -154,13 +162,17 @@ export class AppClients {
      *
      * @example
      *     await client.appClients.create({
-     *         name: "name"
+     *         body: {
+     *             name: "name",
+     *             type: "client_credentials"
+     *         }
      *     })
      */
     public async create(
-        request: Vectara.ComponentsSchemasCreateClientCredentialsRequest,
+        request: Vectara.AppClientsCreateRequest,
         requestOptions?: AppClients.RequestOptions
     ): Promise<Vectara.AppClient> {
+        const { requestTimeout, requestTimeoutMillis, body: _body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -176,14 +188,16 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.ComponentsSchemasCreateClientCredentialsRequest.jsonOrThrow(request, {
+            body: serializers.ComponentsSchemasCreateClientCredentialsRequest.jsonOrThrow(_body, {
                 unrecognizedObjectKeys: "strip",
             }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
@@ -247,6 +261,7 @@ export class AppClients {
 
     /**
      * @param {string} appClientId - The name of the App Client.
+     * @param {Vectara.AppClientsGetRequest} request
      * @param {AppClients.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -254,7 +269,12 @@ export class AppClients {
      * @example
      *     await client.appClients.get("app_client_id")
      */
-    public async get(appClientId: string, requestOptions?: AppClients.RequestOptions): Promise<Vectara.AppClient> {
+    public async get(
+        appClientId: string,
+        request: Vectara.AppClientsGetRequest = {},
+        requestOptions?: AppClients.RequestOptions
+    ): Promise<Vectara.AppClient> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -270,10 +290,12 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -328,6 +350,7 @@ export class AppClients {
 
     /**
      * @param {string} appClientId - The name of App Client.
+     * @param {Vectara.AppClientsDeleteRequest} request
      * @param {AppClients.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Vectara.ForbiddenError}
@@ -335,7 +358,12 @@ export class AppClients {
      * @example
      *     await client.appClients.delete("app_client_id")
      */
-    public async delete(appClientId: string, requestOptions?: AppClients.RequestOptions): Promise<void> {
+    public async delete(
+        appClientId: string,
+        request: Vectara.AppClientsDeleteRequest = {},
+        requestOptions?: AppClients.RequestOptions
+    ): Promise<void> {
+        const { requestTimeout, requestTimeoutMillis } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -351,10 +379,12 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
@@ -416,6 +446,7 @@ export class AppClients {
         request: Vectara.UpdateAppClientRequest = {},
         requestOptions?: AppClients.RequestOptions
     ): Promise<Vectara.AppClient> {
+        const { requestTimeout, requestTimeoutMillis, ..._body } = request;
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
@@ -431,14 +462,16 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
             },
             contentType: "application/json",
             requestType: "json",
-            body: serializers.UpdateAppClientRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            body: serializers.UpdateAppClientRequest.jsonOrThrow(_body, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

@@ -8,7 +8,7 @@ import * as core from "../../../../../core";
 
 export const UpdateTurnRequest: core.serialization.Schema<
     serializers.UpdateTurnRequest.Raw,
-    Vectara.UpdateTurnRequest
+    Omit<Vectara.UpdateTurnRequest, "requestTimeout" | "requestTimeoutMillis">
 > = core.serialization.object({
     enabled: core.serialization.boolean().optional(),
 });

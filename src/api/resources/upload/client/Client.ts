@@ -40,6 +40,13 @@ export class Upload {
 
     /**
      * Upload files such as PDFs and Word Documents. Vectara will attempt to automatically extract text and any metadata.
+     * The File Upload endpoint request expects a `multipart/form-data` request containing the following parts:
+     *
+     * - `metadata` - (Optional) Specifies a JSON object representing any additional metadata to be associated with the extracted document. For example, `'metadata={"key": "value"};type=application/json'`
+     * - `file` - Specifies the file that you want to upload.
+     * - `filename` - Specified as part of the file field with the file name that you want to associate with the uploaded file. For a curl example, use the following syntax: `'file=@/path/to/file/file.pdf;filename=desired_filename.pdf'`
+     *
+     * For more detailed information see this [File Upload API guide.](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload)
      *
      * @param {File | fs.ReadStream | Blob} file
      * @param {Vectara.CorpusKey} corpusKey
@@ -81,10 +88,13 @@ export class Upload {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.1",
-                "User-Agent": "vectara/0.1.1",
+                "X-Fern-SDK-Version": "0.1.2",
+                "User-Agent": "vectara/0.1.2",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                "Request-Timeout": request.requestTimeout != null ? request.requestTimeout.toString() : undefined,
+                "Request-Timeout-Millis":
+                    request.requestTimeoutMillis != null ? request.requestTimeoutMillis.toString() : undefined,
                 ..._maybeEncodedRequest.headers,
             },
             requestType: "file",

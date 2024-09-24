@@ -7,7 +7,7 @@
  * the responder during a chat.
  */
 export interface Llm {
-    /** The ID of the LLM. This is used as the model ID in a query. */
+    /** The ID of the LLM. */
     id?: string;
     /** Name of the LLM. */
     name?: string;
