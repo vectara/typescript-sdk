@@ -48,6 +48,11 @@ export class Corpora {
      *
      * @example
      *     await client.corpora.list()
+     *
+     * @example
+     *     await client.corpora.list({
+     *         limit: 1
+     *     })
      */
     public async list(
         request: Vectara.CorporaListRequest = {},
