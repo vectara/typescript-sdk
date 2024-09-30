@@ -1,9 +1,13 @@
 # Vectara TypeScript Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fvectara%2Ftypescript-sdk)
 [![npm shield](https://img.shields.io/npm/v/vectara)](https://www.npmjs.com/package/vectara)
 
 The Vectara TypeScript library provides convenient access to the Vectara API from TypeScript.
+
+## Documentation
+
+API reference documentation is available [here](https://vectara.docs.buildwithfern.com/).
 
 ## Installation
 
@@ -16,68 +20,16 @@ npm i -s vectara
 Instantiate and use the client with the following:
 
 ```typescript
-import { VectaraClient, Vectara } from "vectara";
+import { VectaraClient } from "vectara";
 
 const client = new VectaraClient({
     clientId: "YOUR_CLIENT_ID",
     clientSecret: "YOUR_CLIENT_SECRET",
     apiKey: "YOUR_API_KEY",
 });
-await client.queryStream({
-    requestTimeout: 1,
-    requestTimeoutMillis: 1,
-    query: "string",
-    search: {
-        corpora: [
-            {
-                corpusKey: {
-                    key: "value",
-                },
-                customDimensions: {
-                    string: 1.1,
-                },
-                metadataFilter: "string",
-                lexicalInterpolation: 1.1,
-                semantics: Vectara.SearchSemantics.Default,
-            },
-        ],
-        offset: 1,
-        limit: 1,
-        contextConfiguration: {
-            charactersBefore: 1,
-            charactersAfter: 1,
-            sentencesBefore: 1,
-            sentencesAfter: 1,
-            startTag: "string",
-            endTag: "string",
-        },
-        reranker: {
-            type: "customer_reranker",
-            rerankerId: "string",
-            rerankerName: "string",
-        },
-    },
-    generation: {
-        generationPresetName: "string",
-        promptName: "string",
-        maxUsedSearchResults: 1,
-        promptTemplate: "string",
-        promptText: "string",
-        maxResponseCharacters: 1,
-        responseLanguage: Vectara.Language.Auto,
-        modelParameters: {
-            maxTokens: 1,
-            temperature: 1.1,
-            frequencyPenalty: 1.1,
-            presencePenalty: 1.1,
-        },
-        citations: {
-            style: Vectara.CitationParametersStyle.None,
-            urlPattern: "string",
-            textPattern: "string",
-        },
-        enableFactualConsistencyScore: true,
-    },
+await client.query({
+    query: "Am I allowed to bring pets to work?",
+    search: {},
 });
 ```
 
@@ -103,7 +55,7 @@ will be thrown.
 import { VectaraError } from "vectara";
 
 try {
-    await client.queryStream(...);
+    await client.query(...);
 } catch (err) {
     if (err instanceof VectaraError) {
         console.log(err.statusCode);
@@ -130,7 +82,7 @@ A request is deemed retriable when any of the following HTTP status codes is ret
 Use the `maxRetries` request option to configure this behavior.
 
 ```typescript
-const response = await client.queryStream(..., {
+const response = await client.query(..., {
     maxRetries: 0 // override maxRetries at the request level
 });
 ```
@@ -140,7 +92,7 @@ const response = await client.queryStream(..., {
 The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
 ```typescript
-const response = await client.queryStream(..., {
+const response = await client.query(..., {
     timeoutInSeconds: 30 // override timeout to 30s
 });
 ```
@@ -151,7 +103,7 @@ The SDK allows users to abort requests at any point by passing in an abort signa
 
 ```typescript
 const controller = new AbortController();
-const response = await client.queryStream(..., {
+const response = await client.query(..., {
     abortSignal: controller.signal
 });
 controller.abort(); // aborts the request

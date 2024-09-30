@@ -12,9 +12,7 @@ import * as Vectara from "../../../../index";
  *         query: "string",
  *         search: {
  *             corpora: [{
- *                     corpusKey: {
- *                         "key": "value"
- *                     },
+ *                     corpusKey: undefined,
  *                     customDimensions: {
  *                         "string": 1.1
  *                     },
