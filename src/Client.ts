@@ -676,7 +676,7 @@ export class VectaraClient {
     }
 
     protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
+        const bearer = await this._oauthTokenProvider.getToken();
         if (bearer != null) {
             return `Bearer ${bearer}`;
         }
