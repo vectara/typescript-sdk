@@ -33,7 +33,9 @@ import * as Vectara from "../../index";
  *             reranker: {
  *                 type: "customer_reranker",
  *                 rerankerId: "string",
- *                 rerankerName: "string"
+ *                 rerankerName: "string",
+ *                 limit: 1,
+ *                 cutoff: 1.1
  *             }
  *         },
  *         generation: {

@@ -18,4 +18,6 @@ export interface Job {
     startedAt?: Date;
     /** Specifies when the job was completed. */
     completedAt?: Date;
+    /** The username of the user who created the job. This property may be missing, e.g., if the job was created by the system, not a user. */
+    createdByUsername?: string;
 }

@@ -17,4 +17,6 @@ export interface UploadFileRequest {
     requestTimeoutMillis?: number;
     /** Arbitrary object that will be attached as document metadata to the extracted document. */
     metadata?: Record<string, unknown>;
+    /** Optional multipart section to override the filename. */
+    filename?: string;
 }

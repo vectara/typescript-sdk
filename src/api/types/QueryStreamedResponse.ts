@@ -5,7 +5,7 @@
 import * as Vectara from "../index";
 
 /**
- * An individual event sent with SSE when the query request is streamed.
+ * An individual event sent with Server-sent Events (SSE) when the query request is streamed.
  */
 export type QueryStreamedResponse =
     | Vectara.StreamSearchResponse

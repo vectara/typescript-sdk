@@ -4,7 +4,7 @@
 
 /**
  * How much storage the document used. This information is currently not returned when
- * retrieving the document, and only returned when indexing document.
+ * retrieving the document, and only returned when indexing a document.
  */
 export interface DocumentStorageUsage {
     /**
@@ -12,6 +12,6 @@ export interface DocumentStorageUsage {
      * towards any billing plans.
      */
     bytesUsed?: number;
-    /** Number of metadata bytes used by document metadata. */
+    /** Number of metadata bytes used by a document. */
     metadataBytesUsed?: number;
 }

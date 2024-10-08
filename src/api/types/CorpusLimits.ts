@@ -3,7 +3,12 @@
  */
 
 export interface CorpusLimits {
+    /** The number of documents contained in the corpus. */
+    usedDocs?: number;
+    /** The number of document parts contained in the corpus. */
+    usedParts?: number;
     /**
+     * NOTE: This field is currently not populated by the system.
      * The number of bytes contained in the corpus. This includes the document metadata,
      * document part metadata, and document contents.
      */
@@ -13,10 +18,16 @@ export interface CorpusLimits {
      * document part metadata, and document contents.
      */
     usedCharacters?: number;
-    /** The maximum number of bytes the corpus can be. */
+    /**
+     * NOTE: This field is currently not populated by the system.
+     * The maximum number of bytes the corpus can be.
+     */
     maxBytes?: number;
     /** The maximum size that metadata can be on documents. */
     maxMetadataBytes?: number;
-    /** The maximum per-second addition of new documents to corpus. */
+    /**
+     * NOTE: This field is currently not populated by the system.
+     * The maximum per-second addition of new documents to corpus.
+     */
     indexRate?: number;
 }

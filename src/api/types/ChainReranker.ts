@@ -6,6 +6,6 @@ import * as Vectara from "../index";
 
 export interface ChainReranker {
     type: "chain";
-    /** Specify an array of rerankers to search results consecutively after each other. */
+    /** Specify an array of rerankers to apply to search results consecutively. */
     rerankers: Vectara.SearchReranker[];
 }

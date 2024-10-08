@@ -31,7 +31,7 @@ export declare namespace Encoders {
 }
 
 /**
- * List encoders that turn text into vectors such as Boomerang
+ * List available encoders (such as Boomerang) that turn text into vectors
  */
 export class Encoders {
     constructor(protected readonly _options: Encoders.Options = {}) {}
@@ -80,8 +80,8 @@ export class Encoders {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

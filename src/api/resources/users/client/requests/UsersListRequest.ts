@@ -12,7 +12,7 @@ export interface UsersListRequest {
      */
     limit?: number;
     /**
-     * Used to the retrieve the next page of users after the limit has been reached.
+     * Used to retrieve the next page of users after the limit has been reached.
      */
     pageKey?: string;
     /**

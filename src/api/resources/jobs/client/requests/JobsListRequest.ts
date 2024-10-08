@@ -14,19 +14,19 @@ export interface JobsListRequest {
      */
     corpusKey?: Vectara.CorpusKey | Vectara.CorpusKey[];
     /**
-     * Get jobs after a date time.
+     * Filter by jobs created after a particular date-time.
      */
     after?: Date;
     /**
-     * Indicates the states the jobs can be in.
+     * Filter by jobs in particular states.
      */
     state?: Vectara.JobState | Vectara.JobState[];
     /**
-     * The maximum number of documents to return at one time.
+     * The maximum number of jobs to return at one time.
      */
     limit?: number;
     /**
-     * Used to the retrieve the next page of documents after the limit has been reached.
+     * Used to retrieve the next page of jobs after the limit has been reached.
      */
     pageKey?: string;
     /**

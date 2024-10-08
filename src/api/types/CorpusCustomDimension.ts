@@ -9,6 +9,8 @@
 export interface CorpusCustomDimension {
     /** The name of the custom dimension. */
     name: string;
+    /** Description of the custom dimension. */
+    description?: string;
     /**
      * Default value of a custom dimension on a document part if the custom
      * dimension value is not specified when the document part is indexed.

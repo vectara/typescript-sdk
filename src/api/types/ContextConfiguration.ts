@@ -7,28 +7,28 @@
  */
 export interface ContextConfiguration {
     /**
-     * The number of characters before the matching document part that are shown.
+     * The number of characters that are shown before the matching document part.
      * This is useful to show the context of the document part in the wider document.
      * Ignored if `sentences_before` is set.
      * Vectara will capture the full sentence that contains the captured characters,
-     * so as to not lose the meaning caused by a truncated word or sentence.
+     * to not lose the meaning caused by a truncated word or sentence.
      */
     charactersBefore?: number;
     /**
-     * The number of characters after the matching document part that are shown.
+     * The number of characters that are shown after the matching document part.
      * This is useful to show the context of the document part in the wider document.
      * Ignored if `sentences_after` is set.
      * Vectara will capture the full sentence that contains the captured characters,
-     * so as to not lose the meaning caused by a truncated word or sentence.
+     * to not lose the meaning caused by a truncated word or sentence.
      */
     charactersAfter?: number;
     /**
-     * The number of sentences before the matching document part that are shown.
+     * The number of sentences that are shown before the matching document part.
      * This is useful to show the context of the document part in the wider document.
      */
     sentencesBefore?: number;
     /**
-     * The number of sentences after the matching document part that are shown.
+     * The number of sentences that are shown after the matching document part.
      * This is useful to show the context of the document part in the wider document.
      */
     sentencesAfter?: number;

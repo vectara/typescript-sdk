@@ -7,7 +7,7 @@ import * as Vectara from "../index";
 export interface FilterAttribute {
     /** The JSON path of the filter attribute in a document or document part metadata. */
     name: string;
-    /** Indicates whether this a document or document part metadata filter. */
+    /** Indicates whether this is a document or document part metadata filter. */
     level: Vectara.FilterAttributeLevel;
     /** Description of the filter. May be omitted. */
     description?: string;

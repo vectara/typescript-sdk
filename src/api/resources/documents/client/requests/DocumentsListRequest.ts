@@ -17,7 +17,7 @@ export interface DocumentsListRequest {
      */
     metadataFilter?: string;
     /**
-     * Used to the retrieve the next page of documents after the limit has been reached.
+     * Used to retrieve the next page of documents after the limit has been reached.
      */
     pageKey?: string;
     /**

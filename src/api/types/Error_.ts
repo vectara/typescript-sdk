@@ -5,6 +5,6 @@
 export interface Error_ {
     /** The messages describing why the error occurred. */
     messages?: string[];
-    /** The ID of the request that can be used to help Vectara support debug what went wrong . */
+    /** The ID of the request that can be used to help Vectara support debug what went wrong. */
     requestId?: string;
 }

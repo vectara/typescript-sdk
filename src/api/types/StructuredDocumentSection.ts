@@ -8,7 +8,7 @@ import * as Vectara from "../index";
  * A logical section within a structured document.
  */
 export interface StructuredDocumentSection {
-    /** The section ID. Gets converted to a metadata field. */
+    /** The section ID. This gets converted to a metadata field automatically. */
     id?: number;
     /** The section title. */
     title?: string;
