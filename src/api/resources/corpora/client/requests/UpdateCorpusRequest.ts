@@ -17,8 +17,8 @@ export interface UpdateCorpusRequest {
     requestTimeoutMillis?: number;
     /** Set whether or not the corpus is enabled. If unset then the corpus will remain in the same state. */
     enabled?: boolean;
-    /** The name for the corpus. If unset or null then the corpus will remain in the same state. */
+    /** The name for the corpus. If unset or null, then the corpus will remain in the same state. */
     name?: string;
-    /** Description of the corpus. If unset or null then the corpus will remain in the same state. */
+    /** Description of the corpus. If unset or null, then the corpus will remain in the same state. */
     description?: string;
 }

@@ -44,20 +44,25 @@ export class ApiKeys {
      * @throws {@link Vectara.ForbiddenError}
      *
      * @example
-     *     await client.apiKeys.list()
+     *     await client.apiKeys.list({
+     *         corpusKey: "my-corpus"
+     *     })
      */
     public async list(
         request: Vectara.ApiKeysListRequest = {},
         requestOptions?: ApiKeys.RequestOptions
     ): Promise<core.Page<Vectara.ApiKey>> {
         const list = async (request: Vectara.ApiKeysListRequest): Promise<Vectara.ListApiKeysResponse> => {
-            const { limit, pageKey, requestTimeout, requestTimeoutMillis } = request;
+            const { limit, pageKey, corpusKey, requestTimeout, requestTimeoutMillis } = request;
             const _queryParams: Record<string, string | string[] | object | object[]> = {};
             if (limit != null) {
                 _queryParams["limit"] = limit.toString();
             }
             if (pageKey != null) {
                 _queryParams["page_key"] = pageKey;
+            }
+            if (corpusKey != null) {
+                _queryParams["corpus_key"] = corpusKey;
             }
             const _response = await (this._options.fetcher ?? core.fetcher)({
                 url: urlJoin(
@@ -74,8 +79,8 @@ export class ApiKeys {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -186,8 +191,8 @@ export class ApiKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -256,7 +261,7 @@ export class ApiKeys {
     }
 
     /**
-     * @param {string} apiKeyId - The name of the API key.
+     * @param {string} apiKeyId - The ID of the API key.
      * @param {Vectara.ApiKeysGetRequest} request
      * @param {ApiKeys.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -286,8 +291,8 @@ export class ApiKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -347,7 +352,7 @@ export class ApiKeys {
     /**
      * Delete API keys to help you manage the security and lifecycle of API keys in your application.
      *
-     * @param {string} apiKeyId - The name of the API key.
+     * @param {string} apiKeyId - The ID of the API key.
      * @param {Vectara.ApiKeysDeleteRequest} request
      * @param {ApiKeys.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -377,8 +382,8 @@ export class ApiKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -432,7 +437,7 @@ export class ApiKeys {
     /**
      * Update an API key such as the roles attached to the key.
      *
-     * @param {string} apiKeyId - The name of the API key.
+     * @param {string} apiKeyId - The ID of the API key.
      * @param {Vectara.UpdateApiKeyRequest} request
      * @param {ApiKeys.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -462,8 +467,8 @@ export class ApiKeys {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

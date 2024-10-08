@@ -3,7 +3,7 @@
  */
 
 /**
- * The chunk response from the generation, possibly a partial generation.
+ * The chunk response from the generation, which may be a partial generation.
  */
 export interface StreamGenerationChunk {
     type: "generation_chunk";

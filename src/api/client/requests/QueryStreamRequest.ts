@@ -7,55 +7,26 @@ import * as Vectara from "../../index";
 /**
  * @example
  *     {
- *         requestTimeout: 1,
- *         requestTimeoutMillis: 1,
- *         query: "string",
+ *         query: "hello, world?",
  *         search: {
  *             corpora: [{
- *                     corpusKey: undefined,
- *                     customDimensions: {
- *                         "string": 1.1
- *                     },
- *                     metadataFilter: "string",
- *                     lexicalInterpolation: 1.1,
- *                     semantics: Vectara.SearchSemantics.Default
+ *                     lexicalInterpolation: 0.005
  *                 }],
- *             offset: 1,
- *             limit: 1,
+ *             offset: 0,
+ *             limit: 10,
  *             contextConfiguration: {
- *                 charactersBefore: 1,
- *                 charactersAfter: 1,
- *                 sentencesBefore: 1,
- *                 sentencesAfter: 1,
- *                 startTag: "string",
- *                 endTag: "string"
- *             },
- *             reranker: {
- *                 type: "customer_reranker",
- *                 rerankerId: "string",
- *                 rerankerName: "string"
+ *                 sentencesBefore: 2,
+ *                 sentencesAfter: 2,
+ *                 startTag: "<em>",
+ *                 endTag: "</em>"
  *             }
  *         },
  *         generation: {
- *             generationPresetName: "string",
- *             promptName: "string",
- *             maxUsedSearchResults: 1,
- *             promptTemplate: "string",
- *             promptText: "string",
- *             maxResponseCharacters: 1,
- *             responseLanguage: Vectara.Language.Auto,
- *             modelParameters: {
- *                 maxTokens: 1,
- *                 temperature: 1.1,
- *                 frequencyPenalty: 1.1,
- *                 presencePenalty: 1.1
- *             },
+ *             maxUsedSearchResults: 5,
  *             citations: {
- *                 style: Vectara.CitationParametersStyle.None,
- *                 urlPattern: "string",
- *                 textPattern: "string"
+ *                 style: Vectara.CitationParametersStyle.None
  *             },
- *             enableFactualConsistencyScore: true
+ *             responseLanguage: Vectara.Language.Auto
  *         }
  *     }
  */

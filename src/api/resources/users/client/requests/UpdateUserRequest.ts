@@ -17,7 +17,7 @@ export interface UpdateUserRequest {
      * The API will make a best effort to complete the request in the specified milliseconds or time out.
      */
     requestTimeoutMillis?: number;
-    /** Indicates whether to disable or disable the user. */
+    /** Indicates whether to enable or disable the user. */
     enabled?: boolean;
     /** The new role names of the user. */
     apiRoles?: Vectara.ApiRole[];

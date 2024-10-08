@@ -13,6 +13,8 @@ export const CustomerSpecificReranker: core.serialization.ObjectSchema<
     type: core.serialization.stringLiteral("customer_reranker"),
     rerankerId: core.serialization.property("reranker_id", core.serialization.string().optional()),
     rerankerName: core.serialization.property("reranker_name", core.serialization.string().optional()),
+    limit: core.serialization.number().optional(),
+    cutoff: core.serialization.number().optional(),
 });
 
 export declare namespace CustomerSpecificReranker {
@@ -20,5 +22,7 @@ export declare namespace CustomerSpecificReranker {
         type: "customer_reranker";
         reranker_id?: string | null;
         reranker_name?: string | null;
+        limit?: number | null;
+        cutoff?: number | null;
     }
 }

@@ -9,7 +9,7 @@ export interface ApiKey {
     id?: string;
     /** The human-readable name of the API key. */
     name?: string;
-    /** The key used in API requests. Should be kept secure. */
+    /** The key used in API requests. The key should be kept secure. */
     secretKey?: string;
     /** If this API key is enabled. */
     enabled?: boolean;

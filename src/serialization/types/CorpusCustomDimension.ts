@@ -11,6 +11,7 @@ export const CorpusCustomDimension: core.serialization.ObjectSchema<
     Vectara.CorpusCustomDimension
 > = core.serialization.object({
     name: core.serialization.string(),
+    description: core.serialization.string().optional(),
     indexingDefault: core.serialization.property("indexing_default", core.serialization.number().optional()),
     queryingDefault: core.serialization.property("querying_default", core.serialization.number().optional()),
 });
@@ -18,6 +19,7 @@ export const CorpusCustomDimension: core.serialization.ObjectSchema<
 export declare namespace CorpusCustomDimension {
     interface Raw {
         name: string;
+        description?: string | null;
         indexing_default?: number | null;
         querying_default?: number | null;
     }

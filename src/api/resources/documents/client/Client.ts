@@ -79,8 +79,8 @@ export class Documents {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -158,7 +158,7 @@ export class Documents {
 
     /**
      * Add a document to a corpus. You can add documents that are either in a typical structured format,
-     * or in a format that explicitly specifies each document part that becomes a search result.
+     * or in a format that explicitly specifies each document part. Each part becomes a separate search result.
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the queried corpus.
      * @param {Vectara.DocumentsCreateRequest} request
@@ -200,8 +200,8 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -316,8 +316,8 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -421,8 +421,8 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

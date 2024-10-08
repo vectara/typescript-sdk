@@ -9,13 +9,13 @@ export interface Encoder {
     name?: string;
     /**
      * When this encoder is used to create an embedding, it shows the count of dimensions for the output embedding.
-     * A high dimensionality will consume more storage space, but it allows for an increase the quality of
+     * A high dimensionality will consume more storage space, but it allows for an increase in the quality of
      * the embedding.
      */
     outputDimensions?: number;
     /** The encoder description. */
     description?: string;
-    /** Indicates whether the encoder is default used when creating a corpus. */
+    /** Indicates whether the default encoder is used when creating a corpus. */
     default?: boolean;
     /** Indicates whether the encoder is enabled. */
     enabled?: boolean;

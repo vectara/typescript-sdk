@@ -5,14 +5,14 @@
 import * as Vectara from "../index";
 
 export interface Document {
-    /** The Document ID. */
+    /** The document ID. */
     id?: string;
     /** The document metadata. */
     metadata?: Record<string, unknown>;
     /**
      * Parts of the document that make up the document. However, parts are not available when
      * retrieving a list of documents or when creating a document. This property is only available
-     * when retrieving a document by id.
+     * when retrieving a document by ID.
      */
     parts?: Vectara.DocumentPart[];
     storageUsage?: Vectara.DocumentStorageUsage;

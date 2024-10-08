@@ -7,7 +7,7 @@ import * as Vectara from "../index";
 export interface AppClient {
     /**
      * The Vectara App Client ID. This ID is not used during an OAuth
-     * flow but the ID used within the Vectara API.
+     * flow. However, the ID used within the Vectara API.
      */
     id?: string;
     /** The human-readable name of the App Client. */
@@ -16,7 +16,7 @@ export interface AppClient {
     description?: string;
     /** The client ID used with the OAuth flow. */
     clientId?: string;
-    /** The key used in API requests. Should be kept secure. */
+    /** The client secret used in API requests. The secret should be kept secure. */
     clientSecret?: string;
     /** The API roles attached to the App Client. */
     apiRoles?: Vectara.ApiRole[];

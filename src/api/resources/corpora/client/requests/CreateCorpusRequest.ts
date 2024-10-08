@@ -22,7 +22,7 @@ export interface CreateCorpusRequest {
     key: Vectara.CorpusKey;
     /** The name for the corpus. This value defaults to the key. */
     name?: string;
-    /** Description for the corpus. */
+    /** Description of the corpus. */
     description?: string;
     /** Queries made to this corpus are considered answers, and not questions. */
     queriesAreAnswers?: boolean;
@@ -44,7 +44,7 @@ export interface CreateCorpusRequest {
     /**
      * A custom dimension is an additional numerical field attached to a document part. You
      * can then multiply this numerical field with a query time custom dimension of the same
-     * name. This allows boosting (or deboosting) document parts for arbitrary reasons.
+     * name. This allows boosting (or burying) document parts for arbitrary reasons.
      * This feature is only enabled for Scale customers.
      *
      */

@@ -10,7 +10,7 @@ import * as Vectara from "../index";
 export interface DocumentPart {
     /** The text of the document part. */
     text: string;
-    /** The metadata for a document part. Attributes matching corpus document part filter attributes are used as document part filter attributes. */
+    /** The metadata for a document part. These may be used in metadata filters at query time if filter attributes are configured on the corpus. */
     metadata?: Record<string, unknown>;
     /** The context text for the document part. */
     context?: string;

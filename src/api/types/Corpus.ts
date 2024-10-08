@@ -14,7 +14,7 @@ export interface Corpus {
     description?: string;
     /** Specifies whether the corpus is enabled or not. */
     enabled?: boolean;
-    /** Indicates that this corpus does not store documents amd stores chats instead. */
+    /** Indicates that this corpus does not store documents and stores chats instead. */
     chatHistoryCorpus?: boolean;
     /**
      * Queries made to this corpus are considered answers, and not questions.

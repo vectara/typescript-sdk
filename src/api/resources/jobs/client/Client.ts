@@ -92,8 +92,8 @@ export class Jobs {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -162,7 +162,7 @@ export class Jobs {
     /**
      * Get a job by a specific ID. Jobs are background processes like replacing the filterable metadata attributes.
      *
-     * @param {string} jobId - The ID of job to get.
+     * @param {string} jobId - The ID of the job to get.
      * @param {Vectara.JobsGetRequest} request
      * @param {Jobs.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -193,8 +193,8 @@ export class Jobs {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

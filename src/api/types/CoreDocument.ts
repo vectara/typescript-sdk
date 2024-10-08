@@ -8,7 +8,7 @@ import * as Vectara from "../index";
  * The document structure that most closely corresponds to Vectara's internal document data model.
  */
 export interface CoreDocument {
-    /** The Document ID, must be unique within the corpus. */
+    /** The document ID, must be unique within the corpus. */
     id: string;
     type: "core";
     /**

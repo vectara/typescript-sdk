@@ -33,7 +33,7 @@ export declare namespace Upload {
 }
 
 /**
- * Upload files to a corpus for automatic parsing and document extraction
+ * Upload files to a corpus for automatic parsing, text extraction, chunking, and indexing
  */
 export class Upload {
     constructor(protected readonly _options: Upload.Options = {}) {}
@@ -46,7 +46,7 @@ export class Upload {
      * - `file` - Specifies the file that you want to upload.
      * - `filename` - Specified as part of the file field with the file name that you want to associate with the uploaded file. For a curl example, use the following syntax: `'file=@/path/to/file/file.pdf;filename=desired_filename.pdf'`
      *
-     * For more detailed information see this [File Upload API guide.](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload)
+     * For more detailed information, see this [File Upload API guide.](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload)
      *
      * @param {File | fs.ReadStream | Blob} file
      * @param {Vectara.CorpusKey} corpusKey
@@ -71,6 +71,10 @@ export class Upload {
             await _request.append("metadata", JSON.stringify(request.metadata));
         }
 
+        if (request.filename != null) {
+            await _request.append("filename", request.filename);
+        }
+
         await _request.appendFile("file", file);
         const _maybeEncodedRequest = await _request.getRequest();
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -88,8 +92,8 @@ export class Upload {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": request.requestTimeout != null ? request.requestTimeout.toString() : undefined,
