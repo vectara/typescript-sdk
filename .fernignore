@@ -2,3 +2,4 @@
 
 src/Client.ts
 src/api/resources/auth/client/Client.ts
+src/core/fetcher/Fetcher.ts
