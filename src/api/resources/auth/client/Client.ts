@@ -53,7 +53,7 @@ export class Auth {
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
                     .auth,
-                "oauth/token"
+                "oauth2/token"
             ),
             method: "POST",
             headers: {
@@ -71,10 +71,10 @@ export class Auth {
             },
             contentType: "application/json",
             requestType: "json",
-            body: {
+            body: new URLSearchParams({
                 ...serializers.AuthGetTokenRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
                 grant_type: "client_credentials",
-            },
+            }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

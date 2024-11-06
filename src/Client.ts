@@ -46,21 +46,17 @@ export declare namespace VectaraClient {
 }
 
 export class VectaraClient {
-    private readonly _oauthTokenProvider: core.OAuthTokenProvider;
+    private readonly _oauthTokenProvider: core.OAuthTokenProvider | undefined;
 
     constructor(protected readonly _options: VectaraClient.Options) {
-        const clientId = this._options.clientId ?? process.env["VECTARA_CLIENT_ID"];
-        if (clientId == null) {
-            throw new Error(
-                "clientId is required; either pass it as an argument or set the VECTARA_CLIENT_ID environment variable"
-            );
+        if (_options.apiKey != null) {
+            return;
         }
 
+        const clientId = this._options.clientId ?? process.env["VECTARA_CLIENT_ID"];
         const clientSecret = this._options.clientSecret ?? process.env["VECTARA_CLIENT_SECRET"];
-        if (clientSecret == null) {
-            throw new Error(
-                "clientSecret is required; either pass it as an argument or set the VECTARA_CLIENT_SECRET environment variable"
-            );
+        if (clientId == null || clientSecret == null) {
+            throw new errors.VectaraError({ message: "Please provide a client id or client secret or an apiKey"})
         }
 
         this._oauthTokenProvider = new core.OAuthTokenProvider({
@@ -563,7 +559,7 @@ export class VectaraClient {
     public get corpora(): Corpora {
         return (this._corpora ??= new Corpora({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -572,7 +568,7 @@ export class VectaraClient {
     public get upload(): Upload {
         return (this._upload ??= new Upload({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -581,7 +577,7 @@ export class VectaraClient {
     public get documents(): Documents {
         return (this._documents ??= new Documents({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -590,7 +586,7 @@ export class VectaraClient {
     public get chats(): Chats {
         return (this._chats ??= new Chats({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -599,7 +595,7 @@ export class VectaraClient {
     public get llms(): Llms {
         return (this._llms ??= new Llms({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -608,7 +604,7 @@ export class VectaraClient {
     public get generationPresets(): GenerationPresets {
         return (this._generationPresets ??= new GenerationPresets({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -617,7 +613,7 @@ export class VectaraClient {
     public get encoders(): Encoders {
         return (this._encoders ??= new Encoders({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -626,7 +622,7 @@ export class VectaraClient {
     public get rerankers(): Rerankers {
         return (this._rerankers ??= new Rerankers({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -635,7 +631,7 @@ export class VectaraClient {
     public get jobs(): Jobs {
         return (this._jobs ??= new Jobs({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -644,7 +640,7 @@ export class VectaraClient {
     public get users(): Users {
         return (this._users ??= new Users({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -653,7 +649,7 @@ export class VectaraClient {
     public get apiKeys(): ApiKeys {
         return (this._apiKeys ??= new ApiKeys({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -662,7 +658,7 @@ export class VectaraClient {
     public get appClients(): AppClients {
         return (this._appClients ??= new AppClients({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -671,12 +667,12 @@ export class VectaraClient {
     public get auth(): Auth {
         return (this._auth ??= new Auth({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await this._oauthTokenProvider.getToken();
+        const bearer = await this._oauthTokenProvider?.getToken();
         if (bearer != null) {
             return `Bearer ${bearer}`;
         }
