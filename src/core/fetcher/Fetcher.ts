@@ -20,7 +20,7 @@ export declare namespace Fetcher {
         maxRetries?: number;
         withCredentials?: boolean;
         abortSignal?: AbortSignal;
-        requestType?: "json" | "file" | "bytes";
+        requestType?: "json" | "file" | "bytes" | "urlencoded";
         responseType?: "json" | "blob" | "sse" | "streaming" | "text";
         duplex?: "half";
     }
