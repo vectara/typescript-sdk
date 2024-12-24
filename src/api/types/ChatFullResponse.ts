@@ -20,13 +20,10 @@ export interface ChatFullResponse {
     searchResults?: Vectara.IndividualSearchResult[];
     /** The probability that the summary is factually consistent with the results. */
     factualConsistencyScore?: number;
-    /**
-     * The rendered prompt sent to the LLM. Useful when creating customer `prompt_text` templates. Only available
-     * to Scale customers.
-     */
+    /** The rendered prompt sent to the LLM. Useful when creating customer `prompt_template` templates. */
     renderedPrompt?: string;
     /**
-     * If you are on the Scale plan, you can view the actual query made to backend that was rephrased
+     * View the actual query made to backend that was rephrased
      * by the LLM from the input query.
      */
     rephrasedQuery?: string;

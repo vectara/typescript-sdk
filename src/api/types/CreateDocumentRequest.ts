@@ -7,10 +7,10 @@ import * as Vectara from "../index";
 /**
  * Creating a document using this endpoint can take multiple forms depending on how much
  * control of the resulting document parts you desire. You can create a document
- * with natural structure, and Vectara will use it's proprietary strategy to create document parts.
+ * with natural structure, and Vectara will use its proprietary strategy to create document parts.
  *
  * Otherwise, you can create a document with all the document parts explicitly specified.
  *
- * A document part is the a search result item in search and retrieval augmented generation endpoints.
+ * A document part is the search result item in search and Retrieval Augmented Generation endpoints.
  */
 export type CreateDocumentRequest = Vectara.CoreDocument | Vectara.StructuredDocument;

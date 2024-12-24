@@ -29,8 +29,34 @@ Create a chat while specifying the default retrieval parameters used by the prom
 
 ```typescript
 await client.chat({
-    query: "How can I use the Vectara platform?",
-    search: {},
+    query: "What is a hallucination?",
+    search: {
+        corpora: [
+            {
+                corpusKey: "corpus_key",
+                metadataFilter: "",
+                lexicalInterpolation: 0.005,
+            },
+        ],
+        contextConfiguration: {
+            sentencesBefore: 2,
+            sentencesAfter: 2,
+        },
+        reranker: {
+            type: "customer_reranker",
+            rerankerId: "rnk_272725719",
+        },
+    },
+    generation: {
+        responseLanguage: Vectara.Language.Eng,
+        enableFactualConsistencyScore: true,
+        citations: {
+            style: Vectara.CitationParametersStyle.None,
+        },
+    },
+    chat: {
+        store: true,
+    },
 });
 ```
 
@@ -82,8 +108,8 @@ await client.chat({
 <dl>
 <dd>
 
-List corpora in the account. The corpus objects that are returned are less
-detailed than the direct corpus retrieval operation.
+List corpora in the account. The returned corpus objects contain less
+detail compared to those retrieved the direct corpus retrieval operation.
 
 </dd>
 </dl>
@@ -146,7 +172,11 @@ await client.corpora.list();
 <dl>
 <dd>
 
-Create a corpus, which is a container to store documents and associated metadata.
+Create a corpus, which is a container to store documents and associated metadata. Here, you
+define the unique `corpus_key` that identifies the corpus. The `corpus_key` can be custom-defined
+following your preferred naming convention, allowing you to easily manage the corpus's data and
+reference it in queries. For more information, see
+[Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 
 </dd>
 </dl>
@@ -211,7 +241,11 @@ await client.corpora.create({
 <dl>
 <dd>
 
-Get metadata about a corpus. This operation is not a method of searching a corpus.
+Get metadata about a corpus. This operation does not search the corpus contents.
+Specify the `corpus_key` to identify the corpus whose metadata you want to
+retrieve. The `corpus_key` is created when the corpus is set up, either through
+the Vectara Console UI or the Create Corpus API. For more information,
+see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 
 </dd>
 </dl>
@@ -282,7 +316,8 @@ await client.corpora.get("my-corpus");
 <dl>
 <dd>
 
-Delete a corpus and all the data that it contains.
+Permanently delete a corpus and all its associated data. The `corpus_key` uniquely identifies
+the corpus. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 
 </dd>
 </dl>
@@ -314,7 +349,7 @@ await client.corpora.delete("my-corpus");
 <dl>
 <dd>
 
-**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus to delete
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus to delete.
 
 </dd>
 </dl>
@@ -355,8 +390,10 @@ await client.corpora.delete("my-corpus");
 
 Enable, disable, or update the name and description of a corpus. This lets you
 manage data availability without deleting the corpus, which is useful for
-maintenance and security purposes. Update the name and description of a corpus
-dynamically to help keep your data aligned with changing business needs.
+maintenance and security purposes. The `corpus_key` uniquely identifies the corpus.
+For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+Consider updating the name and description of a corpus dynamically to help keep your data
+aligned with changing business needs.
 
 </dd>
 </dl>
@@ -427,7 +464,9 @@ await client.corpora.update("my-corpus");
 <dl>
 <dd>
 
-Resets a corpus, which removes all documents and data from the specified corpus, while keeping the corpus itself.
+Resets a corpus, which removes all documents and data from the specified corpus,
+while keeping the corpus itself. The `corpus_key` uniquely identifies the corpus.
+For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 
 </dd>
 </dl>
@@ -498,11 +537,13 @@ await client.corpora.reset("my-corpus");
 <dl>
 <dd>
 
-Replace the filter attributes of a corpus. This does not happen immediately, but
-instead creates a job and will complete when that job completes. Until that
-job completes, using new filter attributes will not work.
+Replace the filter attributes of a corpus. This does not happen immediately, as
+this operation creates a job that completes asynchronously. These new filter
+attributes will not work until the job completes.
 
-You can monitor the status of the filter change using the returned job id.
+You can monitor the status of the filter change using the returned job ID. The
+`corpus_key` uniquely identifies the corpus. For more information, see
+[Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 
 </dd>
 </dl>
@@ -542,7 +583,7 @@ await client.corpora.replaceFilterAttributes("my-corpus", {
 <dl>
 <dd>
 
-**corpusKey:** `Vectara.CorpusKey` — Key of the corpus to have filters replaced.
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus having its filters replaced.
 
 </dd>
 </dl>
@@ -583,7 +624,8 @@ await client.corpora.replaceFilterAttributes("my-corpus", {
 
 Search a single corpus with a straightforward query request, specifying the corpus key and query parameters.
 
--   Specify the unique `corpus_key` identifying the corpus to query.
+-   Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is
+    [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 -   Enter the search `query` string for the corpus, which is the question you want to ask.
 -   Set the maximum number of results (`limit`) to return. **Default**: 10, **minimum**: 1
 -   Define the `offset` position from which to start in the result set.
@@ -661,13 +703,14 @@ await client.corpora.search("my-corpus", {
 <dl>
 <dd>
 
-Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+Perform an advanced query on a specific corpus to find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
 
+-   Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 -   Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
 -   Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
     will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
 -   Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
--   Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+-   Specify Vectara's RAG-focused LLM (Mockingbird) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
 -   Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
 
 For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
@@ -686,54 +729,8 @@ For more detailed information, see [Query API guide](https://docs.vectara.com/do
 <dd>
 
 ```typescript
-await client.corpora.queryStream("string", {
-    requestTimeout: 1,
-    requestTimeoutMillis: 1,
-    query: "string",
-    search: {
-        customDimensions: {
-            string: 1.1,
-        },
-        metadataFilter: "string",
-        lexicalInterpolation: 1.1,
-        semantics: Vectara.SearchSemantics.Default,
-        offset: 1,
-        limit: 1,
-        contextConfiguration: {
-            charactersBefore: 1,
-            charactersAfter: 1,
-            sentencesBefore: 1,
-            sentencesAfter: 1,
-            startTag: "string",
-            endTag: "string",
-        },
-        reranker: {
-            type: "customer_reranker",
-            rerankerId: "string",
-            rerankerName: "string",
-        },
-    },
-    generation: {
-        generationPresetName: "string",
-        promptName: "string",
-        maxUsedSearchResults: 1,
-        promptTemplate: "string",
-        promptText: "string",
-        maxResponseCharacters: 1,
-        responseLanguage: Vectara.Language.Auto,
-        modelParameters: {
-            maxTokens: 1,
-            temperature: 1.1,
-            frequencyPenalty: 1.1,
-            presencePenalty: 1.1,
-        },
-        citations: {
-            style: Vectara.CitationParametersStyle.None,
-            urlPattern: "string",
-            textPattern: "string",
-        },
-        enableFactualConsistencyScore: true,
-    },
+await client.corpora.queryStream("my-corpus", {
+    query: "query",
 });
 ```
 
@@ -789,13 +786,14 @@ await client.corpora.queryStream("string", {
 <dl>
 <dd>
 
-Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+Perform an advanced query on a specific corpus to find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
 
+-   Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
 -   Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
 -   Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
     will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
 -   Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
--   Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+-   Specify Vectara's RAG-focused LLM (Mockingbird) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
 -   Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
 
 For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
@@ -873,14 +871,16 @@ await client.corpora.query("my-corpus", {
 <dl>
 <dd>
 
-Upload files such as PDFs and Word Documents. Vectara will attempt to automatically extract text and any metadata.
-The File Upload endpoint request expects a `multipart/form-data` request containing the following parts:
+Upload files such as PDFs and Word Documents for automatic text extraction and metadata parsing.
+The request expects a `multipart/form-data` format containing the following parts:
 
 -   `metadata` - (Optional) Specifies a JSON object representing any additional metadata to be associated with the extracted document. For example, `'metadata={"key": "value"};type=application/json'`
+-   `chunking_strategy` - (Optional) Specifies the chunking strategy for the platform to use. If you do not set this option, the platform uses the default strategy, which creates one chunk per sentence. For example, `'chunking_strategy={"type":"max_chars_chunking_strategy","max_chars_per_chunk":200};type=application/json'`
+-   `table_extraction_config` - (Optional) Specifies whether to extract table data from the uploaded file. If you do not set this option, the platform does not extract tables from PDF files. Example config, `'table_extraction_config={"extract_tables":true};type=application/json'`
 -   `file` - Specifies the file that you want to upload.
 -   `filename` - Specified as part of the file field with the file name that you want to associate with the uploaded file. For a curl example, use the following syntax: `'file=@/path/to/file/file.pdf;filename=desired_filename.pdf'`
 
-For more detailed information see this [File Upload API guide.](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload)
+For more detailed information, see this [File Upload API guide.](https://docs.vectara.com/docs/api-reference/indexing-apis/file-upload/file-upload)
 
 </dd>
 </dl>
@@ -953,6 +953,23 @@ await client.upload.file(fs.createReadStream("/path/to/your/file"), "my-corpus",
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a list of documents stored in a specific corpus. This endpoint
+provides an overview of document metadata without returning the full content of
+each document.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1017,8 +1034,17 @@ await client.documents.list("my-corpus");
 <dl>
 <dd>
 
-Add a document to a corpus. You can add documents that are either in a typical structured format,
-or in a format that explicitly specifies each document part that becomes a search result.
+Add a document to a corpus. This endpoint supports two document formats, structured and core.
+
+-   **Structured** documents have a more conventional structure that provide document sections
+    and parts in a format created by Vectara's proprietary strategy automatically. You provide
+    a logical document structure, and Vectara handles the partitioning.
+-   **Core** documents differ in that they follow an advanced, granular structure that
+    explicitly defines each document part in an array. Each part becomes a distinct,
+    searchable item in query results. You have precise control over the document structure
+    and content.
+
+For more details, see [Indexing](https://docs.vectara.com/docs/learn/select-ideal-indexing-api).
 
 </dd>
 </dl>
@@ -1034,15 +1060,31 @@ or in a format that explicitly specifies each document part that becomes a searc
 <dd>
 
 ```typescript
-await client.documents.create("my-corpus", {
+await client.documents.create("my-corpus-key", {
     body: {
         id: "my-doc-id",
-        type: "core",
-        documentParts: [
+        type: "structured",
+        sections: [
             {
-                text: "I'm a nice document part.",
+                id: 1,
+                title: "A nice title.",
+                text: "I'm a nice document section.",
+                metadata: {
+                    section: "1.1",
+                },
+            },
+            {
+                id: 2,
+                title: "Another nice title.",
+                text: "I'm another document section on something else.",
+                metadata: {
+                    section: "1.2",
+                },
             },
         ],
+        metadata: {
+            url: "https://example.com",
+        },
     },
 });
 ```
@@ -1091,6 +1133,22 @@ await client.documents.create("my-corpus", {
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the content and metadata of a specific document, identified by its
+unique `document_id` from a specific corpus.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1126,8 +1184,8 @@ await client.documents.getCorpusDocument("my-corpus", "document_id");
 
 **documentId:** `string`
 
-The Document ID of the document to retrieve.
-The `document_id` must be percent encoded.
+The document ID of the document to retrieve.
+This `document_id` must be percent encoded.
 
 </dd>
 </dl>
@@ -1157,6 +1215,22 @@ The `document_id` must be percent encoded.
 <details><summary><code>client.documents.<a href="/src/api/resources/documents/client/Client.ts">delete</a>(corpusKey, documentId, { ...params }) -> void</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Permanently delete a document identified by its unique `document_id` from a specific
+corpus. This operation cannot be undone, so use it with caution.
+
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1193,8 +1267,8 @@ await client.documents.delete("my-corpus", "document_id");
 
 **documentId:** `string`
 
-The Document ID of the document to delete.
-The `document_id` must be percent encoded.
+The document ID of the document to delete.
+This `document_id` must be percent encoded.
 
 </dd>
 </dl>
@@ -1211,6 +1285,179 @@ The `document_id` must be percent encoded.
 <dd>
 
 **requestOptions:** `Documents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Index
+
+<details><summary><code>client.index.<a href="/src/api/resources/index/client/Client.ts">updateCorpusDocument</a>(corpusKey, documentId, { ...params }) -> Vectara.Document</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates document identified by its unique `document_id` from a specific
+corpus. The request body metadata is merged with the existing metadata,
+adding or modifying only the specified fields.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.index.updateCorpusDocument("my-corpus", "document_id", {
+    body: {},
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus with the document to update.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**documentId:** `string`
+
+The document ID of the document to update.
+This `document_id` must be percent encoded.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.UpdateCorpusDocumentRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Index.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.index.<a href="/src/api/resources/index/client/Client.ts">replaceCorpusDocumentMetadata</a>(corpusKey, documentId, { ...params }) -> Vectara.Document</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Replaces metadata of a document identified by its unique `document_id`
+from a specific corpus.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.index.replaceCorpusDocumentMetadata("my-corpus", "document_id", {
+    body: {},
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**corpusKey:** `Vectara.CorpusKey` — The unique key identifying the corpus with the document to update.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**documentId:** `string`
+
+The document ID of the document to update.
+This `document_id` must be percent encoded.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.ReplaceCorpusDocumentMetadataRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Index.RequestOptions`
 
 </dd>
 </dl>
@@ -1511,7 +1758,7 @@ await client.chats.listTurns("chat_id");
 <dl>
 <dd>
 
-Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
+Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs that make up the dialog.
 
 </dd>
 </dl>
@@ -1527,62 +1774,9 @@ Create a new turn in the chat. Each conversation has a series of `turn` objects,
 <dd>
 
 ```typescript
-await client.chats.createTurnsStream("string", {
-    requestTimeout: 1,
-    requestTimeoutMillis: 1,
-    query: "string",
-    search: {
-        corpora: [
-            {
-                corpusKey: undefined,
-                customDimensions: {
-                    string: 1.1,
-                },
-                metadataFilter: "string",
-                lexicalInterpolation: 1.1,
-                semantics: Vectara.SearchSemantics.Default,
-            },
-        ],
-        offset: 1,
-        limit: 1,
-        contextConfiguration: {
-            charactersBefore: 1,
-            charactersAfter: 1,
-            sentencesBefore: 1,
-            sentencesAfter: 1,
-            startTag: "string",
-            endTag: "string",
-        },
-        reranker: {
-            type: "customer_reranker",
-            rerankerId: "string",
-            rerankerName: "string",
-        },
-    },
-    generation: {
-        generationPresetName: "string",
-        promptName: "string",
-        maxUsedSearchResults: 1,
-        promptTemplate: "string",
-        promptText: "string",
-        maxResponseCharacters: 1,
-        responseLanguage: Vectara.Language.Auto,
-        modelParameters: {
-            maxTokens: 1,
-            temperature: 1.1,
-            frequencyPenalty: 1.1,
-            presencePenalty: 1.1,
-        },
-        citations: {
-            style: Vectara.CitationParametersStyle.None,
-            urlPattern: "string",
-            textPattern: "string",
-        },
-        enableFactualConsistencyScore: true,
-    },
-    chat: {
-        store: true,
-    },
+await client.chats.createTurnsStream("chat_id", {
+    query: "How can I use the Vectara platform?",
+    search: {},
 });
 ```
 
@@ -1638,7 +1832,7 @@ await client.chats.createTurnsStream("string", {
 <dl>
 <dd>
 
-Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs tha make up the dialog.
+Create a new turn in the chat. Each conversation has a series of `turn` objects, which are the sequence of message and response pairs that make up the dialog.
 
 </dd>
 </dl>
@@ -2315,7 +2509,7 @@ await client.jobs.get("job_id");
 <dl>
 <dd>
 
-**jobId:** `string` — The ID of job to get.
+**jobId:** `string` — The ID of the job to get.
 
 </dd>
 </dl>
@@ -2484,7 +2678,7 @@ await client.users.create({
 <dl>
 <dd>
 
-Get a user and view details like the email, username, and roles associated with a user.
+Get a user and view details like the email, username, and associated roles.
 
 </dd>
 </dl>
@@ -2518,8 +2712,8 @@ await client.users.get("username");
 
 **username:** `string`
 
-Specifies the User ID that to retrieve.
-Note the username must be percent encoded.
+Specifies the user ID that to retrieve.
+Note that the username must be percent encoded.
 
 </dd>
 </dl>
@@ -2592,8 +2786,8 @@ await client.users.delete("username");
 
 **username:** `string`
 
-Specifies the username to delete.
-Note the username must be percent encoded.
+Specifies the user ID to delete.
+Note that the username must be percent encoded.
 
 </dd>
 </dl>
@@ -2666,8 +2860,8 @@ await client.users.update("username");
 
 **username:** `string`
 
-Specifies the User ID to update.
-Note the username must be percent encoded.
+Specifies the user ID to update.
+Note that the username must be percent encoded.
 
 </dd>
 </dl>
@@ -2740,8 +2934,8 @@ await client.users.resetPassword("username");
 
 **username:** `string`
 
-Specifies the username to update.
-Note the username must be percent encoded and URI safe.
+Specifies the user ID to update.
+Note that the username must be percent encoded and URI safe.
 
 </dd>
 </dl>
@@ -2783,7 +2977,9 @@ Note the username must be percent encoded and URI safe.
 <dd>
 
 ```typescript
-await client.apiKeys.list();
+await client.apiKeys.list({
+    corpusKey: "my-corpus",
+});
 ```
 
 </dd>
@@ -2913,7 +3109,7 @@ await client.apiKeys.get("api_key_id");
 <dl>
 <dd>
 
-**apiKeyId:** `string` — The name of the API key.
+**apiKeyId:** `string` — The ID of the API key.
 
 </dd>
 </dl>
@@ -2984,7 +3180,7 @@ await client.apiKeys.delete("api_key_id");
 <dl>
 <dd>
 
-**apiKeyId:** `string` — The name of the API key.
+**apiKeyId:** `string` — The ID of the API key.
 
 </dd>
 </dl>
@@ -3055,7 +3251,7 @@ await client.apiKeys.update("api_key_id");
 <dl>
 <dd>
 
-**apiKeyId:** `string` — The name of the API key.
+**apiKeyId:** `string` — The ID of the API key.
 
 </dd>
 </dl>
@@ -3229,7 +3425,7 @@ await client.appClients.get("app_client_id");
 <dl>
 <dd>
 
-**appClientId:** `string` — The name of the App Client.
+**appClientId:** `string` — The ID of the App Client.
 
 </dd>
 </dl>
@@ -3285,7 +3481,7 @@ await client.appClients.delete("app_client_id");
 <dl>
 <dd>
 
-**appClientId:** `string` — The name of App Client.
+**appClientId:** `string` — The ID of App Client.
 
 </dd>
 </dl>
@@ -3358,6 +3554,142 @@ await client.appClients.update("app_client_id");
 <dd>
 
 **requestOptions:** `AppClients.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## QueryHistory
+
+<details><summary><code>client.queryHistory.<a href="/src/api/resources/queryHistory/client/Client.ts">getQueryHistory</a>(queryId, { ...params }) -> Vectara.QueryHistory</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a detailed history of previously executed query.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.queryHistory.getQueryHistory("query_id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**queryId:** `string` — The ID of the query history
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vectara.GetQueryHistoryRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `QueryHistory.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.queryHistory.<a href="/src/api/resources/queryHistory/client/Client.ts">getQueryHistories</a>({ ...params }) -> Vectara.ListQueryHistoriesResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve query histories.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.queryHistory.getQueryHistories();
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Vectara.GetQueryHistoriesRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `QueryHistory.RequestOptions`
 
 </dd>
 </dl>

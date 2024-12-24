@@ -11,7 +11,7 @@ export interface Turn {
     query?: string;
     /** The response to the query. */
     answer?: string;
-    /** Indicates whether the turn is enabled and shown in futures turns of the chat. */
+    /** Indicates whether the turn is enabled and shown in future turns of the chat. */
     enabled?: boolean;
     /** Specifies when the turn was created. */
     createdAt?: Date;

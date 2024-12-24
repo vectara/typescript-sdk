@@ -9,10 +9,25 @@ import * as Vectara from "../../../../index";
  *     {
  *         body: {
  *             id: "my-doc-id",
- *             type: "core",
- *             documentParts: [{
- *                     text: "I'm a nice document part."
- *                 }]
+ *             type: "structured",
+ *             sections: [{
+ *                     id: 1,
+ *                     title: "A nice title.",
+ *                     text: "I'm a nice document section.",
+ *                     metadata: {
+ *                         "section": "1.1"
+ *                     }
+ *                 }, {
+ *                     id: 2,
+ *                     title: "Another nice title.",
+ *                     text: "I'm another document section on something else.",
+ *                     metadata: {
+ *                         "section": "1.2"
+ *                     }
+ *                 }],
+ *             metadata: {
+ *                 "url": "https://example.com"
+ *             }
  *         }
  *     }
  */

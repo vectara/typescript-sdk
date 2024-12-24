@@ -15,6 +15,7 @@ export const QueryStreamRequest: core.serialization.Schema<
     query: core.serialization.string(),
     search: SearchCorporaParameters,
     generation: GenerationParameters.optional(),
+    saveHistory: core.serialization.property("save_history", core.serialization.boolean().optional()),
 });
 
 export declare namespace QueryStreamRequest {
@@ -22,5 +23,6 @@ export declare namespace QueryStreamRequest {
         query: string;
         search: SearchCorporaParameters.Raw;
         generation?: GenerationParameters.Raw | null;
+        save_history?: boolean | null;
     }
 }

@@ -6,6 +6,7 @@ import * as serializers from "../index";
 import * as Vectara from "../../api/index";
 import * as core from "../../core";
 import { CustomDimensions } from "./CustomDimensions";
+import { ComponentsSchemasMaxCharsChunkingStrategy } from "./ComponentsSchemasMaxCharsChunkingStrategy";
 
 export const StructuredDocument: core.serialization.ObjectSchema<
     serializers.StructuredDocument.Raw,
@@ -18,6 +19,10 @@ export const StructuredDocument: core.serialization.ObjectSchema<
     metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
     customDimensions: core.serialization.property("custom_dimensions", CustomDimensions.optional()),
     sections: core.serialization.list(core.serialization.lazyObject(() => serializers.StructuredDocumentSection)),
+    chunkingStrategy: core.serialization.property(
+        "chunking_strategy",
+        ComponentsSchemasMaxCharsChunkingStrategy.optional()
+    ),
 });
 
 export declare namespace StructuredDocument {
@@ -29,5 +34,6 @@ export declare namespace StructuredDocument {
         metadata?: Record<string, unknown> | null;
         custom_dimensions?: CustomDimensions.Raw | null;
         sections: serializers.StructuredDocumentSection.Raw[];
+        chunking_strategy?: ComponentsSchemasMaxCharsChunkingStrategy.Raw | null;
     }
 }

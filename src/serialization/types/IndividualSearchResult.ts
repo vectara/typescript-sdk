@@ -5,6 +5,7 @@
 import * as serializers from "../index";
 import * as Vectara from "../../api/index";
 import * as core from "../../core";
+import { Table } from "./Table";
 
 export const IndividualSearchResult: core.serialization.ObjectSchema<
     serializers.IndividualSearchResult.Raw,
@@ -21,6 +22,7 @@ export const IndividualSearchResult: core.serialization.ObjectSchema<
         core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional()
     ),
     documentId: core.serialization.property("document_id", core.serialization.string().optional()),
+    table: Table.optional(),
     requestCorporaIndex: core.serialization.property("request_corpora_index", core.serialization.number().optional()),
 });
 
@@ -31,6 +33,7 @@ export declare namespace IndividualSearchResult {
         part_metadata?: Record<string, unknown> | null;
         document_metadata?: Record<string, unknown> | null;
         document_id?: string | null;
+        table?: Table.Raw | null;
         request_corpora_index?: number | null;
     }
 }

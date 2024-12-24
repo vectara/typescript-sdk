@@ -74,8 +74,8 @@ export class AppClients {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -188,8 +188,8 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -260,7 +260,7 @@ export class AppClients {
     }
 
     /**
-     * @param {string} appClientId - The name of the App Client.
+     * @param {string} appClientId - The ID of the App Client.
      * @param {Vectara.AppClientsGetRequest} request
      * @param {AppClients.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -290,8 +290,8 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -349,7 +349,7 @@ export class AppClients {
     }
 
     /**
-     * @param {string} appClientId - The name of App Client.
+     * @param {string} appClientId - The ID of App Client.
      * @param {Vectara.AppClientsDeleteRequest} request
      * @param {AppClients.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -379,8 +379,8 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -462,8 +462,8 @@ export class AppClients {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

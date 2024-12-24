@@ -7,8 +7,26 @@ import * as Vectara from "../../index";
 /**
  * @example
  *     {
- *         query: "Am I allowed to bring pets to work?",
- *         search: {}
+ *         query: "What is a hallucination?",
+ *         search: {
+ *             corpora: [{
+ *                     corpusKey: "corpus_key",
+ *                     metadataFilter: "",
+ *                     lexicalInterpolation: 0.005
+ *                 }],
+ *             contextConfiguration: {
+ *                 sentencesBefore: 2,
+ *                 sentencesAfter: 2
+ *             },
+ *             reranker: {
+ *                 type: "customer_reranker",
+ *                 rerankerId: "rnk_272725719"
+ *             }
+ *         },
+ *         generation: {
+ *             responseLanguage: Vectara.Language.Eng,
+ *             enableFactualConsistencyScore: true
+ *         }
  *     }
  */
 export interface QueryRequest {
@@ -24,4 +42,6 @@ export interface QueryRequest {
     query: string;
     search: Vectara.SearchCorporaParameters;
     generation?: Vectara.GenerationParameters;
+    /** Indicates whether to save the query in the query history. */
+    saveHistory?: boolean;
 }

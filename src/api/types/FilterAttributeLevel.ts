@@ -3,7 +3,7 @@
  */
 
 /**
- * Indicates whether this a document or document part metadata filter.
+ * Indicates whether this is a document or document part metadata filter.
  */
 export type FilterAttributeLevel = "document" | "part";
 

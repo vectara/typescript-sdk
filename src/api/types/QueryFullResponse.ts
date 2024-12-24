@@ -15,9 +15,6 @@ export interface QueryFullResponse {
     searchResults?: Vectara.IndividualSearchResult[];
     /** The probability that the summary is factually consistent with the results. */
     factualConsistencyScore?: number;
-    /**
-     * The rendered prompt sent to the LLM. Useful when creating customer `prompt_text` templates. Only available
-     * to Scale customers.
-     */
+    /** The rendered prompt sent to the LLM. Useful when creating customer `prompt_template` templates. */
     renderedPrompt?: string;
 }

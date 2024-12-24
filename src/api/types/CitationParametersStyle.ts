@@ -5,11 +5,10 @@
 /**
  * The citation style to be used in summary.
  * Can be one of:
- *
- * - `numeric` - Citations formatted as simple numerals: \[1\], \[2\] ...
- * - `none` - Citations removed from text.
- * - `html` - Citation formatted as url like `<a href="url_pattern">text_pattern</a>`.
- * - `markdown` - Formatted as `[text_pattern](url_pattern)`.
+ * * `numeric` - Citations formatted as simple numerals: \[1\], \[2\] ...
+ * * `none` - Citations removed from text.
+ * * `html` - Citation formatted as a URL like `<a href="url_pattern">text_pattern</a>`.
+ * * `markdown` - Formatted as `[text_pattern](url_pattern)`.
  */
 export type CitationParametersStyle = "none" | "numeric" | "html" | "markdown";
 

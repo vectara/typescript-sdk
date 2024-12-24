@@ -6,6 +6,6 @@
  * Parameters to control chat behavior.
  */
 export interface ChatParameters {
-    /** Indicates whether to store chat message and response message. */
+    /** Indicates whether to store chat messages and response messages. */
     store?: boolean;
 }

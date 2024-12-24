@@ -17,6 +17,7 @@ export const ChatsCreateTurnsRequest: core.serialization.Schema<
     search: SearchCorporaParameters,
     generation: GenerationParameters.optional(),
     chat: ChatParameters.optional(),
+    saveHistory: core.serialization.property("save_history", core.serialization.boolean().optional()),
 });
 
 export declare namespace ChatsCreateTurnsRequest {
@@ -25,5 +26,6 @@ export declare namespace ChatsCreateTurnsRequest {
         search: SearchCorporaParameters.Raw;
         generation?: GenerationParameters.Raw | null;
         chat?: ChatParameters.Raw | null;
+        save_history?: boolean | null;
     }
 }

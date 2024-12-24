@@ -32,14 +32,14 @@ export declare namespace Corpora {
 }
 
 /**
- * Create, manage, and update corpora and their associated settings for administration purposes
+ * Create, manage, and update corpora and their associated settings
  */
 export class Corpora {
     constructor(protected readonly _options: Corpora.Options = {}) {}
 
     /**
-     * List corpora in the account. The corpus objects that are returned are less
-     * detailed than the direct corpus retrieval operation.
+     * List corpora in the account. The returned corpus objects contain less
+     * detail compared to those retrieved the direct corpus retrieval operation.
      *
      * @param {Vectara.CorporaListRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
@@ -48,11 +48,6 @@ export class Corpora {
      *
      * @example
      *     await client.corpora.list()
-     *
-     * @example
-     *     await client.corpora.list({
-     *         limit: 1
-     *     })
      */
     public async list(
         request: Vectara.CorporaListRequest = {},
@@ -85,8 +80,8 @@ export class Corpora {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -153,7 +148,11 @@ export class Corpora {
     }
 
     /**
-     * Create a corpus, which is a container to store documents and associated metadata.
+     * Create a corpus, which is a container to store documents and associated metadata. Here, you
+     * define the unique `corpus_key` that identifies the corpus. The `corpus_key` can be custom-defined
+     * following your preferred naming convention, allowing you to easily manage the corpus's data and
+     * reference it in queries. For more information, see
+     * [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
      *
      * @param {Vectara.CreateCorpusRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
@@ -186,8 +185,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -256,7 +255,11 @@ export class Corpora {
     }
 
     /**
-     * Get metadata about a corpus. This operation is not a method of searching a corpus.
+     * Get metadata about a corpus. This operation does not search the corpus contents.
+     * Specify the `corpus_key` to identify the corpus whose metadata you want to
+     * retrieve. The `corpus_key` is created when the corpus is set up, either through
+     * the Vectara Console UI or the Create Corpus API. For more information,
+     * see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to retrieve.
      * @param {Vectara.CorporaGetRequest} request
@@ -289,8 +292,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -358,9 +361,10 @@ export class Corpora {
     }
 
     /**
-     * Delete a corpus and all the data that it contains.
+     * Permanently delete a corpus and all its associated data. The `corpus_key` uniquely identifies
+     * the corpus. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
      *
-     * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to delete
+     * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to delete.
      * @param {Vectara.CorporaDeleteRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -391,8 +395,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -456,8 +460,10 @@ export class Corpora {
     /**
      * Enable, disable, or update the name and description of a corpus. This lets you
      * manage data availability without deleting the corpus, which is useful for
-     * maintenance and security purposes. Update the name and description of a corpus
-     * dynamically to help keep your data aligned with changing business needs.
+     * maintenance and security purposes. The `corpus_key` uniquely identifies the corpus.
+     * For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+     * Consider updating the name and description of a corpus dynamically to help keep your data
+     * aligned with changing business needs.
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to update.
      * @param {Vectara.UpdateCorpusRequest} request
@@ -490,8 +496,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -560,7 +566,9 @@ export class Corpora {
     }
 
     /**
-     * Resets a corpus, which removes all documents and data from the specified corpus, while keeping the corpus itself.
+     * Resets a corpus, which removes all documents and data from the specified corpus,
+     * while keeping the corpus itself. The `corpus_key` uniquely identifies the corpus.
+     * For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus to reset.
      * @param {Vectara.CorporaResetRequest} request
@@ -593,8 +601,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -656,13 +664,15 @@ export class Corpora {
     }
 
     /**
-     * Replace the filter attributes of a corpus. This does not happen immediately, but
-     * instead creates a job and will complete when that job completes. Until that
-     * job completes, using new filter attributes will not work.
+     * Replace the filter attributes of a corpus. This does not happen immediately, as
+     * this operation creates a job that completes asynchronously. These new filter
+     * attributes will not work until the job completes.
      *
-     * You can monitor the status of the filter change using the returned job id.
+     * You can monitor the status of the filter change using the returned job ID. The
+     * `corpus_key` uniquely identifies the corpus. For more information, see
+     * [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
      *
-     * @param {Vectara.CorpusKey} corpusKey - Key of the corpus to have filters replaced.
+     * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus having its filters replaced.
      * @param {Vectara.ReplaceFilterAttributesRequest} request
      * @param {Corpora.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -701,8 +711,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -772,11 +782,11 @@ export class Corpora {
 
     /**
      * Search a single corpus with a straightforward query request, specifying the corpus key and query parameters.
-     *
-     * - Specify the unique `corpus_key` identifying the corpus to query.
-     * - Enter the search `query` string for the corpus, which is the question you want to ask.
-     * - Set the maximum number of results (`limit`) to return. **Default**: 10, **minimum**: 1
-     * - Define the `offset` position from which to start in the result set.
+     * * Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is
+     * [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+     * * Enter the search `query` string for the corpus, which is the question you want to ask.
+     * * Set the maximum number of results (`limit`) to return. **Default**: 10, **minimum**: 1
+     * * Define the `offset` position from which to start in the result set.
      *
      * For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
      *
@@ -798,7 +808,7 @@ export class Corpora {
         request: Vectara.CorporaSearchRequest,
         requestOptions?: Corpora.RequestOptions
     ): Promise<Vectara.QueryFullResponse> {
-        const { query, limit, offset, requestTimeout, requestTimeoutMillis } = request;
+        const { query, limit, offset, saveHistory, requestTimeout, requestTimeoutMillis } = request;
         const _queryParams: Record<string, string | string[] | object | object[]> = {};
         _queryParams["query"] = query;
         if (limit != null) {
@@ -807,6 +817,10 @@ export class Corpora {
 
         if (offset != null) {
             _queryParams["offset"] = offset.toString();
+        }
+
+        if (saveHistory != null) {
+            _queryParams["save_history"] = saveHistory.toString();
         }
 
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -824,8 +838,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -904,14 +918,15 @@ export class Corpora {
     }
 
     /**
-     * Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+     * Perform an advanced query on a specific corpus to find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
      *
-     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
-     * - Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
-     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
-     * - Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
-     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
-     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
+     * * Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+     * * Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * * Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     * will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
+     * * Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
+     * * Specify Vectara's RAG-focused LLM (Mockingbird) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * * Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
      *
      * For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
      */
@@ -936,8 +951,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -968,8 +983,8 @@ export class Corpora {
                 },
                 signal: requestOptions?.abortSignal,
                 eventShape: {
-                    type: "json",
-                    messageTerminator: "\n",
+                    type: "sse",
+                    streamTerminator: "[DONE]",
                 },
             });
         }
@@ -1030,14 +1045,15 @@ export class Corpora {
     }
 
     /**
-     * Query a specific corpus and find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
+     * Perform an advanced query on a specific corpus to find relevant results, highlight relevant snippets, and use Retrieval Augmented Generation:
      *
-     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
-     * - Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
-     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
-     * - Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
-     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
-     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
+     * * Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+     * * Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * * Leverage advanced search capabilities like reranking (`reranker`) and Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     * will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization).
+     * * Use hybrid search to achieve optimal results by setting different values for `lexical_interpolation` (e.g., `0.025`). [Learn more](https://docs.vectara.com/docs/learn/hybrid-search)
+     * * Specify Vectara's RAG-focused LLM (Mockingbird) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * * Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-options)
      *
      * For more detailed information, see [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
      *
@@ -1075,8 +1091,8 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

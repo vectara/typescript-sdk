@@ -5,13 +5,15 @@
 import * as Vectara from "../index";
 
 /**
- * A part of a document. This section gets converted into an embedding and directly maps to a search result. Usually a sentence.
+ * A part of a document. This section gets converted into an embedding and directly maps to a search result. Usually this is a sentence.
  */
 export interface CoreDocumentPart {
     /** The text of the document part. */
     text: string;
-    /** The metadata for a document part. Attributes matching corpus document part filter attributes are used as document part filter attributes. */
+    /** The metadata for a document part. These may be used in metadata filters at query time if filter attributes are configured on the corpus. */
     metadata?: Record<string, unknown>;
+    /** The ID of the table that this document part belongs to. */
+    tableId?: string;
     /** The context text for the document part. */
     context?: string;
     customDimensions?: Vectara.CustomDimensions;

@@ -25,4 +25,6 @@ export interface ChatsCreateTurnsRequest {
     search: Vectara.SearchCorporaParameters;
     generation?: Vectara.GenerationParameters;
     chat?: Vectara.ChatParameters;
+    /** Indicates whether to save the chat in both the chat and query history. This overrides `chat.store`. */
+    saveHistory?: boolean;
 }

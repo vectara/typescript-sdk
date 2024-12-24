@@ -11,15 +11,14 @@ export interface CitationParameters {
     /**
      * The citation style to be used in summary.
      * Can be one of:
-     *
-     * - `numeric` - Citations formatted as simple numerals: \[1\], \[2\] ...
-     * - `none` - Citations removed from text.
-     * - `html` - Citation formatted as url like `<a href="url_pattern">text_pattern</a>`.
-     * - `markdown` - Formatted as `[text_pattern](url_pattern)`.
+     * * `numeric` - Citations formatted as simple numerals: \[1\], \[2\] ...
+     * * `none` - Citations removed from text.
+     * * `html` - Citation formatted as a URL like `<a href="url_pattern">text_pattern</a>`.
+     * * `markdown` - Formatted as `[text_pattern](url_pattern)`.
      */
     style?: Vectara.CitationParametersStyle;
     /**
-     * The url pattern if the citation_style is set to `html` or `markdown`.
+     * The URL pattern if the citation_style is set to `html` or `markdown`.
      * The pattern can access metadata attributes in the document or part.
      * e.g. `https://my.doc/foo/{doc.id}/{part.id}`
      *
@@ -28,7 +27,7 @@ export interface CitationParameters {
     urlPattern?: string;
     /**
      * The text pattern if the citation_style is set to `html` or `markdown`.
-     * This pattern sets the href for html or the text within `[]` in markdown,
+     * This pattern sets the href for HTML or the text within `[]` in markdown,
      * and defaults to N being the index of result if it is not set.
      *
      * The default citation style looks like `[N](<url_pattern>)` for markdown.

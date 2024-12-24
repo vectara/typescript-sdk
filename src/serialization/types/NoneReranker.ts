@@ -9,10 +9,12 @@ import * as core from "../../core";
 export const NoneReranker: core.serialization.ObjectSchema<serializers.NoneReranker.Raw, Vectara.NoneReranker> =
     core.serialization.object({
         type: core.serialization.stringLiteral("none"),
+        limit: core.serialization.number().optional(),
     });
 
 export declare namespace NoneReranker {
     interface Raw {
         type: "none";
+        limit?: number | null;
     }
 }

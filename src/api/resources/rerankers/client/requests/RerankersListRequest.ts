@@ -18,7 +18,7 @@ export interface RerankersListRequest {
      */
     limit?: number;
     /**
-     * Used to the retrieve the next page of rerankers after the limit has been reached.
+     * Used to retrieve the next page of rerankers after the limit has been reached.
      */
     pageKey?: string;
     /**

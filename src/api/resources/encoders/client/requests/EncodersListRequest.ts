@@ -18,7 +18,7 @@ export interface EncodersListRequest {
      */
     limit?: number;
     /**
-     * Used to the retrieve the next page of encoders after the limit has been reached.
+     * Used to retrieve the next page of encoders after the limit has been reached.
      */
     pageKey?: string;
     /**

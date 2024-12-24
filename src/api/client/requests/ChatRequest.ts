@@ -7,8 +7,32 @@ import * as Vectara from "../../index";
 /**
  * @example
  *     {
- *         query: "How can I use the Vectara platform?",
- *         search: {}
+ *         query: "What is a hallucination?",
+ *         search: {
+ *             corpora: [{
+ *                     corpusKey: "corpus_key",
+ *                     metadataFilter: "",
+ *                     lexicalInterpolation: 0.005
+ *                 }],
+ *             contextConfiguration: {
+ *                 sentencesBefore: 2,
+ *                 sentencesAfter: 2
+ *             },
+ *             reranker: {
+ *                 type: "customer_reranker",
+ *                 rerankerId: "rnk_272725719"
+ *             }
+ *         },
+ *         generation: {
+ *             responseLanguage: Vectara.Language.Eng,
+ *             enableFactualConsistencyScore: true,
+ *             citations: {
+ *                 style: Vectara.CitationParametersStyle.None
+ *             }
+ *         },
+ *         chat: {
+ *             store: true
+ *         }
  *     }
  */
 export interface ChatRequest {
@@ -25,4 +49,6 @@ export interface ChatRequest {
     search: Vectara.SearchCorporaParameters;
     generation?: Vectara.GenerationParameters;
     chat?: Vectara.ChatParameters;
+    /** Indicates whether to save the chat in both the chat and query history. This overrides `chat.store`. */
+    saveHistory?: boolean;
 }

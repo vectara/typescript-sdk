@@ -13,6 +13,7 @@ export const CoreDocumentPart: core.serialization.ObjectSchema<
 > = core.serialization.object({
     text: core.serialization.string(),
     metadata: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
+    tableId: core.serialization.property("table_id", core.serialization.string().optional()),
     context: core.serialization.string().optional(),
     customDimensions: core.serialization.property("custom_dimensions", CustomDimensions.optional()),
 });
@@ -21,6 +22,7 @@ export declare namespace CoreDocumentPart {
     interface Raw {
         text: string;
         metadata?: Record<string, unknown> | null;
+        table_id?: string | null;
         context?: string | null;
         custom_dimensions?: CustomDimensions.Raw | null;
     }

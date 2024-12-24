@@ -7,54 +7,24 @@ import * as Vectara from "../../index";
 /**
  * @example
  *     {
- *         requestTimeout: 1,
- *         requestTimeoutMillis: 1,
- *         query: "string",
+ *         query: "What is a hallucination?",
  *         search: {
  *             corpora: [{
- *                     corpusKey: undefined,
- *                     customDimensions: {
- *                         "string": 1.1
- *                     },
- *                     metadataFilter: "string",
- *                     lexicalInterpolation: 1.1,
- *                     semantics: Vectara.SearchSemantics.Default
+ *                     corpusKey: "corpus_key",
+ *                     metadataFilter: "",
+ *                     lexicalInterpolation: 0.005
  *                 }],
- *             offset: 1,
- *             limit: 1,
  *             contextConfiguration: {
- *                 charactersBefore: 1,
- *                 charactersAfter: 1,
- *                 sentencesBefore: 1,
- *                 sentencesAfter: 1,
- *                 startTag: "string",
- *                 endTag: "string"
+ *                 sentencesBefore: 2,
+ *                 sentencesAfter: 2
  *             },
  *             reranker: {
  *                 type: "customer_reranker",
- *                 rerankerId: "string",
- *                 rerankerName: "string"
+ *                 rerankerId: "rnk_272725719"
  *             }
  *         },
  *         generation: {
- *             generationPresetName: "string",
- *             promptName: "string",
- *             maxUsedSearchResults: 1,
- *             promptTemplate: "string",
- *             promptText: "string",
- *             maxResponseCharacters: 1,
- *             responseLanguage: Vectara.Language.Auto,
- *             modelParameters: {
- *                 maxTokens: 1,
- *                 temperature: 1.1,
- *                 frequencyPenalty: 1.1,
- *                 presencePenalty: 1.1
- *             },
- *             citations: {
- *                 style: Vectara.CitationParametersStyle.None,
- *                 urlPattern: "string",
- *                 textPattern: "string"
- *             },
+ *             responseLanguage: Vectara.Language.Eng,
  *             enableFactualConsistencyScore: true
  *         }
  *     }
@@ -72,4 +42,6 @@ export interface QueryStreamRequest {
     query: string;
     search: Vectara.SearchCorporaParameters;
     generation?: Vectara.GenerationParameters;
+    /** Indicates whether to save the query in the query history. */
+    saveHistory?: boolean;
 }

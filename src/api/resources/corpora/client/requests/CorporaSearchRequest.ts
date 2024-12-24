@@ -14,13 +14,17 @@ export interface CorporaSearchRequest {
      */
     query: string;
     /**
-     * Maximum number of results to return.
+     * The maximum number of results to return.
      */
     limit?: number;
     /**
-     * Position from which to start in the result set.
+     * The position from which to start in the result set.
      */
     offset?: number;
+    /**
+     * Indicates whether to save the query in the query history.
+     */
+    saveHistory?: boolean;
     /**
      * The API will make a best effort to complete the request in the specified seconds or time out.
      */

@@ -16,7 +16,7 @@ export interface LlmsListRequest {
      */
     limit?: number;
     /**
-     * Used to the retrieve the next page of LLMs after the limit has been reached.
+     * Used to retrieve the next page of LLMs after the limit has been reached.
      * This parameter is not needed for the first page of results.
      */
     pageKey?: string;

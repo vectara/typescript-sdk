@@ -13,7 +13,7 @@ export interface User {
     username?: string;
     /** Indicates whether the user is enabled or disabled. */
     enabled?: boolean;
-    /** The description for the user. */
+    /** The description of the user. */
     description?: string;
     /** When the user was created. */
     createdAt?: Date;

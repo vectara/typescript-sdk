@@ -10,11 +10,15 @@ export const MmrReranker: core.serialization.ObjectSchema<serializers.MmrReranke
     core.serialization.object({
         type: core.serialization.stringLiteral("mmr"),
         diversityBias: core.serialization.property("diversity_bias", core.serialization.number().optional()),
+        limit: core.serialization.number().optional(),
+        cutoff: core.serialization.number().optional(),
     });
 
 export declare namespace MmrReranker {
     interface Raw {
         type: "mmr";
         diversity_bias?: number | null;
+        limit?: number | null;
+        cutoff?: number | null;
     }
 }

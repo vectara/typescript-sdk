@@ -75,8 +75,8 @@ export class Users {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -176,8 +176,8 @@ export class Users {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -246,10 +246,10 @@ export class Users {
     }
 
     /**
-     * Get a user and view details like the email, username, and roles associated with a user.
+     * Get a user and view details like the email, username, and associated roles.
      *
-     * @param {string} username - Specifies the User ID that to retrieve.
-     *                            Note the username must be percent encoded.
+     * @param {string} username - Specifies the user ID that to retrieve.
+     *                            Note that the username must be percent encoded.
      * @param {Vectara.UsersGetRequest} request
      * @param {Users.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -280,8 +280,8 @@ export class Users {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -351,8 +351,8 @@ export class Users {
     /**
      * Delete a user from the account.
      *
-     * @param {string} username - Specifies the username to delete.
-     *                            Note the username must be percent encoded.
+     * @param {string} username - Specifies the user ID to delete.
+     *                            Note that the username must be percent encoded.
      * @param {Vectara.UsersDeleteRequest} request
      * @param {Users.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -383,8 +383,8 @@ export class Users {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -448,8 +448,8 @@ export class Users {
     /**
      * Update details about a user such as role names.
      *
-     * @param {string} username - Specifies the User ID to update.
-     *                            Note the username must be percent encoded.
+     * @param {string} username - Specifies the user ID to update.
+     *                            Note that the username must be percent encoded.
      * @param {Vectara.UpdateUserRequest} request
      * @param {Users.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -480,8 +480,8 @@ export class Users {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -552,8 +552,8 @@ export class Users {
     /**
      * Reset the password for a user.
      *
-     * @param {string} username - Specifies the username to update.
-     *                            Note the username must be percent encoded and URI safe.
+     * @param {string} username - Specifies the user ID to update.
+     *                            Note that the username must be percent encoded and URI safe.
      * @param {Vectara.UsersResetPasswordRequest} request
      * @param {Users.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -584,8 +584,8 @@ export class Users {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

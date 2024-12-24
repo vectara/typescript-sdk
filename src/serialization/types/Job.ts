@@ -17,6 +17,7 @@ export const Job: core.serialization.ObjectSchema<serializers.Job.Raw, Vectara.J
     createdAt: core.serialization.property("created_at", core.serialization.date().optional()),
     startedAt: core.serialization.property("started_at", core.serialization.date().optional()),
     completedAt: core.serialization.property("completed_at", core.serialization.date().optional()),
+    createdByUsername: core.serialization.property("created_by_username", core.serialization.string().optional()),
 });
 
 export declare namespace Job {
@@ -28,5 +29,6 @@ export declare namespace Job {
         created_at?: string | null;
         started_at?: string | null;
         completed_at?: string | null;
+        created_by_username?: string | null;
     }
 }

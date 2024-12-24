@@ -37,6 +37,10 @@ export class Documents {
     constructor(protected readonly _options: Documents.Options = {}) {}
 
     /**
+     * Retrieve a list of documents stored in a specific corpus. This endpoint
+     * provides an overview of document metadata without returning the full content of
+     * each document.
+     *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the queried corpus.
      * @param {Vectara.DocumentsListRequest} request
      * @param {Documents.RequestOptions} requestOptions - Request-specific configuration.
@@ -79,8 +83,8 @@ export class Documents {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.2",
-                    "User-Agent": "vectara/0.1.2",
+                    "X-Fern-SDK-Version": "0.1.3",
+                    "User-Agent": "vectara/0.1.3",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -157,8 +161,17 @@ export class Documents {
     }
 
     /**
-     * Add a document to a corpus. You can add documents that are either in a typical structured format,
-     * or in a format that explicitly specifies each document part that becomes a search result.
+     * Add a document to a corpus. This endpoint supports two document formats, structured and core.
+     *
+     * * **Structured** documents have a more conventional structure that provide document sections
+     * and parts in a format created by Vectara's proprietary strategy automatically. You provide
+     * a logical document structure, and Vectara handles the partitioning.
+     * * **Core** documents differ in that they follow an advanced, granular structure that
+     * explicitly defines each document part in an array. Each part becomes a distinct,
+     * searchable item in query results. You have precise control over the document structure
+     * and content.
+     *
+     * For more details, see [Indexing](https://docs.vectara.com/docs/learn/select-ideal-indexing-api).
      *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the queried corpus.
      * @param {Vectara.DocumentsCreateRequest} request
@@ -169,13 +182,28 @@ export class Documents {
      * @throws {@link Vectara.NotFoundError}
      *
      * @example
-     *     await client.documents.create("my-corpus", {
+     *     await client.documents.create("my-corpus-key", {
      *         body: {
      *             id: "my-doc-id",
-     *             type: "core",
-     *             documentParts: [{
-     *                     text: "I'm a nice document part."
-     *                 }]
+     *             type: "structured",
+     *             sections: [{
+     *                     id: 1,
+     *                     title: "A nice title.",
+     *                     text: "I'm a nice document section.",
+     *                     metadata: {
+     *                         "section": "1.1"
+     *                     }
+     *                 }, {
+     *                     id: 2,
+     *                     title: "Another nice title.",
+     *                     text: "I'm another document section on something else.",
+     *                     metadata: {
+     *                         "section": "1.2"
+     *                     }
+     *                 }],
+     *             metadata: {
+     *                 "url": "https://example.com"
+     *             }
      *         }
      *     })
      */
@@ -200,8 +228,8 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -280,9 +308,12 @@ export class Documents {
     }
 
     /**
+     * Retrieve the content and metadata of a specific document, identified by its
+     * unique `document_id` from a specific corpus.
+     *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus containing the document to retrieve.
-     * @param {string} documentId - The Document ID of the document to retrieve.
-     *                              The `document_id` must be percent encoded.
+     * @param {string} documentId - The document ID of the document to retrieve.
+     *                              This `document_id` must be percent encoded.
      * @param {Vectara.GetCorpusDocumentRequest} request
      * @param {Documents.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -316,8 +347,8 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -385,9 +416,12 @@ export class Documents {
     }
 
     /**
+     * Permanently delete a document identified by its unique `document_id` from a specific
+     * corpus. This operation cannot be undone, so use it with caution.
+     *
      * @param {Vectara.CorpusKey} corpusKey - The unique key identifying the corpus with the document to delete.
-     * @param {string} documentId - The Document ID of the document to delete.
-     *                              The `document_id` must be percent encoded.
+     * @param {string} documentId - The document ID of the document to delete.
+     *                              This `document_id` must be percent encoded.
      * @param {Vectara.DocumentsDeleteRequest} request
      * @param {Documents.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -421,8 +455,8 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.3",
+                "User-Agent": "vectara/0.1.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,

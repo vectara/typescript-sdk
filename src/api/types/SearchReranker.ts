@@ -5,9 +5,9 @@
 import * as Vectara from "../index";
 
 /**
- * Rerank results of the search. Rerankers are very powerful tools to better order search results.
+ * Rerank results of the search. Rerankers are very powerful tools to improve the order of search results.
  * By default the search will use the most powerful reranker available to the customer's plan.
- * To disable reranking set the reranker `type` to `"none"`.
+ * To disable reranking, set the reranker `type` to `"none"`.
  */
 export type SearchReranker =
     | Vectara.CustomerSpecificReranker

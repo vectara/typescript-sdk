@@ -8,7 +8,7 @@ import * as Vectara from "../index";
  * A document with layout features.
  */
 export interface StructuredDocument {
-    /** The Document ID, must be unique within the corpus. */
+    /** The document ID must be unique within the corpus. */
     id: string;
     type: "structured";
     /** The title of the document. */
@@ -16,11 +16,12 @@ export interface StructuredDocument {
     /** The description of the document. */
     description?: string;
     /**
-     * The metadata for a document and is an arbitrary JSON object. Properties of this object
+     * The metadata for a document as an arbitrary JSON object. Properties of this object
      * can be used by document level filter attributes.
      */
     metadata?: Record<string, unknown>;
     customDimensions?: Vectara.CustomDimensions;
     /** The subsection of the document. */
     sections: Vectara.StructuredDocumentSection[];
+    chunkingStrategy?: Vectara.ComponentsSchemasMaxCharsChunkingStrategy;
 }

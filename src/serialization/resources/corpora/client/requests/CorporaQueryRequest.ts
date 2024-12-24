@@ -15,6 +15,7 @@ export const CorporaQueryRequest: core.serialization.Schema<
     query: core.serialization.string(),
     search: SearchCorpusParameters.optional(),
     generation: GenerationParameters.optional(),
+    saveHistory: core.serialization.property("save_history", core.serialization.boolean().optional()),
 });
 
 export declare namespace CorporaQueryRequest {
@@ -22,5 +23,6 @@ export declare namespace CorporaQueryRequest {
         query: string;
         search?: SearchCorpusParameters.Raw | null;
         generation?: GenerationParameters.Raw | null;
+        save_history?: boolean | null;
     }
 }

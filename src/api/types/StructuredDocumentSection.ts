@@ -8,7 +8,7 @@ import * as Vectara from "../index";
  * A logical section within a structured document.
  */
 export interface StructuredDocumentSection {
-    /** The section ID. Gets converted to a metadata field. */
+    /** The section ID. This gets converted to a metadata field automatically. */
     id?: number;
     /** The section title. */
     title?: string;
@@ -20,6 +20,8 @@ export interface StructuredDocumentSection {
      * filters if defined as a corpus filter attribute.
      */
     metadata?: Record<string, unknown>;
+    /** The tables that this section contains. */
+    tables?: Vectara.Table[];
     /** The sections that this section contains. */
     sections?: Vectara.StructuredDocumentSection[];
 }

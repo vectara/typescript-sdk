@@ -3,8 +3,7 @@
  */
 
 /**
- * The parameters for the model. These are currently a Scale-only feature.
- * See [pricing](https://vectara.com/pricing/) for more details on becoming a Scale customer.
+ * The parameters for the model.
  * WARNING: This is an experimental feature, and breakable at any point with virtually no
  * notice. It is meant for experimentation to converge on optimal parameters that can then
  * be set in the prompt definitions.

@@ -24,4 +24,6 @@ export interface CorporaQueryRequest {
     /** The parameters to search one corpus. */
     search?: Vectara.SearchCorpusParameters;
     generation?: Vectara.GenerationParameters;
+    /** Indicates whether to save the query in the query history. */
+    saveHistory?: boolean;
 }

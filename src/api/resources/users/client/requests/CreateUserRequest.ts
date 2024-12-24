@@ -23,7 +23,7 @@ export interface CreateUserRequest {
     email: string;
     /** The username for the user. The value defaults to the email. */
     username?: string;
-    /** The description for the user. */
+    /** The description of the user. */
     description?: string;
     /** The role names assigned to the user. */
     apiRoles?: Vectara.ApiRole[];

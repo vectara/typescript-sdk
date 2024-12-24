@@ -5,11 +5,6 @@
 /**
  * @example
  *     {}
- *
- * @example
- *     {
- *         limit: 1
- *     }
  */
 export interface CorporaListRequest {
     /**

@@ -4,7 +4,7 @@
 
 /**
  * Bundle of default values used when calling generation. All values except
- * model name can be overriden at generation time.
+ * model name can be overridden at generation time.
  */
 export interface GenerationPreset {
     /** Name of the generation preset to be used with configuring generation. */
@@ -15,7 +15,7 @@ export interface GenerationPreset {
     llmName?: string;
     /** Preset template used to render the prompt sent to generation. */
     promptTemplate?: string;
-    /** Preset maximum number of search results to be available to the prompt. */
+    /** Preset maximum number of search results that will be available to the prompt. */
     maxUsedSearchResults?: number;
     /** Preset maximum number of tokens to be returned by the generation. */
     maxTokens?: number;
@@ -25,12 +25,12 @@ export interface GenerationPreset {
      */
     temperature?: number;
     /**
-     * Higher values penalize new tokens based on their existing frequency in the text so far,
+     * Higher values penalize new tokens based on their existing frequency in the generation so far,
      * decreasing the model's likelihood to repeat the same line verbatim.
      */
     frequencyPenalty?: number;
     /**
-     * Higher values penalize new tokens based on whether they appear in the text so far,
+     * Higher values penalize new tokens based on whether they appear in the generation so far,
      * increasing the model's likelihood to talk about new topics.
      */
     presencePenalty?: number;

@@ -3,7 +3,7 @@
  */
 
 export interface NotFoundErrorBody {
-    /** The ID cannot found. */
+    /** The ID cannot be found. */
     id?: string;
     messages?: string[];
     /** ID of the request that can be used to help Vectara support debug what went wrong. */
