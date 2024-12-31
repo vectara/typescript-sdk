@@ -11,7 +11,6 @@
  * * `markdown` - Formatted as `[text_pattern](url_pattern)`.
  */
 export type CitationParametersStyle = "none" | "numeric" | "html" | "markdown";
-
 export const CitationParametersStyle = {
     None: "none",
     Numeric: "numeric",

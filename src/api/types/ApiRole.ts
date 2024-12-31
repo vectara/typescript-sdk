@@ -6,7 +6,6 @@
  * Roles that a user or an app client can take on.
  */
 export type ApiRole = "owner" | "administrator" | "billing_administrator" | "corpus_administrator";
-
 export const ApiRole = {
     Owner: "owner",
     Administrator: "administrator",

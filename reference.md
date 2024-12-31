@@ -48,10 +48,10 @@ await client.chat({
         },
     },
     generation: {
-        responseLanguage: Vectara.Language.Eng,
+        responseLanguage: "eng",
         enableFactualConsistencyScore: true,
         citations: {
-            style: Vectara.CitationParametersStyle.None,
+            style: "none",
         },
     },
     chat: {
@@ -125,7 +125,16 @@ detail compared to those retrieved the direct corpus retrieval operation.
 <dd>
 
 ```typescript
-await client.corpora.list();
+const response = await client.corpora.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.corpora.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -563,8 +572,8 @@ await client.corpora.replaceFilterAttributes("my-corpus", {
     filterAttributes: [
         {
             name: "Title",
-            level: Vectara.FilterAttributeLevel.Document,
-            type: Vectara.FilterAttributeType.Integer,
+            level: "document",
+            type: "integer",
         },
     ],
 });
@@ -729,9 +738,12 @@ For more detailed information, see [Query API guide](https://docs.vectara.com/do
 <dd>
 
 ```typescript
-await client.corpora.queryStream("my-corpus", {
+const response = await client.corpora.queryStream("my-corpus", {
     query: "query",
 });
+for await (const item of response) {
+    console.log(item);
+}
 ```
 
 </dd>
@@ -979,7 +991,16 @@ each document.
 <dd>
 
 ```typescript
-await client.documents.list("my-corpus");
+const response = await client.documents.list("my-corpus");
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.documents.list("my-corpus");
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -1498,7 +1519,16 @@ Retrieve a list of previous chats in the Vectara account.
 <dd>
 
 ```typescript
-await client.chats.list();
+const response = await client.chats.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.chats.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -1774,10 +1804,13 @@ Create a new turn in the chat. Each conversation has a series of `turn` objects,
 <dd>
 
 ```typescript
-await client.chats.createTurnsStream("chat_id", {
+const response = await client.chats.createTurnsStream("chat_id", {
     query: "How can I use the Vectara platform?",
     search: {},
 });
+for await (const item of response) {
+    console.log(item);
+}
 ```
 
 </dd>
@@ -2163,7 +2196,16 @@ can be found as the `name` property on the Generations Presets retrieved from `/
 <dd>
 
 ```typescript
-await client.llms.list();
+const response = await client.llms.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.llms.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -2296,9 +2338,20 @@ Encoders are used to store and retrieve from a corpus.
 <dd>
 
 ```typescript
-await client.encoders.list({
+const response = await client.encoders.list({
     filter: "vectara.*",
 });
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.encoders.list({
+    filter: "vectara.*",
+});
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -2363,9 +2416,20 @@ Rerankers are used to improve the ranking (ordering) of search results.
 <dd>
 
 ```typescript
-await client.rerankers.list({
+const response = await client.rerankers.list({
     filter: "vectara.*",
 });
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.rerankers.list({
+    filter: "vectara.*",
+});
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -2430,7 +2494,16 @@ List jobs for the account. Jobs are background processes like replacing the filt
 <dd>
 
 ```typescript
-await client.jobs.list();
+const response = await client.jobs.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.jobs.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -2566,7 +2639,16 @@ Lists all users in the account.
 <dd>
 
 ```typescript
-await client.users.list();
+const response = await client.users.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.users.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -2977,9 +3059,20 @@ Note that the username must be percent encoded and URI safe.
 <dd>
 
 ```typescript
-await client.apiKeys.list({
+const response = await client.apiKeys.list({
     corpusKey: "my-corpus",
 });
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.apiKeys.list({
+    corpusKey: "my-corpus",
+});
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>
@@ -3044,7 +3137,7 @@ An API key is to authenticate when calling Vectara APIs.
 ```typescript
 await client.apiKeys.create({
     name: "name",
-    apiKeyRole: Vectara.ApiKeyRole.Serving,
+    apiKeyRole: "serving",
 });
 ```
 
@@ -3293,7 +3386,16 @@ await client.apiKeys.update("api_key_id");
 <dd>
 
 ```typescript
-await client.appClients.list();
+const response = await client.appClients.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.appClients.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
 ```
 
 </dd>

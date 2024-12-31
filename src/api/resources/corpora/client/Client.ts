@@ -28,6 +28,8 @@ export declare namespace Corpora {
         abortSignal?: AbortSignal;
         /** Override the x-api-key header */
         apiKey?: string | undefined;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -80,13 +82,14 @@ export class Corpora {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.3",
-                    "User-Agent": "vectara/0.1.3",
+                    "X-Fern-SDK-Version": "0.1.4",
+                    "User-Agent": "vectara/0.1.4",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                     "Request-Timeout-Millis":
                         requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                    ...requestOptions?.headers,
                 },
                 contentType: "application/json",
                 queryParameters: _queryParams,
@@ -130,7 +133,7 @@ export class Corpora {
                         body: _response.error.rawBody,
                     });
                 case "timeout":
-                    throw new errors.VectaraTimeoutError();
+                    throw new errors.VectaraTimeoutError("Timeout exceeded when calling GET /v2/corpora.");
                 case "unknown":
                     throw new errors.VectaraError({
                         message: _response.error.errorMessage,
@@ -185,12 +188,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -246,7 +250,7 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling POST /v2/corpora.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -292,12 +296,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -352,7 +357,7 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling GET /v2/corpora/{corpus_key}.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -395,12 +400,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -449,7 +455,7 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling DELETE /v2/corpora/{corpus_key}.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -496,12 +502,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -557,7 +564,7 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling PATCH /v2/corpora/{corpus_key}.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -601,12 +608,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -655,7 +663,9 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling POST /v2/corpora/{corpus_key}/reset."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -683,8 +693,8 @@ export class Corpora {
      *     await client.corpora.replaceFilterAttributes("my-corpus", {
      *         filterAttributes: [{
      *                 name: "Title",
-     *                 level: Vectara.FilterAttributeLevel.Document,
-     *                 type: Vectara.FilterAttributeType.Integer
+     *                 level: "document",
+     *                 type: "integer"
      *             }]
      *     })
      */
@@ -711,12 +721,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -772,7 +783,9 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling POST /v2/corpora/{corpus_key}/replace_filter_attributes."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -838,12 +851,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             queryParameters: _queryParams,
@@ -909,7 +923,9 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling GET /v2/corpora/{corpus_key}/query."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -951,12 +967,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -1036,7 +1053,9 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling POST /v2/corpora/{corpus_key}/query."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -1091,12 +1110,13 @@ export class Corpora {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -1165,7 +1185,9 @@ export class Corpora {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling POST /v2/corpora/{corpus_key}/query."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,

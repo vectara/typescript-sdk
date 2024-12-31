@@ -29,6 +29,8 @@ export declare namespace Upload {
         abortSignal?: AbortSignal;
         /** Override the x-api-key header */
         apiKey?: string | undefined;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -101,14 +103,15 @@ export class Upload {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": request.requestTimeout != null ? request.requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis":
                     request.requestTimeoutMillis != null ? request.requestTimeoutMillis.toString() : undefined,
                 ..._maybeEncodedRequest.headers,
+                ...requestOptions?.headers,
             },
             requestType: "file",
             duplex: _maybeEncodedRequest.duplex,
@@ -174,7 +177,9 @@ export class Upload {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling POST /v2/corpora/{corpus_key}/upload_file."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,

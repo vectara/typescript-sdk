@@ -24,9 +24,9 @@ import * as Vectara from "../../index";
  *             }
  *         },
  *         generation: {
- *             responseLanguage: Vectara.Language.Eng,
+ *             responseLanguage: "eng",
  *             citations: {
- *                 style: Vectara.CitationParametersStyle.None
+ *                 style: "none"
  *             },
  *             enableFactualConsistencyScore: true
  *         },

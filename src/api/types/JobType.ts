@@ -6,7 +6,6 @@
  * The type of job.
  */
 export type JobType = "rebuild_vector_index" | "replace_filter_attributes" | "unknown";
-
 export const JobType = {
     RebuildVectorIndex: "rebuild_vector_index",
     ReplaceFilterAttributes: "replace_filter_attributes",

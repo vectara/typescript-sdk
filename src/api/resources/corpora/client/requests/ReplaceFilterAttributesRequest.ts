@@ -9,8 +9,8 @@ import * as Vectara from "../../../../index";
  *     {
  *         filterAttributes: [{
  *                 name: "Title",
- *                 level: Vectara.FilterAttributeLevel.Document,
- *                 type: Vectara.FilterAttributeType.Integer
+ *                 level: "document",
+ *                 type: "integer"
  *             }]
  *     }
  */

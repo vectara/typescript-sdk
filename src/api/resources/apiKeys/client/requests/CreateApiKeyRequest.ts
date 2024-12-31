@@ -8,7 +8,7 @@ import * as Vectara from "../../../../index";
  * @example
  *     {
  *         name: "name",
- *         apiKeyRole: Vectara.ApiKeyRole.Serving
+ *         apiKeyRole: "serving"
  *     }
  */
 export interface CreateApiKeyRequest {

@@ -3,7 +3,6 @@
  */
 
 export type JobState = "unknown" | "queued" | "started" | "completed" | "failed" | "failed_will_retry" | "aborted";
-
 export const JobState = {
     Unknown: "unknown",
     Queued: "queued",

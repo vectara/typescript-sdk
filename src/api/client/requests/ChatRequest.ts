@@ -24,10 +24,10 @@ import * as Vectara from "../../index";
  *             }
  *         },
  *         generation: {
- *             responseLanguage: Vectara.Language.Eng,
+ *             responseLanguage: "eng",
  *             enableFactualConsistencyScore: true,
  *             citations: {
- *                 style: Vectara.CitationParametersStyle.None
+ *                 style: "none"
  *             }
  *         },
  *         chat: {

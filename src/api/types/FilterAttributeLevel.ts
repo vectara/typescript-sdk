@@ -6,7 +6,6 @@
  * Indicates whether this is a document or document part metadata filter.
  */
 export type FilterAttributeLevel = "document" | "part";
-
 export const FilterAttributeLevel = {
     Document: "document",
     Part: "part",

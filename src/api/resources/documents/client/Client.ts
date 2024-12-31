@@ -27,6 +27,8 @@ export declare namespace Documents {
         abortSignal?: AbortSignal;
         /** Override the x-api-key header */
         apiKey?: string | undefined;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -83,13 +85,14 @@ export class Documents {
                             : undefined,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "vectara",
-                    "X-Fern-SDK-Version": "0.1.3",
-                    "User-Agent": "vectara/0.1.3",
+                    "X-Fern-SDK-Version": "0.1.4",
+                    "User-Agent": "vectara/0.1.4",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                     "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                     "Request-Timeout-Millis":
                         requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                    ...requestOptions?.headers,
                 },
                 contentType: "application/json",
                 queryParameters: _queryParams,
@@ -143,7 +146,9 @@ export class Documents {
                         body: _response.error.rawBody,
                     });
                 case "timeout":
-                    throw new errors.VectaraTimeoutError();
+                    throw new errors.VectaraTimeoutError(
+                        "Timeout exceeded when calling GET /v2/corpora/{corpus_key}/documents."
+                    );
                 case "unknown":
                     throw new errors.VectaraError({
                         message: _response.error.errorMessage,
@@ -228,12 +233,13 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -299,7 +305,9 @@ export class Documents {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling POST /v2/corpora/{corpus_key}/documents."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -347,12 +355,13 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -407,7 +416,9 @@ export class Documents {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling GET /v2/corpora/{corpus_key}/documents/{document_id}."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -455,12 +466,13 @@ export class Documents {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.3",
-                "User-Agent": "vectara/0.1.3",
+                "X-Fern-SDK-Version": "0.1.4",
+                "User-Agent": "vectara/0.1.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -509,7 +521,9 @@ export class Documents {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError(
+                    "Timeout exceeded when calling DELETE /v2/corpora/{corpus_key}/documents/{document_id}."
+                );
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,

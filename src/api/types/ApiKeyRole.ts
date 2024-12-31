@@ -9,7 +9,6 @@
  * A personal API key has all the same permissions as the creator of the API key.
  */
 export type ApiKeyRole = "serving" | "serving_and_indexing" | "personal";
-
 export const ApiKeyRole = {
     Serving: "serving",
     ServingAndIndexing: "serving_and_indexing",

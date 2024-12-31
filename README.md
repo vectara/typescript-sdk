@@ -15,12 +15,16 @@ API reference documentation is available [here](https://vectara.docs.buildwithfe
 npm i -s vectara
 ```
 
+## Reference
+
+A full reference for this library is available [here](./reference.md).
+
 ## Usage
 
 Instantiate and use the client with the following:
 
 ```typescript
-import { VectaraClient, Vectara } from "vectara";
+import { VectaraClient } from "vectara";
 
 const client = new VectaraClient({
     clientId: "YOUR_CLIENT_ID",
@@ -47,7 +51,7 @@ await client.query({
         },
     },
     generation: {
-        responseLanguage: Vectara.Language.Eng,
+        responseLanguage: "eng",
         enableFactualConsistencyScore: true,
     },
 });
@@ -85,7 +89,43 @@ try {
 }
 ```
 
+## Pagination
+
+List endpoints are paginated. The SDK provides an iterator so that you can simply loop over the items:
+
+```typescript
+import { VectaraClient } from "vectara";
+
+const client = new VectaraClient({
+    clientId: "YOUR_CLIENT_ID",
+    clientSecret: "YOUR_CLIENT_SECRET",
+    apiKey: "YOUR_API_KEY",
+});
+const response = await client.corpora.list();
+for await (const item of response) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+const page = await client.corpora.list();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
+```
+
 ## Advanced
+
+### Additional Headers
+
+If you would like to send additional headers as part of the request, use the `headers` request option.
+
+```typescript
+const response = await client.query(..., {
+    headers: {
+        'X-Custom-Header': 'custom value'
+    }
+});
+```
 
 ### Retries
 

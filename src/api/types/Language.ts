@@ -35,7 +35,6 @@ export type Language =
     | "ben"
     | "msa"
     | "ron";
-
 export const Language = {
     Auto: "auto",
     Eng: "eng",

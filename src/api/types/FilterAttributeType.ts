@@ -13,7 +13,6 @@ export type FilterAttributeType =
     | "list[integer]"
     | "list[real_number]"
     | "list[text]";
-
 export const FilterAttributeType = {
     Integer: "integer",
     RealNumber: "real_number",
