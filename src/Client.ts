@@ -13,6 +13,7 @@ import * as errors from "./errors/index";
 import { Corpora } from "./api/resources/corpora/client/Client";
 import { Upload } from "./api/resources/upload/client/Client";
 import { Documents } from "./api/resources/documents/client/Client";
+import { Index } from "./api/resources/index/client/Client";
 import { Chats } from "./api/resources/chats/client/Client";
 import { Llms } from "./api/resources/llms/client/Client";
 import { GenerationPresets } from "./api/resources/generationPresets/client/Client";
@@ -22,6 +23,7 @@ import { Jobs } from "./api/resources/jobs/client/Client";
 import { Users } from "./api/resources/users/client/Client";
 import { ApiKeys } from "./api/resources/apiKeys/client/Client";
 import { AppClients } from "./api/resources/appClients/client/Client";
+import { QueryHistory } from "./api/resources/queryHistory/client/Client";
 
 export declare namespace VectaraClient {
     interface Options {
@@ -42,21 +44,42 @@ export declare namespace VectaraClient {
         abortSignal?: AbortSignal;
         /** Override the x-api-key header */
         apiKey?: string | undefined;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
 export class VectaraClient {
-    private readonly _oauthTokenProvider: core.OAuthTokenProvider | undefined;
+    private readonly _oauthTokenProvider: core.OAuthTokenProvider;
+    protected _corpora: Corpora | undefined;
+    protected _upload: Upload | undefined;
+    protected _documents: Documents | undefined;
+    protected _index: Index | undefined;
+    protected _chats: Chats | undefined;
+    protected _llms: Llms | undefined;
+    protected _generationPresets: GenerationPresets | undefined;
+    protected _encoders: Encoders | undefined;
+    protected _rerankers: Rerankers | undefined;
+    protected _jobs: Jobs | undefined;
+    protected _users: Users | undefined;
+    protected _apiKeys: ApiKeys | undefined;
+    protected _appClients: AppClients | undefined;
+    protected _queryHistory: QueryHistory | undefined;
+    protected _auth: Auth | undefined;
 
-    constructor(protected readonly _options: VectaraClient.Options) {
-        if (_options.apiKey != null) {
-            return;
+    constructor(protected readonly _options: VectaraClient.Options = {}) {
+        const clientId = this._options.clientId ?? process.env["VECTARA_CLIENT_ID"];
+        if (clientId == null) {
+            throw new Error(
+                "clientId is required; either pass it as an argument or set the VECTARA_CLIENT_ID environment variable"
+            );
         }
 
-        const clientId = this._options.clientId ?? process.env["VECTARA_CLIENT_ID"];
         const clientSecret = this._options.clientSecret ?? process.env["VECTARA_CLIENT_SECRET"];
-        if (clientId == null || clientSecret == null) {
-            throw new errors.VectaraError({ message: "Please provide a client id or client secret or an apiKey"})
+        if (clientSecret == null) {
+            throw new Error(
+                "clientSecret is required; either pass it as an argument or set the VECTARA_CLIENT_SECRET environment variable"
+            );
         }
 
         this._oauthTokenProvider = new core.OAuthTokenProvider({
@@ -68,15 +91,121 @@ export class VectaraClient {
         });
     }
 
+    public get corpora(): Corpora {
+        return (this._corpora ??= new Corpora({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get upload(): Upload {
+        return (this._upload ??= new Upload({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get documents(): Documents {
+        return (this._documents ??= new Documents({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get index(): Index {
+        return (this._index ??= new Index({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get chats(): Chats {
+        return (this._chats ??= new Chats({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get llms(): Llms {
+        return (this._llms ??= new Llms({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get generationPresets(): GenerationPresets {
+        return (this._generationPresets ??= new GenerationPresets({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get encoders(): Encoders {
+        return (this._encoders ??= new Encoders({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get rerankers(): Rerankers {
+        return (this._rerankers ??= new Rerankers({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get jobs(): Jobs {
+        return (this._jobs ??= new Jobs({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get users(): Users {
+        return (this._users ??= new Users({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get apiKeys(): ApiKeys {
+        return (this._apiKeys ??= new ApiKeys({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get appClients(): AppClients {
+        return (this._appClients ??= new AppClients({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get queryHistory(): QueryHistory {
+        return (this._queryHistory ??= new QueryHistory({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
+    public get auth(): Auth {
+        return (this._auth ??= new Auth({
+            ...this._options,
+            token: async () => await this._oauthTokenProvider.getToken(),
+        }));
+    }
+
     /**
-     * Perform a multi-purpose query to retrieve relevant information from one or more corpora and generate a response using Retrieval Augmented Generation (RAG).
+     * Perform a multipurpose query across to retrieve relevant information from one or more corpora and generate a response using Retrieval Augmented Generation (RAG).
      *
-     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
-     * - Leverage advanced search capabilities like reranking (`reranker`) and opt-in Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
-     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization)
-     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
-     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-customization-options)
-     * - Customize citation formats in summaries using the `citations` object to include numeric, HTML, or Markdown links. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#citation-format-in-summary)
+     * * Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+     * * Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * * Leverage advanced search capabilities like reranking (`reranker`) and opt-in Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     * will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization)
+     * * Specify Vectara's RAG-focused LLM (Mockingbird) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * * Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-customization-options)
+     * * Customize citation formats in summaries using the `citations` object to include numeric, HTML, or Markdown links. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#citation-format-in-summary)
      *
      * For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
      */
@@ -100,12 +229,13 @@ export class VectaraClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.2.23",
-                "User-Agent": "vectara/0.2.23",
+                "X-Fern-SDK-Version": "0.1.5",
+                "User-Agent": "vectara/0.1.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -132,8 +262,8 @@ export class VectaraClient {
                 },
                 signal: requestOptions?.abortSignal,
                 eventShape: {
-                    type: "json",
-                    messageTerminator: "\n",
+                    type: "sse",
+                    streamTerminator: "[DONE]",
                 },
             });
         }
@@ -185,7 +315,7 @@ export class VectaraClient {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling POST /v2/query.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -194,14 +324,15 @@ export class VectaraClient {
     }
 
     /**
-     * Perform a multi-purpose query to retrieve relevant information from one or more corpora and generate a response using Retrieval Augmented Generation (RAG).
+     * Perform a multipurpose query across to retrieve relevant information from one or more corpora and generate a response using Retrieval Augmented Generation (RAG).
      *
-     * - Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
-     * - Leverage advanced search capabilities like reranking (`reranker`) and opt-in Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
-     *   will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization)
-     * - Specify a RAG-specific LLM like Mockingbird (`mockingbird-1.0-2024-07-16`) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
-     * - Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-customization-options)
-     * - Customize citation formats in summaries using the `citations` object to include numeric, HTML, or Markdown links. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#citation-format-in-summary)
+     * * Specify the unique `corpus_key` identifying the corpus to query. The `corpus_key` is [created in the Vectara Console UI](https://docs.vectara.com/docs/console-ui/creating-a-corpus) or the [Create Corpus API definition](https://docs.vectara.com/docs/api-reference/admin-apis/create-corpus). When creating a new corpus, you have the option to assign a custom `corpus_key` following your preferred naming convention. This key serves as a unique identifier for the corpus, allowing it to be referenced in search requests. For more information, see [Corpus Key Definition](https://docs.vectara.com/docs/api-reference/search-apis/search#corpus-key-definition).
+     * * Customize your search by specifying the query text (`query`), pagination details (`offset` and `limit`), and metadata filters (`metadata_filter`) to tailor your search results. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#query-definition)
+     * * Leverage advanced search capabilities like reranking (`reranker`) and opt-in Retrieval Augmented Generation (RAG) (`generation`) for enhanced query performance. Generation is opt in by setting the `generation` property. By excluding the property or by setting it to null, the response
+     * will not include generation. [Learn more](https://docs.vectara.com/docs/learn/grounded-generation/configure-query-summarization)
+     * * Specify Vectara's RAG-focused LLM (Mockingbird) for the `generation_preset_name`. [Learn more](https://docs.vectara.com/docs/learn/mockingbird-llm)
+     * * Use advanced summarization options that utilize detailed summarization parameters such as `max_response_characters`, `temperature`, and `frequency_penalty` for generating precise and relevant summaries. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#advanced-summarization-customization-options)
+     * * Customize citation formats in summaries using the `citations` object to include numeric, HTML, or Markdown links. [Learn more](https://docs.vectara.com/docs/api-reference/search-apis/search#citation-format-in-summary)
      *
      * For more detailed information, see this [Query API guide](https://docs.vectara.com/docs/api-reference/search-apis/search).
      *
@@ -214,8 +345,26 @@ export class VectaraClient {
      *
      * @example
      *     await client.query({
-     *         query: "Am I allowed to bring pets to work?",
-     *         search: {}
+     *         query: "What is a hallucination?",
+     *         search: {
+     *             corpora: [{
+     *                     corpusKey: "corpus_key",
+     *                     metadataFilter: "",
+     *                     lexicalInterpolation: 0.005
+     *                 }],
+     *             contextConfiguration: {
+     *                 sentencesBefore: 2,
+     *                 sentencesAfter: 2
+     *             },
+     *             reranker: {
+     *                 type: "customer_reranker",
+     *                 rerankerId: "rnk_272725719"
+     *             }
+     *         },
+     *         generation: {
+     *             responseLanguage: "eng",
+     *             enableFactualConsistencyScore: true
+     *         }
      *     })
      */
     public async query(
@@ -238,12 +387,13 @@ export class VectaraClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.2.23",
-                "User-Agent": "vectara/0.2.23",
+                "X-Fern-SDK-Version": "0.1.5",
+                "User-Agent": "vectara/0.1.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -312,7 +462,7 @@ export class VectaraClient {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling POST /v2/query.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -343,12 +493,13 @@ export class VectaraClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.2.23",
-                "User-Agent": "vectara/0.2.23",
+                "X-Fern-SDK-Version": "0.1.5",
+                "User-Agent": "vectara/0.1.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -375,8 +526,8 @@ export class VectaraClient {
                 },
                 signal: requestOptions?.abortSignal,
                 eventShape: {
-                    type: "json",
-                    messageTerminator: "\n",
+                    type: "sse",
+                    streamTerminator: "[DONE]",
                 },
             });
         }
@@ -428,7 +579,7 @@ export class VectaraClient {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling POST /v2/chats.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -448,8 +599,32 @@ export class VectaraClient {
      *
      * @example
      *     await client.chat({
-     *         query: "How can I use the Vectara platform?",
-     *         search: {}
+     *         query: "What is a hallucination?",
+     *         search: {
+     *             corpora: [{
+     *                     corpusKey: "corpus_key",
+     *                     metadataFilter: "",
+     *                     lexicalInterpolation: 0.005
+     *                 }],
+     *             contextConfiguration: {
+     *                 sentencesBefore: 2,
+     *                 sentencesAfter: 2
+     *             },
+     *             reranker: {
+     *                 type: "customer_reranker",
+     *                 rerankerId: "rnk_272725719"
+     *             }
+     *         },
+     *         generation: {
+     *             responseLanguage: "eng",
+     *             enableFactualConsistencyScore: true,
+     *             citations: {
+     *                 style: "none"
+     *             }
+     *         },
+     *         chat: {
+     *             store: true
+     *         }
      *     })
      */
     public async chat(
@@ -472,12 +647,13 @@ export class VectaraClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.2.23",
-                "User-Agent": "vectara/0.2.23",
+                "X-Fern-SDK-Version": "0.1.5",
+                "User-Agent": "vectara/0.1.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
                 "Request-Timeout-Millis": requestTimeoutMillis != null ? requestTimeoutMillis.toString() : undefined,
+                ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
@@ -546,7 +722,7 @@ export class VectaraClient {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling POST /v2/chats.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
@@ -554,125 +730,8 @@ export class VectaraClient {
         }
     }
 
-    protected _corpora: Corpora | undefined;
-
-    public get corpora(): Corpora {
-        return (this._corpora ??= new Corpora({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _upload: Upload | undefined;
-
-    public get upload(): Upload {
-        return (this._upload ??= new Upload({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _documents: Documents | undefined;
-
-    public get documents(): Documents {
-        return (this._documents ??= new Documents({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _chats: Chats | undefined;
-
-    public get chats(): Chats {
-        return (this._chats ??= new Chats({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _llms: Llms | undefined;
-
-    public get llms(): Llms {
-        return (this._llms ??= new Llms({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _generationPresets: GenerationPresets | undefined;
-
-    public get generationPresets(): GenerationPresets {
-        return (this._generationPresets ??= new GenerationPresets({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _encoders: Encoders | undefined;
-
-    public get encoders(): Encoders {
-        return (this._encoders ??= new Encoders({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _rerankers: Rerankers | undefined;
-
-    public get rerankers(): Rerankers {
-        return (this._rerankers ??= new Rerankers({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _jobs: Jobs | undefined;
-
-    public get jobs(): Jobs {
-        return (this._jobs ??= new Jobs({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _users: Users | undefined;
-
-    public get users(): Users {
-        return (this._users ??= new Users({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _apiKeys: ApiKeys | undefined;
-
-    public get apiKeys(): ApiKeys {
-        return (this._apiKeys ??= new ApiKeys({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _appClients: AppClients | undefined;
-
-    public get appClients(): AppClients {
-        return (this._appClients ??= new AppClients({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
-    protected _auth: Auth | undefined;
-
-    public get auth(): Auth {
-        return (this._auth ??= new Auth({
-            ...this._options,
-            token: async () => await this._oauthTokenProvider?.getToken(),
-        }));
-    }
-
     protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await this._oauthTokenProvider?.getToken();
+        const bearer = await core.Supplier.get(this._options.token);
         if (bearer != null) {
             return `Bearer ${bearer}`;
         }

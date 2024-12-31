@@ -27,6 +27,8 @@ export declare namespace Auth {
         abortSignal?: AbortSignal;
         /** Override the x-api-key header */
         apiKey?: string | undefined;
+        /** Additional headers to include in the request. */
+        headers?: Record<string, string>;
     }
 }
 
@@ -53,7 +55,7 @@ export class Auth {
             url: urlJoin(
                 ((await core.Supplier.get(this._options.environment)) ?? environments.VectaraEnvironment.Production)
                     .auth,
-                "oauth2/token"
+                "oauth/token"
             ),
             method: "POST",
             headers: {
@@ -64,17 +66,18 @@ export class Auth {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.2",
-                "User-Agent": "vectara/0.1.2",
+                "X-Fern-SDK-Version": "0.1.5",
+                "User-Agent": "vectara/0.1.5",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
             },
-            contentType: "application/x-www-form-urlencoded",
-            requestType: "urlencoded",
-            body: new URLSearchParams({
+            contentType: "application/json",
+            requestType: "json",
+            body: {
                 ...serializers.AuthGetTokenRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
                 grant_type: "client_credentials",
-            }).toString(),
+            },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -103,7 +106,7 @@ export class Auth {
                     body: _response.error.rawBody,
                 });
             case "timeout":
-                throw new errors.VectaraTimeoutError();
+                throw new errors.VectaraTimeoutError("Timeout exceeded when calling POST /oauth/token.");
             case "unknown":
                 throw new errors.VectaraError({
                     message: _response.error.errorMessage,
