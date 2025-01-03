@@ -1,4 +1,4 @@
- import { VectaraClient } from "../client";
+ import { VectaraClient as FernClient } from "../client";
  import * as core from "../core";
  import {
      ChatFullResponse,
@@ -7,7 +7,7 @@
     GenerationParameters,
     SearchCorporaParameters
 } from "../api";
- import RequestOptions = VectaraClient.RequestOptions;
+ import RequestOptions = FernClient.RequestOptions;
 
 
  class ChatSession {
@@ -30,7 +30,7 @@
          requestOptions,
          chatId = null,
      }: {
-         client: VectaraClient;
+         client: FernClient;
          search: SearchCorporaParameters;
          generation?: GenerationParameters;
          chatConfig?: ChatParameters;
@@ -108,7 +108,7 @@
  }
 
 
-export class WrappedVectaraClient extends VectaraClient {
+export class VectaraClient extends FernClient {
 
     async createChatSession(
         search: SearchCorporaParameters,
