@@ -3,3 +3,4 @@
 src/core/fetcher/Fetcher.ts
 src/wrapper
 src/index.ts
+test/integration
