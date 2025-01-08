@@ -1,4 +1,5 @@
 # Specify files that shouldn't be modified by Fern
 
+src/Client.ts
 src/core/fetcher/Fetcher.ts
 test/integration
