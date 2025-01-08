@@ -50,7 +50,7 @@ export declare namespace VectaraClient {
 }
 
 export class VectaraClient {
-    private readonly _oauthTokenProvider: core.OAuthTokenProvider;
+    private readonly _oauthTokenProvider: core.OAuthTokenProvider | undefined;
     protected _corpora: Corpora | undefined;
     protected _upload: Upload | undefined;
     protected _documents: Documents | undefined;
@@ -69,130 +69,126 @@ export class VectaraClient {
 
     constructor(protected readonly _options: VectaraClient.Options = {}) {
         const clientId = this._options.clientId ?? process.env["VECTARA_CLIENT_ID"];
-        if (clientId == null) {
-            throw new Error(
-                "clientId is required; either pass it as an argument or set the VECTARA_CLIENT_ID environment variable"
-            );
-        }
-
         const clientSecret = this._options.clientSecret ?? process.env["VECTARA_CLIENT_SECRET"];
-        if (clientSecret == null) {
+        const apiKey = this._options.apiKey ?? process.env["VECTARA_API_KEY"];
+
+        if ((clientId == null || clientSecret == null) && apiKey == null) {
             throw new Error(
-                "clientSecret is required; either pass it as an argument or set the VECTARA_CLIENT_SECRET environment variable"
+                "Either clientId and clientSecret are required (via arguments or VECTARA_CLIENT_ID/VECTARA_CLIENT_SECRET env vars) or apiKey is required (via argument or VECTARA_API_KEY env var)"
             );
         }
 
-        this._oauthTokenProvider = new core.OAuthTokenProvider({
+        this._oauthTokenProvider = clientId != null && clientSecret != null ? new core.OAuthTokenProvider({
             clientId,
             clientSecret,
             authClient: new Auth({
                 environment: this._options.environment,
             }),
-        });
+        }) : undefined;
     }
 
     public get corpora(): Corpora {
         return (this._corpora ??= new Corpora({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get upload(): Upload {
         return (this._upload ??= new Upload({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get documents(): Documents {
         return (this._documents ??= new Documents({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get index(): Index {
         return (this._index ??= new Index({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get chats(): Chats {
         return (this._chats ??= new Chats({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get llms(): Llms {
         return (this._llms ??= new Llms({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get generationPresets(): GenerationPresets {
         return (this._generationPresets ??= new GenerationPresets({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get encoders(): Encoders {
         return (this._encoders ??= new Encoders({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get rerankers(): Rerankers {
         return (this._rerankers ??= new Rerankers({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get jobs(): Jobs {
         return (this._jobs ??= new Jobs({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get users(): Users {
         return (this._users ??= new Users({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get apiKeys(): ApiKeys {
         return (this._apiKeys ??= new ApiKeys({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get appClients(): AppClients {
         return (this._appClients ??= new AppClients({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get queryHistory(): QueryHistory {
         return (this._queryHistory ??= new QueryHistory({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
     public get auth(): Auth {
         return (this._auth ??= new Auth({
             ...this._options,
-            token: async () => await this._oauthTokenProvider.getToken(),
+            token: async () => await this._oauthTokenProvider?.getToken(),
         }));
     }
 
@@ -731,6 +727,8 @@ export class VectaraClient {
     }
 
     protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        if (!this._oauthTokenProvider) return undefined;
+        
         const bearer = await this._oauthTokenProvider.getToken();
         if (bearer != null) {
             return `Bearer ${bearer}`;
