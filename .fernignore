@@ -1,5 +1,6 @@
 # Specify files that shouldn't be modified by Fern
 
+.github/workflows/ci.yml
 src/Client.ts
 src/core/fetcher/Fetcher.ts
 test/integration
