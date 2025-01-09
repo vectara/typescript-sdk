@@ -3,4 +3,6 @@
 .github/workflows/ci.yml
 src/Client.ts
 src/core/fetcher/Fetcher.ts
-test/integration
+tests/integration
+src/wrapper
+src/index.ts
