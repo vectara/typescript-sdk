@@ -6,3 +6,4 @@ src/core/fetcher/Fetcher.ts
 tests/integration
 src/wrapper
 src/index.ts
+src/api/resources/auth/client/Client.ts
