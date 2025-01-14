@@ -1,12 +1,12 @@
- import { VectaraClient as FernClient } from "../client";
- import * as core from "../core";
  import {
-     ChatFullResponse,
+    ChatFullResponse,
     ChatParameters,
     ChatStreamedResponse,
     GenerationParameters,
     SearchCorporaParameters
 } from "../api";
+import { VectaraClient as FernClient } from "../Client";
+import * as core from "../core";
  import RequestOptions = FernClient.RequestOptions;
 
 
