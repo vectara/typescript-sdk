@@ -7,54 +7,43 @@ describe('Test ApiKeys', () => {
     let key: string;
 
     beforeEach(async () => {
+        const testName = expect.getState().currentTestName;
+        const corpusName = `${testName?.replace(/\s+/g, '-').toLowerCase()}`;
         const response = await client.corpora.create({
-            name: "test-api-key-manager",
-            key: "test-document-manager"
+            name: corpusName,
+            key: corpusName
         });
         if (response.key) {
             key = response.key;
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, 60000));
-    });
-
-    afterEach(async () => {
-        const corpora = await client.corpora.list();
-        for await (const corpus of corpora) {
-            await client.corpora.delete(corpus.key ?? "");
-        }
-        const apiKeys = await client.apiKeys.list();
-        for await (const apiKey of apiKeys) {
-            await client.apiKeys.delete(apiKey.id ?? "");
         }
     });
 
     test('test create api key', async () => {
         const response = await client.apiKeys.create({
-            name: "test-key",
+            name: "test-create-key",
             apiKeyRole: "serving",
             corpusKeys: [key]
         });
 
-        expect(response.name).toBe("test-key");
+        expect(response.name).toBe("test-create-key");
         expect(response.enabled).toBe(true);
         expect(response.apiKeyRole).toBe("serving");
     });
 
     test('test delete api key', async () => {
         const createResponse = await client.apiKeys.create({
-            name: "test-key",
+            name: "test-delete-key",
             apiKeyRole: "serving",
             corpusKeys: [key]
         });
 
         const deleteResponse = await client.apiKeys.delete(createResponse.id ?? "");
-        expect(deleteResponse).toBeNull();
+        expect(deleteResponse).toBeUndefined();
     });
 
     test('test get api key', async () => {
         const createResponse = await client.apiKeys.create({
-            name: "test-key",
+            name: "test-get-key",
             apiKeyRole: "serving",
             corpusKeys: [key]
         });
@@ -65,7 +54,7 @@ describe('Test ApiKeys', () => {
 
     test('test update api key', async () => {
         const createResponse = await client.apiKeys.create({
-            name: "test-key",
+            name: "test-update-key",
             apiKeyRole: "serving",
             corpusKeys: [key]
         });
@@ -76,19 +65,49 @@ describe('Test ApiKeys', () => {
 
     test('test list api keys', async () => {
         const apiKeysNames: string[] = [];
+        const testPrefix = `test-key-${Date.now()}-`;
 
         for (let index = 0; index < 2; index++) {
             const createResponse = await client.apiKeys.create({
-                name: `test-key-${index}`,
+                name: `${testPrefix}${index}`,
                 apiKeyRole: "serving",
-                corpusKeys: [key]
+                corpusKeys: [key],
             });
             if (createResponse.name) apiKeysNames.push(createResponse.name);
         }
 
         const apiKeys = await client.apiKeys.list();
-        for await (const apiKey of apiKeys) {
+
+        const filteredApiKeys = apiKeys.data.filter(apiKey =>
+            apiKey.name?.startsWith(testPrefix)
+        );
+
+        for (const apiKey of filteredApiKeys) {
             expect(apiKeysNames).toContain(apiKey.name);
         }
     });
+
+
+    async function deleteAllApiKeys() {
+        const apiKeysPage = await client.apiKeys.list();
+        const deletePromises = apiKeysPage.data
+            .filter((apiKey): apiKey is { id: string } => apiKey.id !== undefined)
+            .map(apiKey => client.apiKeys.delete(apiKey.id));
+
+        await Promise.all(deletePromises);
+    }
+
+    async function deleteAllCorpora() {
+        const corporaPages = await client.corpora.list();
+        const deletePromises = corporaPages.data
+            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
+            .map(corpus => client.corpora.delete(corpus.key));
+        await Promise.all(deletePromises);
+    }
+
+    afterAll(async () => {
+            await deleteAllCorpora();
+            await deleteAllApiKeys()
+    });
+
 });

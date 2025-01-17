@@ -2,10 +2,6 @@
 module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
-    testEnvironmentOptions: {
-        dotenv: {
-            path: '.env'
-        }
-    },
-    testTimeout: 60000,
+    setupFiles: ["<rootDir>/jest.setup.js"],
+    testTimeout: 180000,
 };

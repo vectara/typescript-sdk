@@ -6,9 +6,14 @@ describe('Test Jobs Manager', () => {
         apiKey: process.env.APIKEY,
     });
     let jobId: string;
+    let corpusKey: string;
 
     beforeEach(async () => {
-        await client.corpora.create({ key: "test-reset-filters" });
+        const testName = expect.getState().currentTestName?.replace(/\s+/g, '-').toLowerCase();
+        const maxKeyLength = 50;
+        const corpusName = `${testName}-corpus`.slice(-maxKeyLength);
+        const response = await client.corpora.create({ name: corpusName, key: corpusName });
+        if (response.key) corpusKey = response.key
 
         const filterAttributes: FilterAttribute = {
             name: "Title",
@@ -18,25 +23,18 @@ describe('Test Jobs Manager', () => {
             type: "text"
         };
 
-        const res = await client.corpora.replaceFilterAttributes("test-reset-filters", {
+        const res = await client.corpora.replaceFilterAttributes(corpusKey, {
             filterAttributes: [filterAttributes]
         });
 
         jobId = res.jobId;
     });
 
-    afterEach(async () => {
-        const corpora = await client.corpora.list();
-        for await (const corpus of corpora) {
-            await client.corpora.delete(corpus.key ?? "");
-        }
-    });
-
     test('test get job', async () => {
         const res = await client.jobs.get(jobId );
 
         expect(res.id).toBe(jobId);
-        expect(res.corpusKeys).toEqual(["test-reset-filters"]);
+        expect(res.corpusKeys).toEqual([corpusKey]);
     });
 
     test('test list jobs', async () => {
@@ -45,4 +43,16 @@ describe('Test Jobs Manager', () => {
             expect(job.id).not.toBeNull();
         }
     });
+    async function deleteAllCorpora(){
+        const corporaPages = await client.corpora.list();
+        const deletePromises = corporaPages.data
+            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
+            .map(corpus => client.corpora.delete(corpus.key));
+        await Promise.all(deletePromises);
+    }
+
+    afterEach(async () => {
+        await deleteAllCorpora();
+    });
+
 });

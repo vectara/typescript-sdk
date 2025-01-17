@@ -5,6 +5,7 @@ import { GenerationParameters, SearchCorporaParameters, CoreDocument } from "../
 describe('Multiple Corpora Query', () => {
     let searchParams: SearchCorporaParameters;
     let generationParams: GenerationParameters;
+    let corpusKeys: string[] = [];
 
     const client = new VectaraClient({
         apiKey: process.env.APIKEY,
@@ -12,10 +13,15 @@ describe('Multiple Corpora Query', () => {
 
     beforeEach(async () => {
 
-        await client.corpora.create({ name: "test-search-1", key: "test-search-1" });
-        await client.corpora.create({ name: "test-search-2", key: "test-search-2" });
+        const testName = expect.getState().currentTestName?.replace(/\s+/g, '-').toLowerCase();
+        const maxKeyLength = 50;
+        const corpus1Name = `${testName}-corpus-1`.slice(-maxKeyLength);
+        const corpus2Name = `${testName}-corpus-2`.slice(-maxKeyLength);
 
-        await new Promise(resolve => setTimeout(resolve, 30000));
+        const corpus1Response = await client.corpora.create({ name: corpus1Name, key: corpus1Name });
+        const corpus2Response = await client.corpora.create({ name: corpus2Name, key: corpus2Name });
+
+        corpusKeys = [corpus1Response.key ?? "", corpus2Response.key ?? ""];
 
         const testSearch1Document: CoreDocument  = {
             id: "my-doc-id",
@@ -40,18 +46,18 @@ describe('Multiple Corpora Query', () => {
             ]
         };
 
-        await client.documents.create("test-search-1", {body: testSearch1Document});
-        await client.documents.create("test-search-2", {body: testSearch2Document});
+        await client.documents.create(corpusKeys[0], {body: testSearch1Document});
+        await client.documents.create(corpusKeys[1], {body: testSearch2Document});
 
         searchParams = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 1,
                 },
                {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 1,
                 }
@@ -75,45 +81,28 @@ describe('Multiple Corpora Query', () => {
         };
     });
 
-    async function deleteAllCorpora() {
-        const corporaPages = await client.corpora.list();
-        const deletePromises = corporaPages.data
-            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
-            .map(corpus => client.corpora.delete(corpus.key));
-        await Promise.all(deletePromises);
-    }
-
-    afterEach(async () => {
-        try {
-            await deleteAllCorpora();
-        }
-        finally {
-            await deleteAllCorpora();
-        }
-    });
-
-        test('query', async () => {
-            const response = await client.query({
-                query: "Robot Utility Models",
-                search: searchParams,
-                generation: generationParams,
-            });
-
-            expect(response.summary).not.toBeNull();
-            expect(response?.searchResults?.length).toBeGreaterThan(0);
+    test('query', async () => {
+        const response = await client.query({
+            query: "Robot Utility Models",
+            search: searchParams,
+            generation: generationParams,
         });
+
+        expect(response.summary).not.toBeNull();
+        expect(response?.searchResults?.length).toBeGreaterThan(0);
+    });
 
     test('query with different lambda', async () => {
         // Test with lexical interpolation 0
         let search: SearchCorporaParameters = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 },
                 {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 }
@@ -141,12 +130,12 @@ describe('Multiple Corpora Query', () => {
         search = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 0.1,
                 },
                 {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 0.1,
                 }
@@ -175,12 +164,12 @@ describe('Multiple Corpora Query', () => {
         const search: SearchCorporaParameters = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 },
                 {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 }
@@ -209,12 +198,12 @@ describe('Multiple Corpora Query', () => {
         const search: SearchCorporaParameters = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 },
                 {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 }
@@ -242,12 +231,12 @@ describe('Multiple Corpora Query', () => {
         const search: SearchCorporaParameters = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 },
                 {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 }
@@ -277,12 +266,12 @@ describe('Multiple Corpora Query', () => {
         const search: SearchCorporaParameters = {
             corpora: [
                 {
-                    corpusKey: "test-search-1",
+                    corpusKey: corpusKeys[0],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 },
                 {
-                    corpusKey: "test-search-2",
+                    corpusKey: corpusKeys[1],
                     metadataFilter: "",
                     lexicalInterpolation: 0,
                 }
@@ -350,4 +339,17 @@ describe('Multiple Corpora Query', () => {
 
         expect(responseItems.length).toBeGreaterThan(0);
     });
+
+    async function deleteAllCorpora() {
+        const corporaPages = await client.corpora.list();
+        const deletePromises = corporaPages.data
+            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
+            .map(corpus => client.corpora.delete(corpus.key));
+        await Promise.all(deletePromises);
+    }
+
+    afterAll(async () => {
+        await deleteAllCorpora();
+    });
+
 });
