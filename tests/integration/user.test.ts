@@ -2,11 +2,37 @@ import { VectaraClient } from "../../src";
 
 
 describe('Test User Manager', () => {
-    const client = new VectaraClient({
-        apiKey: process.env.APIKEY,
+    let tempClient: VectaraClient;
+    let client: VectaraClient;
+    let email: string;
+    let username: string;
+
+    beforeAll(async () => {
+        tempClient = new VectaraClient({
+            apiKey: process.env.APIKEY,
+        });
+        const response = await tempClient.appClients.create({
+            body: {
+                type: "client_credentials",
+                name: "test-create-client",
+                apiRoles: ["owner"]
+            }
+        });
+
+        client = new VectaraClient({
+            clientId: response.clientId,
+            clientSecret: response.clientSecret
+        });
     });
 
-    afterEach(async () => {
+    beforeEach(async () => {
+        const testName = expect.getState().currentTestName?.replace(/\s+/g, '-').toLowerCase();
+        const maxKeyLength = 25;
+        email = `${testName}@example.com`.slice(-maxKeyLength);
+        username = `${testName}`.slice(-maxKeyLength);
+    })
+
+    afterAll(async () => {
         const users = await client.users.list();
         for await (const user of users) {
             await client.users.delete(user.username ?? "");
@@ -15,28 +41,30 @@ describe('Test User Manager', () => {
 
     test('test create user', async () => {
         const response = await client.users.create({
-            email: "test-email@example.com",
-            username: "test-user",
+            email: email,
+            username: username,
             apiRoles: ["administrator"]
         });
 
-        expect(response.username).toBe("test-user");
-        expect(response.email).toBe("test-email@example.com");
+        console.log(response)
+
+        expect(response.username).toBe(username);
+        expect(response.email).toBe(email);
         expect(response.apiRoles).toEqual(["administrator"]);
         expect(response.enabled).toBe(false);
     });
 
     test('test update user', async () => {
         const createResponse = await client.users.create({
-            email: "test-email@example.com",
-            username: "test-user",
+            email: email,
+            username: username,
             apiRoles: ["administrator"]
         });
 
         expect(createResponse.apiRoles).toEqual(["administrator"]);
         expect(createResponse.enabled).toBe(false);
 
-        const updateResponse = await client.users.update("test-user",{
+        const updateResponse = await client.users.update(username,{
             enabled: true,
             apiRoles: ["corpus_administrator"]
         });
@@ -47,8 +75,8 @@ describe('Test User Manager', () => {
 
     test('test delete user', async () => {
         const createResponse = await client.users.create({
-            email: "test-email@example.com",
-            username: "test-user",
+            email: email,
+            username: username,
             apiRoles: ["administrator"]
         });
 
@@ -59,8 +87,8 @@ describe('Test User Manager', () => {
 
     test('test get user', async () => {
         const createResponse = await client.users.create({
-            email: "test-email@example.com",
-            username: "test-user",
+            email: email,
+            username: username,
             apiRoles: ["administrator"]
         });
 
@@ -77,7 +105,7 @@ describe('Test User Manager', () => {
 
         for (let index = 0; index < 2; index++) {
             const createResponse = await client.users.create({
-                email: "test-email@example.com",
+                email: `test-email-${index}@example.com`,
                 username: `test-user-${index}`,
                 apiRoles: ["administrator"]
             });
@@ -85,8 +113,11 @@ describe('Test User Manager', () => {
         }
 
         const users = await client.users.list();
+        const filteredUsers = users.data.filter(user =>
+            user.username?.startsWith("test-user-")
+        );
 
-        for await (const user of users) {
+        for (const user of filteredUsers) {
             expect(usernames).toContain(user.username);
         }
     });

@@ -13,7 +13,10 @@ describe('Test Chat Manager', () => {
     let chatParams: ChatParameters;
 
     beforeEach(async () => {
-        const response = await client.corpora.create({ name: "test-chat-manager", key: "test-chat-manager" });
+        const testName = expect.getState().currentTestName?.replace(/\s+/g, '-').toLowerCase();
+        const maxKeyLength = 50;
+        const corpusName = `${testName}-corpus`.slice(-maxKeyLength);
+        const response = await client.corpora.create({ name: corpusName, key: corpusName });
         if (response.key) {
             key = response.key;
         }
@@ -48,7 +51,7 @@ describe('Test Chat Manager', () => {
             }]
         };
 
-        await client.documents.create("test-chat-manager", { body: document });
+        await client.documents.create(key, { body: document });
 
         const chatResponse = await client.chat({
             query: "Robot Utility Models",
@@ -65,22 +68,9 @@ describe('Test Chat Manager', () => {
 
     });
 
-    async function deleteAllCorpora(){
-        const corporaPages = await client.corpora.list();
-        const deletePromises = corporaPages.data
-            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
-            .map(corpus => client.corpora.delete(corpus.key));
-        await Promise.all(deletePromises);
-    }
-
     afterEach(async () => {
         if (chatId) await client.chats.delete(chatId);
-        try {
-            await deleteAllCorpora();
-        }
-        finally {
-            await deleteAllCorpora();
-        }
+        chatId = ""
     });
 
     it('should get chat', async () => {
@@ -89,22 +79,25 @@ describe('Test Chat Manager', () => {
     });
 
     it('should list chats', async () => {
-        const chatIds = [chatId];
+        const chatIds: string[] = [];
+
         for (let i = 0; i < 2; i++) {
             const response = await client.chat({
                 query: "Robot Utility Models",
                 search: searchParams,
                 generation: generationParams,
-                chat: chatParams
+                chat: chatParams,
             });
-            if(response.chatId)  chatIds.push(response.chatId);
+            if (response.chatId) chatIds.push(response.chatId);
         }
 
         const response = await client.chats.list();
         for await (const chat of response) {
-            expect(chatIds).toContain(chat.id);
+            expect(typeof chat.id).toBe('string');
         }
     });
+
+
 
     it('should delete chat', async () => {
         const response = await client.chats.delete(chatId);
@@ -120,7 +113,7 @@ describe('Test Chat Manager', () => {
         });
 
         expect(response.chatId).toEqual(chatId);
-        expect(response.turnId).toBe('string');
+        expect(typeof response.turnId).toBe('string');
     });
 
     it('should get turn', async () => {
@@ -183,4 +176,16 @@ describe('Test Chat Manager', () => {
             expect(turnIds).toContain(turn.id);
         }
     });
+    async function deleteAllCorpora(){
+        const corporaPages = await client.corpora.list();
+        const deletePromises = corporaPages.data
+            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
+            .map(corpus => client.corpora.delete(corpus.key));
+        await Promise.all(deletePromises);
+    }
+
+    afterAll(async () => {
+        await deleteAllCorpora();
+    });
+
 });

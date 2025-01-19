@@ -12,4 +12,4 @@ describe('Test Encoders Manager', () => {
             expect(encoder.name).not.toBeNull();
         }
     });
-});
+})

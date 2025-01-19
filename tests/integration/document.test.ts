@@ -7,28 +7,14 @@ describe('Test Document Manager', () => {
     const client = new VectaraClient({
         apiKey: process.env.APIKEY,
     });
+    let corpusKey: string;
 
     beforeEach(async () => {
-
-        await client.corpora.create({ name: "test-document", key: "test-document" });
-        await new Promise(resolve => setTimeout(resolve, 30000));
-    });
-
-    async function deleteAllCorpora() {
-        const corporaPages = await client.corpora.list();
-        const deletePromises = corporaPages.data
-            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
-            .map(corpus => client.corpora.delete(corpus.key));
-        await Promise.all(deletePromises);
-    }
-
-    afterEach(async () => {
-        try {
-            await deleteAllCorpora();
-        }
-        finally {
-            await deleteAllCorpora();
-        }
+        const testName = expect.getState().currentTestName?.replace(/\s+/g, '-').toLowerCase();
+        const maxKeyLength = 50;
+        const corpusName = `${testName}-corpus`.slice(-maxKeyLength);
+        const response = await client.corpora.create({ name: corpusName, key: corpusName });
+        if (response.key) corpusKey = response.key
     });
 
     test('create document', async () => {
@@ -43,7 +29,7 @@ describe('Test Document Manager', () => {
             ]
         };
 
-        const response = await client.documents.create("test-document", {body: document});
+        const response = await client.documents.create(corpusKey, {body: document});
 
         expect(response.id).toEqual("my-doc-id");
     });
@@ -60,10 +46,10 @@ describe('Test Document Manager', () => {
             ]
         };
 
-        await client.documents.create("test-document", {body: document});
-        const response = await client.documents.delete("test-document", "my-doc-id")
+        await client.documents.create(corpusKey, {body: document});
+        const response = await client.documents.delete(corpusKey, "my-doc-id")
 
-        expect(response).toBeNull();
+        expect(response).toBeUndefined();
     });
 
     test('get document', async () => {
@@ -78,8 +64,8 @@ describe('Test Document Manager', () => {
             ]
         };
 
-        await client.documents.create("test-document", {body: document});
-        const response = await client.documents.getCorpusDocument("test-document", "my-doc-id")
+        await client.documents.create(corpusKey, {body: document});
+        const response = await client.documents.getCorpusDocument(corpusKey, "my-doc-id")
         expect(response.id).toEqual("my-doc-id");
     });
 
@@ -99,18 +85,29 @@ describe('Test Document Manager', () => {
                 ]
             };
 
-            const response = await client.documents.create("test-document", {body: document});
+            const response = await client.documents.create(corpusKey, {body: document});
             if (response.id) {
                 docIds.push(response.id);
             }
         }
 
-        const documentPages = await client.documents.list("test-document");
+        const documentPages = await client.documents.list(corpusKey);
         for (const doc of documentPages.data) {
             expect(docIds).toContain(doc.id);
         }
     });
 
+    async function deleteAllCorpora() {
+        const corporaPages = await client.corpora.list();
+        const deletePromises = corporaPages.data
+            .filter((corpus): corpus is { key: string } => corpus.key !== undefined)
+            .map(corpus => client.corpora.delete(corpus.key));
+        await Promise.all(deletePromises);
+    }
+
+    afterEach(async () => {
+        await deleteAllCorpora();
+    });
 
 
 });

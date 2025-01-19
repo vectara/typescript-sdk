@@ -7,7 +7,8 @@
 } from "../api";
 import { VectaraClient as FernClient } from "../Client";
 import * as core from "../core";
- import RequestOptions = FernClient.RequestOptions;
+ import * as serializers from "../serialization/index";
+import RequestOptions = FernClient.RequestOptions;
 
 
  class ChatSession {
@@ -16,8 +17,6 @@ import * as core from "../core";
      private search: SearchCorporaParameters;
      private generation: GenerationParameters | undefined;
      private chatConfig: ChatParameters | undefined;
-     private requestTimeout: number | undefined;
-     private requestTimeoutMillis: number | undefined;
      private requestOptions: RequestOptions | undefined;
 
      constructor({
@@ -25,8 +24,6 @@ import * as core from "../core";
          search,
          generation,
          chatConfig,
-         requestTimeout,
-         requestTimeoutMillis,
          requestOptions,
          chatId = null,
      }: {
@@ -34,8 +31,6 @@ import * as core from "../core";
          search: SearchCorporaParameters;
          generation?: GenerationParameters;
          chatConfig?: ChatParameters;
-         requestTimeout?: number;
-         requestTimeoutMillis?: number;
          requestOptions?: RequestOptions;
          chatId?: string | null;
      }) {
@@ -44,8 +39,6 @@ import * as core from "../core";
          this.search = search;
          this.generation = generation;
          this.chatConfig = chatConfig;
-         this.requestTimeout = requestTimeout;
-         this.requestTimeoutMillis = requestTimeoutMillis;
          this.requestOptions = requestOptions;
      }
 
@@ -56,11 +49,10 @@ import * as core from "../core";
                  search: this.search,
                  generation: this.generation,
                  chat: this.chatConfig,
-             }, {
-                 requestTimeout: this.requestTimeout,
-                 requestTimeoutMillis: this.requestTimeoutMillis,
-                 requestOptions: this.requestOptions
-             });
+             },
+                 this.requestOptions
+             );
+
              this.chatId = response.chatId || null;
              return response;
          } else {
@@ -69,9 +61,9 @@ import * as core from "../core";
                  search: this.search,
                  generation: this.generation,
                  chat: this.chatConfig,
-                 requestTimeout: this.requestTimeout,
-                 requestTimeoutMillis: this.requestTimeoutMillis,
-             }, this.requestOptions);
+             },
+                 this.requestOptions
+             );
          }
      }
 
@@ -81,29 +73,47 @@ import * as core from "../core";
              search: this.search,
              generation: this.generation,
              chat: this.chatConfig,
-             requestTimeout: this.requestTimeout,
-             requestTimeoutMillis: this.requestTimeoutMillis,
-             requestOptions: this.requestOptions,
          };
 
          let response: core.Stream<ChatStreamedResponse>;
 
          if (!this.chatId) {
-             response = await this.client.chatStream(request);
-             for await (const event of response) {
-                 if (event.type === "chat_info" && event.chatId) {
-                     this.chatId = event.chatId;
-                     break;
-                 }
-             }
-         } else {
-             response = await this.client.chats.createTurnsStream({
-                 ...request,
-                 chatId: this.chatId,
+             response = await this.client.chatStream(request, this.requestOptions,);
+             const stream = new ReadableStream<ChatStreamedResponse>({
+                 start: async (controller) => {
+                     for await (const event of response) {
+                         if (event.type === "chat_info" && event.chatId) {
+                             this.chatId = event.chatId;
+                         }
+                         const eventString = `data: ${JSON.stringify(event)}\n\n`;
+                         const encoder = new TextEncoder();
+                         // @ts-ignore
+                         controller.enqueue(encoder.encode(eventString));
+                     }
+                     const terminatorString = `data: [DONE]\n\n`;
+                     // @ts-ignore
+                     controller.enqueue(new TextEncoder().encode(terminatorString));
+                     controller.close();
+                     controller.close();
+                 },
              });
-         }
 
-         return response;
+             return new core.Stream({
+                 stream: stream,
+                 parse: async (data) => {
+                     return data as ChatStreamedResponse
+                 },
+                 signal: this.requestOptions?.abortSignal,
+                 eventShape:  {
+                     type: "sse",
+                     streamTerminator: "[DONE]",
+                 },
+             });
+
+         } else {
+             response = await this.client.chats.createTurnsStream(this.chatId, request, this.requestOptions);
+             return response
+         }
      }
  }
 
@@ -112,8 +122,6 @@ export class VectaraClient extends FernClient {
 
     async createChatSession(
         search: SearchCorporaParameters,
-        requestTimeout?: number,
-        requestTimeoutMillis?: number,
         generation?: GenerationParameters,
         chatConfig?: ChatParameters,
         requestOptions?: RequestOptions
@@ -124,8 +132,6 @@ export class VectaraClient extends FernClient {
             search,
             generation,
             chatConfig,
-            requestTimeout,
-            requestTimeoutMillis,
             requestOptions,
         });
     }
