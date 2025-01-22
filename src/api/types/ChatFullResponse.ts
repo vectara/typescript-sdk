@@ -18,10 +18,16 @@ export interface ChatFullResponse {
     responseLanguage?: Vectara.Language;
     /** The ranked search results that the chat model used. */
     searchResults?: Vectara.IndividualSearchResult[];
-    /** The probability that the summary is factually consistent with the results. */
+    /**
+     * Indicates the probability that the summary is factually consistent with the results.
+     * The system excludes this property if it encounters excessively large outputs or search
+     * results.
+     */
     factualConsistencyScore?: number;
     /** The rendered prompt sent to the LLM. Useful when creating customer `prompt_template` templates. */
     renderedPrompt?: string;
+    /** Non-fatal warnings that occurred during request processing */
+    warnings?: Vectara.QueryWarning[];
     /**
      * View the actual query made to backend that was rephrased
      * by the LLM from the input query.

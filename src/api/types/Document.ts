@@ -18,4 +18,5 @@ export interface Document {
      */
     parts?: Vectara.DocumentPart[];
     storageUsage?: Vectara.DocumentStorageUsage;
+    extractionUsage?: Vectara.ExtractionUsage;
 }

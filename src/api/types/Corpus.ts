@@ -31,7 +31,7 @@ export interface Corpus {
      * *Deprecated*: Use `encoder_name` instead
      */
     encoderId?: string;
-    /** The encoder used by the corpus. */
+    /** The encoder used by the corpus, `boomerang-2023-q3`. */
     encoderName?: string;
     /** The new filter attributes of the corpus. */
     filterAttributes?: Vectara.FilterAttribute[];

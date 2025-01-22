@@ -5,7 +5,7 @@
 export interface Encoder {
     /** The Encoder ID. */
     id?: string;
-    /** The encoder name. */
+    /** The encoder name, `boomerang-2023-q3`. */
     name?: string;
     /**
      * When this encoder is used to create an embedding, it shows the count of dimensions for the output embedding.

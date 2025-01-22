@@ -7,6 +7,7 @@ import * as Vectara from "../../api/index";
 import * as core from "../../core";
 import { Language } from "./Language";
 import { IndividualSearchResult } from "./IndividualSearchResult";
+import { QueryWarning } from "./QueryWarning";
 
 export const QueryFullResponse: core.serialization.ObjectSchema<
     serializers.QueryFullResponse.Raw,
@@ -23,6 +24,7 @@ export const QueryFullResponse: core.serialization.ObjectSchema<
         core.serialization.number().optional()
     ),
     renderedPrompt: core.serialization.property("rendered_prompt", core.serialization.string().optional()),
+    warnings: core.serialization.list(QueryWarning).optional(),
 });
 
 export declare namespace QueryFullResponse {
@@ -32,5 +34,6 @@ export declare namespace QueryFullResponse {
         search_results?: IndividualSearchResult.Raw[] | null;
         factual_consistency_score?: number | null;
         rendered_prompt?: string | null;
+        warnings?: QueryWarning.Raw[] | null;
     }
 }

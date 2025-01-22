@@ -51,6 +51,7 @@ export class Index {
      *
      * @throws {@link Vectara.ForbiddenError}
      * @throws {@link Vectara.NotFoundError}
+     * @throws {@link Vectara.TooManyRequestsError}
      *
      * @example
      *     await client.index.updateCorpusDocument("my-corpus", "document_id", {
@@ -81,8 +82,8 @@ export class Index {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.5",
-                "User-Agent": "vectara/0.1.5",
+                "X-Fern-SDK-Version": "0.1.6",
+                "User-Agent": "vectara/0.1.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -121,6 +122,16 @@ export class Index {
                 case 404:
                     throw new Vectara.NotFoundError(
                         serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 429:
+                    throw new Vectara.TooManyRequestsError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,
@@ -165,6 +176,7 @@ export class Index {
      *
      * @throws {@link Vectara.ForbiddenError}
      * @throws {@link Vectara.NotFoundError}
+     * @throws {@link Vectara.TooManyRequestsError}
      *
      * @example
      *     await client.index.replaceCorpusDocumentMetadata("my-corpus", "document_id", {
@@ -195,8 +207,8 @@ export class Index {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "vectara",
-                "X-Fern-SDK-Version": "0.1.5",
-                "User-Agent": "vectara/0.1.5",
+                "X-Fern-SDK-Version": "0.1.6",
+                "User-Agent": "vectara/0.1.6",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 "Request-Timeout": requestTimeout != null ? requestTimeout.toString() : undefined,
@@ -235,6 +247,16 @@ export class Index {
                 case 404:
                     throw new Vectara.NotFoundError(
                         serializers.NotFoundErrorBody.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            skipValidation: true,
+                            breadcrumbsPrefix: ["response"],
+                        })
+                    );
+                case 429:
+                    throw new Vectara.TooManyRequestsError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
                             unrecognizedObjectKeys: "passthrough",
                             allowUnrecognizedUnionMembers: true,
                             allowUnrecognizedEnumValues: true,

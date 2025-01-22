@@ -8,6 +8,7 @@ import * as core from "../../core";
 import { Table } from "./Table";
 import { DocumentPart } from "./DocumentPart";
 import { DocumentStorageUsage } from "./DocumentStorageUsage";
+import { ExtractionUsage } from "./ExtractionUsage";
 
 export const Document: core.serialization.ObjectSchema<serializers.Document.Raw, Vectara.Document> =
     core.serialization.object({
@@ -16,6 +17,7 @@ export const Document: core.serialization.ObjectSchema<serializers.Document.Raw,
         tables: core.serialization.list(Table).optional(),
         parts: core.serialization.list(DocumentPart).optional(),
         storageUsage: core.serialization.property("storage_usage", DocumentStorageUsage.optional()),
+        extractionUsage: core.serialization.property("extraction_usage", ExtractionUsage.optional()),
     });
 
 export declare namespace Document {
@@ -25,5 +27,6 @@ export declare namespace Document {
         tables?: Table.Raw[] | null;
         parts?: DocumentPart.Raw[] | null;
         storage_usage?: DocumentStorageUsage.Raw | null;
+        extraction_usage?: ExtractionUsage.Raw | null;
     }
 }
