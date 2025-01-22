@@ -27,8 +27,6 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Compile
-        env:
-          APIKEY: ${{ secrets.APIKEY }}
         run: yarn && yarn test    
 
   publish:
