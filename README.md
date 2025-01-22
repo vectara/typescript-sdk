@@ -136,11 +136,13 @@ const searchParams: SearchCorporaParameters = {
     };
 
 const generationParams: GenerationParameters = {
+        // LLM used for processing. For more details https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer
+        generationPresetName: "vectara-summary-ext-v1.2.0",
         responseLanguage: "eng",
         citations: {
             style: "none",
         },
-        enableFactualConsistencyScore: false,
+        enableFactualConsistencyScore: true,
     };
 
 const response = await client.query({
@@ -200,7 +202,7 @@ Note that we used the `createChatSession` with `chatConfig` set for storing chat
 
 ### Streaming
 
-The SDK supports streaming responses for both query and chat. When using streaming, the response will be a generator that you can iterate.
+The SDK supports streaming responses for both query and chat. When using streaming, the response will be a generator that you can iterate over.
 
 Here's an example of calling `queryStream`:
 
@@ -216,20 +218,17 @@ const responseStream = await client.queryStream({
 });
 
 const responseItems = [];
-for await (const chunk of responseStream) {
-    if (chunk.type === "chat_info") {
-        console.log(chunk.chatId)
+for await (const event of responseStream) {
+    if (event.type === "generation_chunk") {
+        console.log(event.generationChunk)
     }
-    if (chunk.type === "generation_chunk") {
-        console.log(chunk.generationChunk)
-    }
-    if (chunk.type === "search_results") {
-        console.log(chunk.searchResults)
+    if (event.type === "search_results") {
+        console.log(event.searchResults)
     }
 }
 ```
 
-And streaming the chat response:
+And stream with chat:
 
 ```typescript
 const searchParams: SearchCorporaParameters = {...};
@@ -243,16 +242,22 @@ const session = await client.createChatSession(
     requestOptions
 );
 const responseStream = await session.chatStream("Tell me about machine learning")
-for await (const chunk of responseStream) {
-    if (chunk.type === "chat_info"){
-        console.log(chunk.chatId)
-        console.log(chunk.turnId)
+for await (const event of responseStream) {
+    // ChatInfo event contains metadata about the chat session
+    // - chatId: Unique identifier for the chat
+    // - turnId: Identifier for the current turn in the conversation
+    if (event.type === "chat_info"){
+        console.log(event.chatId)
+        console.log(event.turnId)
     }
-    if (chunk.type === "search_results") {
-        console.log(chunk.searchResults)
+    // SearchResults event contains the relevant documents
+    // - Contains matched text segments, their relevance scores, and metadata
+    if (event.type === "search_results") {
+        console.log(event.searchResults)
     }
-    if (chunk.type === "generation_chunk") {
-        console.log(chunk.generationChunk)
+    // GenerationChunk events contain pieces of the generated response
+    if (event.type === "generation_chunk") {
+        console.log(event.generationChunk)
     }
 }
 
@@ -410,7 +415,7 @@ const client = new VectaraClient({
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!<br/>
-Feel free to check [issues page](https://github.com/vectara/python-sdk/issues). You can also take a look at the [contributing guide](./contributing.md).
+Feel free to check [issues page](https://github.com/vectara/python-sdk/issues). You can also take a look at the [contributing guide](./CONTRIBUTING).
 
 ## Show your support
 
