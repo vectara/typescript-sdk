@@ -10,3 +10,4 @@ src/index.ts
 src/api/resources/auth/client/Client.ts
 src/core/fetcher/getRequestBody.ts
 CONTRIBUTING.md
+README.md
