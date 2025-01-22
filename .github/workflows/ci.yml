@@ -26,11 +26,6 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v3
 
-      - name: Compile
-        env:
-          APIKEY: ${{ secrets.APIKEY }}
-        run: yarn && yarn test    
-
   publish:
     needs: [ compile, test ]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
