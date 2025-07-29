@@ -3,9 +3,7 @@
  */
 
 /**
- * Role of the API key.
- * A serving API key can only perform query type requests on its corpora. A serving and
- * indexing key can perform both indexing and query type requests on its corpora.
+ * Role of the API key. A serving API key can only perform query type requests on its corpora. A serving and indexing key can perform both indexing and query type requests on its corpora.
  * A personal API key has all the same permissions as the creator of the API key.
  */
 export type ApiKeyRole = "serving" | "serving_and_indexing" | "personal";

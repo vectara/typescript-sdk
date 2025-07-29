@@ -11,5 +11,5 @@ export interface RerankedSearchResult {
     /** The score of the individual result. */
     score?: number;
     /** The original score of the individual result before reranking. */
-    originalScore?: number;
+    original_score?: number;
 }

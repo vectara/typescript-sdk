@@ -12,20 +12,19 @@ export interface DocumentsListRequest {
      */
     limit?: number;
     /**
-     * Filter documents by metadata. Uses the same expression as a query metadata filter, but only
-     * allows filtering on document metadata.
+     * Filter documents by metadata. Uses the same expression as a query metadata filter, but only allows filtering on document metadata.
      */
-    metadataFilter?: string;
+    metadata_filter?: string;
     /**
      * Used to retrieve the next page of documents after the limit has been reached.
      */
-    pageKey?: string;
+    page_key?: string;
     /**
      * The API will make a best effort to complete the request in the specified seconds or time out.
      */
-    requestTimeout?: number;
+    "Request-Timeout"?: number;
     /**
      * The API will make a best effort to complete the request in the specified milliseconds or time out.
      */
-    requestTimeoutMillis?: number;
+    "Request-Timeout-Millis"?: number;
 }

@@ -8,7 +8,7 @@
 export interface ChatInfoResponse {
     type: "chat_info";
     /** ID of the chat. */
-    chatId?: string;
+    chat_id?: string;
     /** ID of the turn. */
-    turnId?: string;
+    turn_id?: string;
 }

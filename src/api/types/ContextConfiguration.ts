@@ -3,47 +3,19 @@
  */
 
 /**
- * Configuration on the presentation of each document part in the result set.
+ * Configuration on the presentation of each document part in the result set. You can only use characters_before/after or sentences_before/after, but not both. If you specify both in the query, sentences_before/after takes precedence
  */
 export interface ContextConfiguration {
-    /**
-     * The number of characters that are shown before the matching document part.
-     * This is useful to show the context of the document part in the wider document.
-     * Ignored if `sentences_before` is set.
-     * Vectara will capture the full sentence that contains the captured characters,
-     * to not lose the meaning caused by a truncated word or sentence.
-     */
-    charactersBefore?: number;
-    /**
-     * The number of characters that are shown after the matching document part.
-     * This is useful to show the context of the document part in the wider document.
-     * Ignored if `sentences_after` is set.
-     * Vectara will capture the full sentence that contains the captured characters,
-     * to not lose the meaning caused by a truncated word or sentence.
-     */
-    charactersAfter?: number;
-    /**
-     * The number of sentences that are shown before the matching document part.
-     * This is useful to show the context of the document part in the wider document.
-     */
-    sentencesBefore?: number;
-    /**
-     * The number of sentences that are shown after the matching document part.
-     * This is useful to show the context of the document part in the wider document.
-     */
-    sentencesAfter?: number;
-    /**
-     * The tag that wraps the document part at the start. This is often used to
-     * provide a start HTML/XML tag or some other delimiter you can use in an
-     * application to understand where to provide highlighting in your UI and
-     * understand where the context before ends and the document part begins.
-     */
-    startTag?: string;
-    /**
-     * The tag that wraps the document part at the end. This is often used to
-     * provide a start HTML/XML tag or some other delimiter you can use in an
-     * application to understand where to provide highlighting in your UI and
-     * understand where the context before ends and the document part begins.
-     */
-    endTag?: string;
+    /** The number of characters that are shown before the matching document part. This is useful to show the context of the document part in the wider document. Ignored if `sentences_before` is set. Vectara will capture the full sentence that contains the captured characters, to not lose the meaning caused by a truncated word or sentence. */
+    characters_before?: number;
+    /** The number of characters that are shown after the matching document part. This is useful to show the context of the document part in the wider document. Ignored if `sentences_after` is set. Vectara will capture the full sentence that contains the captured characters, to not lose the meaning caused by a truncated word or sentence. */
+    characters_after?: number;
+    /** The number of sentences that are shown before the matching document part. This is useful to show the context of the document part in the wider document. */
+    sentences_before?: number;
+    /** The number of sentences that are shown after the matching document part. This is useful to show the context of the document part in the wider document. */
+    sentences_after?: number;
+    /** The tag that wraps the document part at the start. This is often used to provide a start HTML/XML tag or some other delimiter you can use in an application to understand where to provide highlighting in your UI and understand where the context before ends and the document part begins. */
+    start_tag?: string;
+    /** The tag that wraps the document part at the end. This is often used to provide a start HTML/XML tag or some other delimiter you can use in an application to understand where to provide highlighting in your UI and understand where the document part ends and the context after begins. */
+    end_tag?: string;
 }

@@ -16,16 +16,15 @@ export interface LlmsListRequest {
      */
     limit?: number;
     /**
-     * Used to retrieve the next page of LLMs after the limit has been reached.
-     * This parameter is not needed for the first page of results.
+     * Used to retrieve the next page of LLMs after the limit has been reached. This parameter is not needed for the first page of results.
      */
-    pageKey?: string;
+    page_key?: string;
     /**
      * The API will make a best effort to complete the request in the specified seconds or time out.
      */
-    requestTimeout?: number;
+    "Request-Timeout"?: number;
     /**
      * The API will make a best effort to complete the request in the specified milliseconds or time out.
      */
-    requestTimeoutMillis?: number;
+    "Request-Timeout-Millis"?: number;
 }

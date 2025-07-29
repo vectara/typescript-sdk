@@ -3,8 +3,7 @@
  */
 
 /**
- * A LLM can be used to enhance query results with a response, and be used as
- * the responder during a chat.
+ * A LLM can be used to enhance query results with a response, and be used as the responder during a chat.
  */
 export interface Llm {
     /** The ID of the LLM. */
@@ -15,10 +14,7 @@ export interface Llm {
     description?: string;
     /** Indicates whether the LLM is enabled. */
     enabled?: boolean;
-    /**
-     * If this is the default LLM, it is used in queries when the generator
-     * is not specified.
-     */
+    /** If this is the default LLM, it is used in queries when the generator is not specified. */
     default?: boolean;
     prompts?: unknown;
 }

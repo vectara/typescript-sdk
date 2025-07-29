@@ -5,5 +5,10 @@
 /**
  * Non-fatal warnings that occurred during query processing.
  *  *  `exceeded_max_input_length_fcs`: The input to the Factual Consistency Score model exceeded the maximum allowed length, so no score is being returned
+ *  *  `intelligent_query_rewriting_failed`: Intelligent query rewriting failed due to an internal error
  */
-export type QueryWarning = "exceeded_max_input_length_fcs";
+export type QueryWarning = "exceeded_max_input_length_fcs" | "intelligent_query_rewriting_failed";
+export const QueryWarning = {
+    ExceededMaxInputLengthFcs: "exceeded_max_input_length_fcs",
+    IntelligentQueryRewritingFailed: "intelligent_query_rewriting_failed",
+} as const;

@@ -7,5 +7,5 @@
  */
 export interface ListMetadata {
     /** When requesting the next page of this list, this is needed as a query parameter. */
-    pageKey?: string;
+    page_key?: string;
 }

@@ -3,26 +3,15 @@
  */
 
 /**
- * Custom dimensions attached to all document parts in a corpus. Allows arbitrary
- * modification of the score for many purposes.
+ * Custom dimensions attached to all document parts in a corpus. Allows arbitrary modification of the score for many purposes.
  */
 export interface CorpusCustomDimension {
     /** The name of the custom dimension. */
     name: string;
     /** Description of the custom dimension. */
     description?: string;
-    /**
-     * Default value of a custom dimension on a document part if the custom
-     * dimension value is not specified when the document part is indexed.
-     *
-     * A value of 0 means that custom dimension is not considered.
-     */
-    indexingDefault?: number;
-    /**
-     * Default value of a custom dimension for a query if the value
-     * of the custom dimension is not specified when querying the corpus.
-     *
-     * A value of 0 means that custom dimension is not considered.
-     */
-    queryingDefault?: number;
+    /** Default value of a custom dimension on a document part if the custom dimension value is not specified when the document part is indexed. A value of 0 means that custom dimension is not considered. */
+    indexing_default?: number;
+    /** Default value of a custom dimension for a query if the value of the custom dimension is not specified when querying the corpus. A value of 0 means that custom dimension is not considered. */
+    querying_default?: number;
 }

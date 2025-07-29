@@ -8,9 +8,9 @@
 export interface RephraseSpan {
     type: "rephrase";
     /** Time taken in milliseconds. */
-    latencyMillis?: number;
+    latency_millis?: number;
     /** When the span started. */
-    startedAt?: Date;
+    started_at?: string;
     /** Query made to the corpora. */
-    rephrasedQuery?: string;
+    rephrased_query?: string;
 }

@@ -1,5 +1,5 @@
-export { type ApiKeysListRequest } from "./ApiKeysListRequest";
-export { type CreateApiKeyRequest } from "./CreateApiKeyRequest";
-export { type ApiKeysGetRequest } from "./ApiKeysGetRequest";
-export { type ApiKeysDeleteRequest } from "./ApiKeysDeleteRequest";
-export { type UpdateApiKeyRequest } from "./UpdateApiKeyRequest";
+export { type ApiKeysListRequest } from "./ApiKeysListRequest.js";
+export { type CreateApiKeyRequest } from "./CreateApiKeyRequest.js";
+export { type ApiKeysGetRequest } from "./ApiKeysGetRequest.js";
+export { type ApiKeysDeleteRequest } from "./ApiKeysDeleteRequest.js";
+export { type UpdateApiKeyRequest } from "./UpdateApiKeyRequest.js";

@@ -3,10 +3,9 @@
  */
 
 /**
- * How much extraction quota the document used. This information is currently not returned when
- * retrieving the document, and only returned when indexing a document.
+ * How much extraction quota the document used. This information is currently not returned when retrieving the document, and only returned when indexing a document.
  */
 export interface ExtractionUsage {
     /** The number of pages from the document that consumed the extraction quota. */
-    tableExtractionUsed?: number;
+    table_extraction_used?: number;
 }

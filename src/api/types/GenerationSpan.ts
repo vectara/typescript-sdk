@@ -8,9 +8,9 @@
 export interface GenerationSpan {
     type: "generation";
     /** Time taken in milliseconds. */
-    latencyMillis?: number;
+    latency_millis?: number;
     /** When the span started. */
-    startedAt?: Date;
+    started_at?: string;
     /** The text sent as a prompt to the LLM. */
     prompt?: string;
     /** The text generated from the LLM. */

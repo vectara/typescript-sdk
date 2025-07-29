@@ -1,1 +1,2 @@
-export { type EncodersListRequest } from "./EncodersListRequest";
+export { type EncodersListRequest } from "./EncodersListRequest.js";
+export { type EncodersCreateRequest } from "./EncodersCreateRequest.js";

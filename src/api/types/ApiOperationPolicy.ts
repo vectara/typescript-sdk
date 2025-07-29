@@ -7,12 +7,7 @@
  */
 export interface ApiOperationPolicy {
     /** If any resource is allowed for the operation. */
-    allowAnyResource: boolean;
-    /**
-     * Object with keys of resource paths to a list of allowed resources.
-     * A resource path starts with either body, path, or implicit.
-     * A body or path resource is within the operation body, and an implicit
-     * resource is a resource implied by the request.
-     */
-    allowedResources?: Record<string, string[]>;
+    allow_any_resource: boolean;
+    /** Object with keys of resource paths to a list of allowed resources. A resource path starts with either body, path, or implicit. A body or path resource is within the operation body, and an implicit resource is a resource implied by the request. */
+    allowed_resources?: Record<string, string[]>;
 }

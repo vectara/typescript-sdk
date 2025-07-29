@@ -7,6 +7,16 @@
  *     {
  *         query: "query"
  *     }
+ *
+ * @example
+ *     {
+ *         query: "query"
+ *     }
+ *
+ * @example
+ *     {
+ *         query: "query"
+ *     }
  */
 export interface CorporaSearchRequest {
     /**
@@ -14,7 +24,7 @@ export interface CorporaSearchRequest {
      */
     query: string;
     /**
-     * The maximum number of results to return.
+     * The maximum number of top retrieval results to rerank and return.
      */
     limit?: number;
     /**
@@ -24,13 +34,17 @@ export interface CorporaSearchRequest {
     /**
      * Indicates whether to save the query in the query history.
      */
-    saveHistory?: boolean;
+    save_history?: boolean;
+    /**
+     * [Tech Preview] Indicates whether to enable intelligent query rewriting. When enabled, the platform will attempt to extract metadata filter and rewrite the query to improve search results. Read [here](https://docs.vectara.com/docs/search-and-retrieval/intelligent-query-rewriting) for more details.
+     */
+    intelligent_query_rewriting?: boolean;
     /**
      * The API will make a best effort to complete the request in the specified seconds or time out.
      */
-    requestTimeout?: number;
+    "Request-Timeout"?: number;
     /**
      * The API will make a best effort to complete the request in the specified milliseconds or time out.
      */
-    requestTimeoutMillis?: number;
+    "Request-Timeout-Millis"?: number;
 }

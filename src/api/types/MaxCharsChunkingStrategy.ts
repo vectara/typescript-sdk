@@ -3,18 +3,10 @@
  */
 
 /**
- * Sets a chunking strategy that limits the number of maximum characters per chunk.
- * The chunks do not cross section boundaries.
+ * Sets a chunking strategy that limits the number of maximum characters per chunk. The chunks do not cross section boundaries.
  */
 export interface MaxCharsChunkingStrategy {
     type: "max_chars_chunking_strategy";
-    /**
-     * Specifies the maximum number of characters per chunk.
-     *
-     * The platform adds sentences to a chunk until the total number of characters exceeds the limit.
-     *
-     * If a single sentence exceeds the limit, it splits the sentence across chunks.
-     * Note: This is the only case where the chunk may not contain a complete sentence.
-     */
-    maxCharsPerChunk: number;
+    /** Specifies the maximum number of characters per chunk. The platform adds sentences to a chunk until the total number of characters exceeds the limit. If a single sentence exceeds the limit, it splits the sentence across chunks. Note: This is the only case where the chunk may not contain a complete sentence. */
+    max_chars_per_chunk: number;
 }

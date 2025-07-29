@@ -1,2 +1,2 @@
-export { VectaraError } from "./VectaraError";
-export { VectaraTimeoutError } from "./VectaraTimeoutError";
+export { VectaraError } from "./VectaraError.js";
+export { VectaraTimeoutError } from "./VectaraTimeoutError.js";

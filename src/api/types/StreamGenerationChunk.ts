@@ -7,9 +7,6 @@
  */
 export interface StreamGenerationChunk {
     type: "generation_chunk";
-    /**
-     * Part of the message from the generator. All summary chunks must be appended together in order
-     * to get the full summary.
-     */
-    generationChunk?: string;
+    /** Part of the message from the generator. All summary chunks must be appended together in order to get the full summary. */
+    generation_chunk?: string;
 }

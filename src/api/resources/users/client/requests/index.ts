@@ -1,6 +1,6 @@
-export { type UsersListRequest } from "./UsersListRequest";
-export { type CreateUserRequest } from "./CreateUserRequest";
-export { type UsersGetRequest } from "./UsersGetRequest";
-export { type UsersDeleteRequest } from "./UsersDeleteRequest";
-export { type UpdateUserRequest } from "./UpdateUserRequest";
-export { type UsersResetPasswordRequest } from "./UsersResetPasswordRequest";
+export { type UsersListRequest } from "./UsersListRequest.js";
+export { type CreateUserRequest } from "./CreateUserRequest.js";
+export { type UsersGetRequest } from "./UsersGetRequest.js";
+export { type UsersDeleteRequest } from "./UsersDeleteRequest.js";
+export { type UpdateUserRequest } from "./UpdateUserRequest.js";
+export { type UsersResetPasswordRequest } from "./UsersResetPasswordRequest.js";

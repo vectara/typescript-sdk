@@ -3,8 +3,7 @@
  */
 
 /**
- * The end of generation. There may still be more information such as the
- * factual consistency score, but generation has stopped.
+ * The end of generation. There may still be more information such as the factual consistency score, but generation has stopped.
  */
 export interface StreamGenerationEnd {
     type: "generation_end";

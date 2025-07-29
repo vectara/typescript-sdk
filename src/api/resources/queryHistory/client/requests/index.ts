@@ -1,2 +1,2 @@
-export { type GetQueryHistoryRequest } from "./GetQueryHistoryRequest";
-export { type GetQueryHistoriesRequest } from "./GetQueryHistoriesRequest";
+export { type QueryHistoryGetRequest } from "./QueryHistoryGetRequest.js";
+export { type QueryHistoryListRequest } from "./QueryHistoryListRequest.js";

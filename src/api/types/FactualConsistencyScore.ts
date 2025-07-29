@@ -8,5 +8,5 @@
 export interface FactualConsistencyScore {
     type: "factual_consistency_score";
     /** The probability that the summary is factually consistent with the results. */
-    factualConsistencyScore?: number;
+    factual_consistency_score?: number;
 }

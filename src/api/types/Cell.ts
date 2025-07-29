@@ -7,15 +7,15 @@
  */
 export interface Cell {
     /** A text value. */
-    textValue?: string;
+    text_value?: string;
     /** A signed 64-bit integer value. */
-    intValue?: number;
+    int_value?: number;
     /** A floating-point value with double precision. */
-    floatValue?: number;
+    float_value?: number;
     /** A boolean value. */
-    boolValue?: boolean;
-    /** (Optional) The number of columns the cell spans. Default is 1. Must be greater than 0. */
+    bool_value?: boolean;
+    /** The number of columns the cell spans. This field is optional; if not specified, default is 1. Must be greater than 0. */
     colspan?: number;
-    /** (Optional) The number of rows the cell spans. Default is 1. Must be greater than 0. */
+    /** The number of rows the cell spans. This field is optional; if not specified, default is 1. Must be greater than 0. */
     rowspan?: number;
 }

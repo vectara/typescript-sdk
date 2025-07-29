@@ -1,1 +1,1 @@
-export { type RerankersListRequest } from "./RerankersListRequest";
+export { type RerankersListRequest } from "./RerankersListRequest.js";

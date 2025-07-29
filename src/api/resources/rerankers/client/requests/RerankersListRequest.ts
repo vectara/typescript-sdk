@@ -20,13 +20,13 @@ export interface RerankersListRequest {
     /**
      * Used to retrieve the next page of rerankers after the limit has been reached.
      */
-    pageKey?: string;
+    page_key?: string;
     /**
      * The API will make a best effort to complete the request in the specified seconds or time out.
      */
-    requestTimeout?: number;
+    "Request-Timeout"?: number;
     /**
      * The API will make a best effort to complete the request in the specified milliseconds or time out.
      */
-    requestTimeoutMillis?: number;
+    "Request-Timeout-Millis"?: number;
 }

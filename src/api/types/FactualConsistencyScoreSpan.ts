@@ -8,9 +8,9 @@
 export interface FactualConsistencyScoreSpan {
     type: "fcs";
     /** Time taken in milliseconds. */
-    latencyMillis?: number;
+    latency_millis?: number;
     /** When the span started. */
-    startedAt?: Date;
+    started_at?: string;
     /** The probability that the summary is factually consistent with the results. */
     score?: number;
 }

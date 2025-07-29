@@ -3,37 +3,27 @@
  */
 
 /**
- * Bundle of default values used when calling generation. All values except
- * model name can be overridden at generation time.
+ * Bundle of default values used when calling generation. All values except model name can be overridden at generation time.
  */
 export interface GenerationPreset {
     /** Name of the generation preset to be used with configuring generation. */
     name?: string;
     /** Description of the generation preset. */
     description?: string;
-    /** Name of the model that these presets are used with. */
-    llmName?: string;
+    /** Name of the model that these presets are used with. The list of available names can be fetched by the `GET /v2/llms` endpoint. */
+    llm_name?: string;
     /** Preset template used to render the prompt sent to generation. */
-    promptTemplate?: string;
+    prompt_template?: string;
     /** Preset maximum number of search results that will be available to the prompt. */
-    maxUsedSearchResults?: number;
+    max_used_search_results?: number;
     /** Preset maximum number of tokens to be returned by the generation. */
-    maxTokens?: number;
-    /**
-     * The sampling temperature to use. Higher values make the output more random, while lower
-     * values make it more focused and deterministic.
-     */
+    max_tokens?: number;
+    /** The sampling temperature to use. Higher values make the output more random, while lower values make it more focused and deterministic. */
     temperature?: number;
-    /**
-     * Higher values penalize new tokens based on their existing frequency in the generation so far,
-     * decreasing the model's likelihood to repeat the same line verbatim.
-     */
-    frequencyPenalty?: number;
-    /**
-     * Higher values penalize new tokens based on whether they appear in the generation so far,
-     * increasing the model's likelihood to talk about new topics.
-     */
-    presencePenalty?: number;
+    /** Higher values penalize new tokens based on their existing frequency in the generation so far, decreasing the model's likelihood to repeat the same line verbatim. */
+    frequency_penalty?: number;
+    /** Higher values penalize new tokens based on whether they appear in the generation so far, increasing the model's likelihood to talk about new topics. */
+    presence_penalty?: number;
     /** Indicates whether the prompt is enabled. */
     enabled?: boolean;
     /** Indicates if this prompt is the default prompt used with the LLM. */

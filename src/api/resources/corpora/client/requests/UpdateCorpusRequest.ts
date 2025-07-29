@@ -10,15 +10,17 @@ export interface UpdateCorpusRequest {
     /**
      * The API will make a best effort to complete the request in the specified seconds or time out.
      */
-    requestTimeout?: number;
+    "Request-Timeout"?: number;
     /**
      * The API will make a best effort to complete the request in the specified milliseconds or time out.
      */
-    requestTimeoutMillis?: number;
+    "Request-Timeout-Millis"?: number;
     /** Set whether or not the corpus is enabled. If unset then the corpus will remain in the same state. */
     enabled?: boolean;
     /** The name for the corpus. If unset or null, then the corpus will remain in the same state. */
     name?: string;
     /** Description of the corpus. If unset or null, then the corpus will remain in the same state. */
     description?: string;
+    /** Indicates whether to save corpus queries to query history by default. */
+    save_history?: boolean;
 }

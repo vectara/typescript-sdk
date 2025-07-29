@@ -5,13 +5,13 @@
 /**
  * @example
  *     {
- *         clientId: "client_id",
- *         clientSecret: "client_secret"
+ *         client_id: "client_id",
+ *         client_secret: "client_secret"
  *     }
  */
 export interface AuthGetTokenRequest {
     /** The client ID of the application */
-    clientId: string;
+    client_id: string;
     /** The client secret of the application */
-    clientSecret: string;
+    client_secret: string;
 }

@@ -1,1 +1,1 @@
-export { type ListGenerationPresetsRequest } from "./ListGenerationPresetsRequest";
+export { type GenerationPresetsListRequest } from "./GenerationPresetsListRequest.js";

@@ -3,15 +3,11 @@
  */
 
 /**
- * How much storage the document used. This information is currently not returned when
- * retrieving the document, and only returned when indexing a document.
+ * How much storage the document used. This information is currently not returned when retrieving the document, and only returned when indexing a document.
  */
 export interface DocumentStorageUsage {
-    /**
-     * Number of bytes used by document counting towards maximum corpus size, and
-     * towards any billing plans.
-     */
-    bytesUsed?: number;
+    /** Number of bytes used by document counting towards maximum corpus size, and towards any billing plans. */
+    bytes_used?: number;
     /** Number of metadata bytes used by a document. */
-    metadataBytesUsed?: number;
+    metadata_bytes_used?: number;
 }
